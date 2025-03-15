@@ -80,7 +80,9 @@ inline Bidon operator << (Bidon,const char *){return Bidon();}
 #define COUT Bidon(0) //std::cout
 #define CERR Bidon(0) //std::cout
 typedef unsigned pid_t;
+#ifndef TICE
 double lgamma(double);
+#endif
 #else // FXCG
 
 #ifdef NSPIRE
