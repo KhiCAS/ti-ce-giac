@@ -21,6 +21,9 @@
 #ifndef _GIAC_FIRST_H_
 #define _GIAC_FIRST_H_
 
+#define INT_MAXSHIFT (sizeof(int)*8-1)
+#define INT_MAXSHIFTM1 (sizeof(int)*8-2)
+  
 
 #ifndef GIAC_VERSION
 #define GIAC_VERSION VERSION

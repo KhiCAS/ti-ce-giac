@@ -1272,7 +1272,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 #else
     for (;;){
       unsigned r=tinymt32_generate_uint32(rand_seed(contextptr)) >> 1;
-      if (!(r>>31))
+      if (!(r>>INT_MAXSHIFT))
 	return r;
     }
 #endif // tinymt32

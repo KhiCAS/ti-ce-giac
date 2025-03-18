@@ -944,7 +944,7 @@ namespace giac {
 #endif
     val=i;
     //    longlong temp=val;
-    if (val==i && val!=1<<31){
+    if (val==i && val!=1<<23){
 #ifndef SMARTPTR64
       type=_INT_;
       subtype=0;
@@ -5612,13 +5612,13 @@ namespace giac {
 
   static gen mult_cplx(const gen & a,const gen & b,GIAC_CONTEXT){
     gen * aptr=a._CPLXptr,*bptr=b._CPLXptr;
-    unsigned t= (aptr->type | ((aptr+1)->type << 8) | (bptr->type << 16) | ((bptr+1)->type << 24));
-    if (t==(_DOUBLE_ | (_DOUBLE_<<8) | (_DOUBLE_ <<16) | (_DOUBLE_ <<24))){
+    unsigned t= (aptr->type | ((aptr+1)->type << 6) | (bptr->type << 12) | ((bptr+1)->type << 18));
+    if (t==(_DOUBLE_ | (_DOUBLE_<<6) | (_DOUBLE_ <<12) | (_DOUBLE_ <<18))){
       double ar=aptr->_DOUBLE_val,ai=(aptr+1)->_DOUBLE_val,
 	br=bptr->_DOUBLE_val,bi=(bptr+1)->_DOUBLE_val;
       return gen(ar*br-ai* bi, br*ai+ar*bi);
     }
-    if (t==(_ZINT | (_ZINT<<8) | (_ZINT <<16) | (_ZINT <<24))){
+    if (t==(_ZINT | (_ZINT<<6) | (_ZINT <<12) | (_ZINT <<18))){
       mpz_t & ax=*aptr->_ZINTptr;
       mpz_t & ay=*((aptr+1)->_ZINTptr);
       mpz_t & bx=*bptr->_ZINTptr;
@@ -5647,7 +5647,7 @@ namespace giac {
       return R;
     }
 #if defined HAVE_LIBMPFR && !defined NO_RTTI
-    if (t==(_REAL | (_REAL<<8) | (_REAL <<16) | (_REAL <<24))){
+    if (t==(_REAL | (_REAL<<6) | (_REAL <<12) | (_REAL <<18))){
       real_object & ax=*aptr->_REALptr;
       real_object & ay=*((aptr+1)->_REALptr);
       real_object & bx=*bptr->_REALptr;
@@ -6659,13 +6659,13 @@ namespace giac {
         else
             return algebraic_EXTension(a*(*b._EXTptr),*(b._EXTptr+1));
     }
-    if ( (a.type==_INT_) && (a.val<0) && (a.val!=1<<31)){
+    if ( (a.type==_INT_) && (a.val<0) && (a.val!=1<<23)){
       if (b.is_inv() && (b._SYMBptr->feuille.type<_POLY || b._SYMBptr->feuille.is_neg()))
 	return sym_mult(-a,inv(-b._SYMBptr->feuille,contextptr),contextptr);
       else
 	return -sym_mult(-a,b,contextptr);
     }
-    if ( (b.type==_INT_) && (b.val<0) && (b.val!=1<<31)){
+    if ( (b.type==_INT_) && (b.val<0) && (b.val!=1<<23)){
       if (a.is_inv())
 	return sym_mult(-b,inv(-a._SYMBptr->feuille,contextptr),contextptr);
       else
@@ -10492,11 +10492,11 @@ namespace giac {
 #endif
     }
     // u1*a+v1*m=d1 -> a=d1/u1 modulo m
-    if (mpz_sizeinbase(d1,2)<=30)
+    if (mpz_sizeinbase(d1,2)<=INT_MAXSHIFTM1)
       num=int(mpz_get_si(d1));
     else 
       num=d1;
-    if (mpz_sizeinbase(u1,2)<=30)
+    if (mpz_sizeinbase(u1,2)<=INT_MAXSHIFTM1)
       den=int(mpz_get_si(u1));
     else 
       den=u1;
@@ -10552,9 +10552,9 @@ namespace giac {
     if ( (a.type!=_ZINT) || (m.type!=_ZINT) )
       return false;
     bool ok=in_fracmod(m,a,d,d1,absd1,u,u1,ur,q,r,sqrtm,tmp,num,den);
-    if (num.type==_ZINT && mpz_sizeinbase(*num._ZINTptr,2)<=30)
+    if (num.type==_ZINT && mpz_sizeinbase(*num._ZINTptr,2)<=INT_MAXSHIFTM1)
       num=int(mpz_get_si(*num._ZINTptr));
-    if (den.type==_ZINT && mpz_sizeinbase(*den._ZINTptr,2)<=30)
+    if (den.type==_ZINT && mpz_sizeinbase(*den._ZINTptr,2)<=INT_MAXSHIFTM1)
       den=int(mpz_get_si(*den._ZINTptr));
     if (is_positive(den,context0)) // ok
       res=fraction(num,den);
@@ -12300,7 +12300,7 @@ namespace giac {
   string gen::print(GIAC_CONTEXT) const{
     switch (type ) {
     case _INT_: 
-      if (val<0 && val != (1<<31) && calc_mode(contextptr)==38)
+      if (val<0 && val != (1<<23) && calc_mode(contextptr)==38)
 	return "−"+(-*this).print(contextptr);
       if (subtype)
 	return localize(printint32(val,subtype,contextptr),language(contextptr));
@@ -12445,7 +12445,7 @@ namespace giac {
     case _POINTER_: {
       // handle 64 bits pointers
       unsigned long long u=(unsigned long long)_POINTER_val;
-      if (u<(1U<<31))
+      if (u<(1U<<INT_MAXSHIFT))
 	return "pointer("+hexa_print_INT_(int((alias_type)_POINTER_val))+","+print_INT_(subtype)+")";
     }
     default:

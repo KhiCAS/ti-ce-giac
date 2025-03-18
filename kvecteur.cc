@@ -3691,8 +3691,8 @@ namespace giac {
 	res.push_back(it->_MODptr->val);
       else {
 	int r=it->type==_ZINT?modulo(*it->_ZINTptr,m):(it->val % m);
-	r += (unsigned(r)>>31)*m; // make positive
-	r -= (unsigned((m>>1)-r)>>31)*m;
+	r += (unsigned(r)>>23)*m; // make positive
+	r -= (unsigned((m>>1)-r)>>23)*m;
 	res.push_back(r);// res.push_back(smod((*it),m).val); 
       }
     }

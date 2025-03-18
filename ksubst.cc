@@ -1469,7 +1469,7 @@ namespace giac {
     }
     int s=int(w.size());
     matrice test(s);
-    gen precision=1<<30; // 2^30
+    gen precision=1<<INT_MAXSHIFTM1; // 2^30
     for (int i=0;i<s;i++){
       vecteur tmp(s+2);
       tmp[i]=1;

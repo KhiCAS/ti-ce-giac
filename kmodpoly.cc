@@ -4662,7 +4662,7 @@ namespace giac {
       h -= sizeinbase2(D);
     }
     // reconstruct resultant/D
-    int m=2147483647;
+    int m=8388593;//2147483647;
     gen pim=m;
     vecteur2vector_int(P,m,p);
     vecteur2vector_int(Q,m,q);
