@@ -968,8 +968,13 @@ throw(std::runtime_error("Stopped by user interruption.")); \
   std::string & xcasroot();
   std::string add_extension(const std::string & s,const std::string & ext,const std::string & def);
   std::string remove_filename(const std::string & s);
+#ifdef TICE
+  #define my_isnan(d) isnan(d)
+  #define my_isinf(d) isinf(d)
+#else
   bool my_isnan(double d);
   bool my_isinf(double d);
+#endif
 
   /* launch a new thread for evaluation only,
      no more readqueue, readqueue is done by the "parent" thread

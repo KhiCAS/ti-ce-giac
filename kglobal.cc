@@ -2276,12 +2276,14 @@ extern "C" void Sleep(unsigned int miliSecond);
 #endif
   }
 
+#ifndef TICE
   bool my_isinf(double d){
     return 1/d==0.0;
   }
   bool my_isnan(double d){
     return d!=0 && d==d*2 && !my_isinf(d);
   }
+#endif
 
 #if 0
   double giac_floor(double d){
