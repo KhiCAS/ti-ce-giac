@@ -6186,6 +6186,9 @@ namespace giac {
     return g;
   }
   gen _ans(const gen & args,GIAC_CONTEXT){
+#ifdef TICE
+    return undef;
+#else
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
     if (args.type==_VECT && args._VECTptr->size()>1){
       vecteur v=*args._VECTptr;
@@ -6210,6 +6213,7 @@ namespace giac {
     if (s+i<0)
       return gentoofewargs(print_INT_(-i));
     return remove_nodisp(history_out(contextptr)[s+i]);
+#endif
   }
   static const char _ans_s []="ans";
   static define_unary_function_eval (__ans,&_ans,_ans_s);
