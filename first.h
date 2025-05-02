@@ -61,6 +61,16 @@
 #define NO_STDEXCEPT 1
 #endif
 
+#ifdef TICE
+  #if 1
+    // if we find out that the OS sprintf is faster than nanoprintf, use it instead
+    #include <ti/sprintf.h>
+  #else
+    // fallback
+    #define boot_sprintf sprintf
+  #endif
+#endif
+
 #if defined FXCG || defined TICE
 #define clock() 0
 #define CLOCK() 0

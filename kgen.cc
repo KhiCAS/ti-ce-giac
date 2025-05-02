@@ -376,8 +376,10 @@ namespace giac {
 #endif
 
 #ifdef TICE
+
+#if 0
 // format is currently ignored, keep only 6 digits (round) 
-  void sprintfdouble(char * ch,const char * format,double d){
+void sprintfdouble(char * ch,const char * format,double d){
   int i=d;
   if (i==d && -1e6<d && d<1e6){
     sprintf(ch,"%i.0",i);
@@ -458,6 +460,11 @@ namespace giac {
     }
   }
 }
+#else
+void sprintfdouble(char * ch, __attribute__((__unused__)) const char * format, double d) {
+  sprintf(ch, "%f", d);
+}
+#endif
   
 #else //TICE
   
@@ -9530,6 +9537,7 @@ namespace giac {
     b=t;
   }
 
+#ifndef TICE
   int absint(int a){
     if (a<0)
       return -a;
@@ -9557,6 +9565,7 @@ namespace giac {
     else
       return a;
   }
+#endif
 
   int invmod(int a,int b){
     if (a==1 || a==-1 || a==1-b)
