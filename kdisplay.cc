@@ -110,6 +110,20 @@ const int col_width=45;
 const int row_height=20;
 const int col_width=60;
 #endif
+
+#ifdef TICE
+  string printcell(int i,int j) {
+    char s[sizeof("A-8388608")];
+    s[0] = 'A' + j;
+    boot_sprintf(&s[1],"%d", i);
+    return s;
+  }
+  string printsel(int r,int c,int R,int C){
+    char s[sizeof("A-8388608:A-8388608")];
+    boot_sprintf(s, "%c%d:%c%d", 'A' + c, r, 'A' + C, R);
+    return s;
+  }
+#else
 string printcell(int i,int j){
   string s="";
   s+=char('A'+j);
@@ -119,7 +133,8 @@ string printcell(int i,int j){
 string printsel(int r,int c,int R,int C){
   return printcell(r,c)+":"+printcell(R,C);
 }
-
+#endif
+  
 void change_undo(tableur & t){
   t.undo=t.m;
   t.changed=true;

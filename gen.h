@@ -154,10 +154,37 @@ namespace giac {
   gen genstabilityerr(GIAC_CONTEXT0);
 
   // short integer arithmetic
+#ifdef TICE
+  inline int absint(int a){
+    if (a<0)
+      return -a;
+    else
+      return a;
+  }
+
+  inline double absdouble(double a){
+    return std::fabs(a);
+  }
+
+  inline int giacmin(int a, int b){
+    if (a<b)
+      return a;
+    else
+      return b;
+  }
+
+  inline int giacmax(int a, int b){
+    if (a<b)
+      return b;
+    else
+      return a;
+  }
+#else
   int absint(int a);
   double absdouble(double a);
   int giacmin(int a,int b);
   int giacmax(int a,int b);
+#endif
   int invmod(int n,int modulo);
   unsigned invmod(unsigned a,int b);
   int invmod(longlong a,int b);

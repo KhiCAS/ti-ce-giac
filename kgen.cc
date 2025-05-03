@@ -378,86 +378,88 @@ namespace giac {
 #ifdef TICE
 // format is currently ignored, keep only 6 digits (round) 
   void sprintfdouble(char * ch,const char * format,double d){
-  int i=d;
-  if (i==d && -1e6<d && d<1e6){
-    sprintf(ch,"%i.0",i);
-    return ;
-  }
-  float m=ldexp(d,1); i=m;
-  if (i==m && -1e6<m && m<1e6){
-    i/=2;
-    sprintf(ch,"%i.5",i);
+    sprintf(ch, "%f", d);
     return;
-  }
-  ch[0]=0;
-  bool pos=d>=0;
-  if (!pos)
-    d=-d;
-  m=frexp(d,&i);
-  // d=m*2^i
-  // 2^i is near 1000^j
-  bool negexp=i<0;
-  if (negexp)
-    i=-i;
-  int j=i/10;
-  float pow1000=1;
-  int exp10=0;
-  for (int k=j;k>0;k--){
-    pow1000 *= 1000;
-    exp10+=3;
-  }
-  if (negexp){
-    d=d*pow1000;
-    exp10=-exp10;
-  }
-  else 
-    d=d/pow1000;
-  while (d<1e5){
-    d*=10;
-    exp10--;
-  }
-  i=d+.5;
-  if (i==1000000){
-    i=100000;
-    exp10++;
-  }
-  if (!pos){
-    ch[0]='-';
-    ++ch;
-  }
-  // 1e5<=i<1e6
-  bool erase=true;
-  if (exp10>=-5 && exp10<0){
-    int tab[]={100000,10000,1000,100,10,1};
-    int q=tab[exp10+5];
-    int i1=i/q,i2=i%q;
-    sprintf(ch,"%i",i1);
-    char ch2[8]; // add q to insure non sig 0 of i2 are printed
-    sprintf(ch2,"%i",q+i2);
-    ch2[0]='.'; // replace initial 1 by .
-    strcat(ch,ch2);
-  }
-  else if (exp10==-6)
-    sprintf(ch,"0.%i",i);
-  else if (exp10==-7)
-    sprintf(ch,"0.0%i",i);
-  else if (exp10==-8)
-    sprintf(ch,"0.00%i",i);
-  else {
-    int i1=i/100000,i2=i%100000;
-    sprintf(ch,"%i.%ie%i",i1,i2,exp10+5);
-    erase=false;
-  }
-  if (erase){
-    // erase non sig digits at end
-    for (int i=strlen(ch)-1;i>1;--i){
-      if (ch[i]=='0' && ch[i-1]!='.')
-        ch[i]=0;
-      else
-        break;
+    int i=d;
+    if (i==d && -1e6<d && d<1e6){
+      sprintf(ch,"%i.0",i);
+      return ;
+    }
+    float m=ldexp(d,1); i=m;
+    if (i==m && -1e6<m && m<1e6){
+      i/=2;
+      sprintf(ch,"%i.5",i);
+      return;
+    }
+    ch[0]=0;
+    bool pos=d>=0;
+    if (!pos)
+      d=-d;
+    m=frexp(d,&i);
+    // d=m*2^i
+    // 2^i is near 1000^j
+    bool negexp=i<0;
+    if (negexp)
+      i=-i;
+    int j=i/10;
+    float pow1000=1;
+    int exp10=0;
+    for (int k=j;k>0;k--){
+      pow1000 *= 1000;
+      exp10+=3;
+    }
+    if (negexp){
+      d=d*pow1000;
+      exp10=-exp10;
+    }
+    else 
+      d=d/pow1000;
+    while (d<1e5){
+      d*=10;
+      exp10--;
+    }
+    i=d+.5;
+    if (i==1000000){
+      i=100000;
+      exp10++;
+    }
+    if (!pos){
+      ch[0]='-';
+      ++ch;
+    }
+    // 1e5<=i<1e6
+    bool erase=true;
+    if (exp10>=-5 && exp10<0){
+      int tab[]={100000,10000,1000,100,10,1};
+      int q=tab[exp10+5];
+      int i1=i/q,i2=i%q;
+      sprintf(ch,"%i",i1);
+      char ch2[8]; // add q to insure non sig 0 of i2 are printed
+      sprintf(ch2,"%i",q+i2);
+      ch2[0]='.'; // replace initial 1 by .
+      strcat(ch,ch2);
+    }
+    else if (exp10==-6)
+      sprintf(ch,"0.%i",i);
+    else if (exp10==-7)
+      sprintf(ch,"0.0%i",i);
+    else if (exp10==-8)
+      sprintf(ch,"0.00%i",i);
+    else {
+      int i1=i/100000,i2=i%100000;
+      sprintf(ch,"%i.%ie%i",i1,i2,exp10+5);
+      erase=false;
+    }
+    if (erase){
+      // erase non sig digits at end
+      for (int i=strlen(ch)-1;i>1;--i){
+        if (ch[i]=='0' && ch[i-1]!='.')
+          ch[i]=0;
+        else
+          break;
+      }
     }
   }
-}
   
 #else //TICE
   
@@ -9530,6 +9532,7 @@ namespace giac {
     b=t;
   }
 
+#ifndef TICE
   int absint(int a){
     if (a<0)
       return -a;
@@ -9557,7 +9560,8 @@ namespace giac {
     else
       return a;
   }
-
+#endif
+  
   int invmod(int a,int b){
     if (a==1 || a==-1 || a==1-b)
       return a;
