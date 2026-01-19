@@ -13,8 +13,8 @@
 
 /*
  *  Copyright (C) 2000/14 B. Parisse, Institut Fourier, 38402 St Martin d'Heres
- *  implicitplot3d code adapted from 
- *  http://astronomy.swin.edu.au/~pbourke/modelling/polygonise 
+ *  implicitplot3d code adapted from
+ *  http://astronomy.swin.edu.au/~pbourke/modelling/polygonise
  *  by Paul Bourke and  Cory Gene Bloyd
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -48,7 +48,7 @@ using namespace std;
 
 // C headers
 #include <stdio.h>
-#ifndef __VISUALC__ 
+#ifndef __VISUALC__
 #if !defined RTOS_THREADX && !defined BESTA_OS && !defined FREERTOS && !defined FXCG && !defined TICE
 #include <fcntl.h>
 #endif
@@ -165,7 +165,7 @@ namespace giac {
     return g;
   }
 
-  // return t such that tb+(1-t)a is the projection of c on [a,b] 
+  // return t such that tb+(1-t)a is the projection of c on [a,b]
   gen projection(const gen & a,const gen & b,const gen & c,GIAC_CONTEXT){
     gen ax,ay,bx,by,cx,cy,abx,aby;
     reim(a,ax,ay,contextptr);
@@ -223,7 +223,7 @@ namespace giac {
       if (a.type==_VECT)
       return dotvecteur(*a._VECTptr,*b._VECTptr);
       else
-      return -im(a*conj(cst_i*b,contextptr),contextptr);    
+      return -im(a*conj(cst_i*b,contextptr),contextptr);
     */
   }
 
@@ -242,7 +242,7 @@ namespace giac {
   gen parameter2point(const vecteur & v,GIAC_CONTEXT){
     return v.front();
   }
-  
+
   gen scalar_product(const gen & a0,const gen & b0,GIAC_CONTEXT){
     gen a(a0);
     gen b(b0);
@@ -350,12 +350,12 @@ namespace giac {
 	  vecteur lw(lv);
 	  for (int j=0;j<int(lw.size());++j){
 	    gen g=eval(lv[j],1,contextptr);
-	    g=ifte2when(g,contextptr); 
+	    g=ifte2when(g,contextptr);
 	    lw[j]=g;
 	  }
 	  res[i]=quotesubst(v[i],lv,lw,contextptr); // otherwise plots with if else fails (error not catched with emscripten)
 #endif
-	  res[i]=eval(v[i],contextptr); 
+	  res[i]=eval(v[i],contextptr);
 	}
 #ifndef NO_STDEXCEPT
       } catch (std::runtime_error & ){
@@ -546,14 +546,14 @@ namespace giac {
 #ifndef WITH_PLOT
     return undef;
 #endif
-    gen e,a(args.evalf(eval_level(contextptr),contextptr)); 
+    gen e,a(args.evalf(eval_level(contextptr),contextptr));
     if ( (a.is_real(contextptr)) || (a.type==_CPLX) ){
       if (attributs.size()<=1)
 	e=symb_pnt(args.eval(eval_level(contextptr),contextptr),attributs,contextptr);
       else
 	e=symb_pnt_name(args.eval(eval_level(contextptr),contextptr),attributs[0],attributs[1],contextptr);
     }
-    else { 
+    else {
       if (args.type!=_VECT)
 	return symb_pnt(args,attributs,contextptr);
       int s=int(args._VECTptr->size());
@@ -562,7 +562,7 @@ namespace giac {
       gen x=args._VECTptr->front(),y=(*args._VECTptr)[1],c;
       if ( (s==3) || (y.type==_STRNG))
 	e=symbolic(at_pnt,args);
-      else 
+      else
 	e=symb_pnt_name(x,attributs[0].val,y,contextptr);
     }
     return e;
@@ -878,10 +878,10 @@ namespace giac {
 		      c+r*expi((v1+v2)/gen(2),contextptr),
 		      c+r*expi((v1+3*v2)/gen(4),contextptr),
 		      c+r*expi(v2,contextptr),
-		      c+r*expi((v2+0.1*delta),contextptr)); 
+		      c+r*expi((v2+0.1*delta),contextptr));
       }
       else
-	v=makevecteur(c-r,c+r,gen(c,-r),gen(c,r)); 
+	v=makevecteur(c-r,c+r,gen(c,-r),gen(c,r));
       in_autoscale(v,vx,vy,vz,contextptr);
       return true;
     }
@@ -949,7 +949,7 @@ namespace giac {
       v.push_back(v.front());
       ++s;
     }
-    if (s>1){    
+    if (s>1){
       sort(v.begin(),v.end());
       m=v[s/10];
       M=v[9*s/10];
@@ -1154,9 +1154,9 @@ namespace giac {
 	opt1=gen(int(opt1._DOUBLE_val));
       if (opt2.type==_DOUBLE_ && opt1.val!=_LEGEND)
 	opt2=gen(int(opt2._DOUBLE_val));
-      if ( opt1.type!=_INT_ || opt1.subtype==0 
+      if ( opt1.type!=_INT_ || opt1.subtype==0
 	   // || (opt1.subtype==_INT_PLOT && opt1.val>=_GL_X && opt1.val<=_GL_Z)
-	   ) 
+	   )
 	continue;
       if (s==smax)
 	s=int(it-v.begin());
@@ -1467,7 +1467,7 @@ namespace giac {
   bool is3d(const gen & g){
     return false;
   }
-  
+
   gen _coordonnees(const gen & args,GIAC_CONTEXT){
     if (args.type==_VECT) return args;
     gen P=remove_at_pnt(args);
@@ -1690,12 +1690,12 @@ namespace giac {
       return gen(res,b.subtype);
     }
     if ( (b.type!=_SYMB) || (b._SYMBptr->sommet!=at_pnt))
-      return symbolic(at_couleur,a);      
+      return symbolic(at_couleur,a);
     vecteur v(*b._SYMBptr->feuille._VECTptr);
     v[1]=c;
     gen e=symbolic(at_pnt,gen(v,_PNT__VECT));
     return e;
-#else    
+#else
     return a;
 #endif
   }
@@ -1751,7 +1751,7 @@ namespace giac {
       return string2gen("Try plot(["+f_._SYMBptr->feuille.print(contextptr)+"],"+vars.print(contextptr)+"). (In)equations can not be plotted.",false);
     }
     gen f=when2piecewise(f_,contextptr);
-    f=Heavisidetopiecewise(f,contextptr); 
+    f=Heavisidetopiecewise(f,contextptr);
     double step=(function_xmax-function_xmin)/nstep;
     if (step<=0 || (function_xmax-function_xmin)/step>max_nstep)
       return gensizeerr(gettext("Plotfunc: unable to discretize: xmin, xmax, step=")+print_DOUBLE_(function_xmin,12)+","+print_DOUBLE_(function_xmax,12)+","+print_DOUBLE_(step,12)+gettext("\nTry a larger value for xstep"));
@@ -1774,7 +1774,7 @@ namespace giac {
 	if (attributs.size()>1 && attributs[1].type==_VECT && attributs[1]._VECTptr->size()>i)
 	  cur_attributs.push_back((*attributs[1]._VECTptr)[i]);
 	gen tmp=plotfunc(vf[i],vars,cur_attributs,false,function_xmin,function_xmax,function_ymin,function_ymax,function_zmin,function_zmax,nstep,jstep,showeq,contextptr);
-	if (tmp.type==_VECT) 
+	if (tmp.type==_VECT)
 	  res=mergevecteur(res,*tmp._VECTptr);
 	else
 	  res.push_back(tmp);
@@ -1783,7 +1783,7 @@ namespace giac {
     }
     if (vars.type==_IDNT){ // function plot
       gen a,b;
-      if (taille(f,100)<=100 && is_linear_wrt(f,vars,a,b,contextptr))	
+      if (taille(f,100)<=100 && is_linear_wrt(f,vars,a,b,contextptr))
 	return put_attributs(_segment(makesequence(function_xmin+cst_i*(a*gen(function_xmin)+b),function_xmax+cst_i*(a*gen(function_xmax)+b)),contextptr),attributs,contextptr);
       vecteur lpiece(lop(f,at_piecewise));
       if (!lpiece.empty()) lpiece=lvarx(lpiece,vars);
@@ -2038,7 +2038,7 @@ namespace giac {
       x0=re(x0,contextptr);
     }
     if (x0.type!=_DOUBLE_)
-      return -4; // 
+      return -4; //
     x0d=x0._DOUBLE_val;
     return 0;
   }
@@ -2121,7 +2121,7 @@ namespace giac {
 #endif
     if (is_undef(args)) return args;
     // inert form (since cercle return itself with a pnt__vect arg)
-    if (args.type==_VECT && args.subtype==_PNT__VECT) return symbolic(at_cercle,args); 
+    if (args.type==_VECT && args.subtype==_PNT__VECT) return symbolic(at_cercle,args);
     vecteur v(gen2vecteur(args));
     if (v.empty())
       return gensizeerr(gettext("circle"));
@@ -2285,7 +2285,7 @@ namespace giac {
       return symb_equal(x,normal(c/a,contextptr));//symbolic(at_equal,makesequence(x,normal(c/a,contextptr)));//symbolic(at_equal,makesequence(a*x+b*y,c));
     }
     if ( (e.type==_SYMB) && (e._SYMBptr->sommet==at_curve)){
-      vecteur v=*e._SYMBptr->feuille._VECTptr->front()._VECTptr; 
+      vecteur v=*e._SYMBptr->feuille._VECTptr->front()._VECTptr;
       if (v.size()>=6 && !is_undef(v[5]))
 	return symb_equal(subst(v[5],makevecteur(x__IDNT_e,y__IDNT_e,z__IDNT_e),makevecteur(x,y,z),false,contextptr),0);//symbolic(at_equal,makesequence(subst(v[5],makevecteur(x__IDNT_e,y__IDNT_e,z__IDNT_e),makevecteur(x,y,z),false,contextptr),0));
       return gensizeerr(contextptr);
@@ -2350,7 +2350,7 @@ namespace giac {
 #ifndef XLIGHT // plotcontour memory size 10K
   // v is a list of polygon vertices, add [A,B] to it
   static bool is_approx0(const gen & a,double dx,double dy){
-    if (a.type==_CPLX) 
+    if (a.type==_CPLX)
       return (fabs(a._CPLXptr->_DOUBLE_val) < 1e-6*dx) && (fabs((a._CPLXptr+1)->_DOUBLE_val) < 1e-6*dy);
     return is_zero(a);
   }
@@ -2401,7 +2401,7 @@ namespace giac {
     for (int i=0;i<s-1;++i){
       gen & cur = v[i];
       for (int j=i+1;j<s;++j){
-	gen & next=v[j]; 
+	gen & next=v[j];
 	if (cur.type==_VECT && next.type==_VECT && !cur._VECTptr->empty() && !next._VECTptr->empty()){
 	  if (is_approx0(cur._VECTptr->front()-next._VECTptr->back(),dx,dy) || is_approx0(cur._VECTptr->front()-next._VECTptr->front(),dx,dy))
 	    vreverse(cur._VECTptr->begin(),cur._VECTptr->end());
@@ -2423,7 +2423,7 @@ namespace giac {
     // with a marching rectangle
     // if all 4 vertices values are > or < nothing added
     // else 3/1 -> one segment between 2 interpolated zeros
-    // 2/2 
+    // 2/2
     // ++ __   +- + or \\   +- |
     // --      -+           +- |
     int nz=int(lz.size());
@@ -2442,7 +2442,7 @@ namespace giac {
 	double a=fij[i][j+1];
 	double c=fij[i][j];
 	double b=fij[i+1][j+1];
-	double d=fij[i+1][j]; 
+	double d=fij[i+1][j];
 	double eps=1e-12;
 	// a b (y+dy)
 	// c d (y)
@@ -2646,7 +2646,7 @@ namespace giac {
 		break;
 	      }
 	      gen tmpz(xmin+i*dx,ymin+j*dy);
-	      if (di){ 
+	      if (di){
 		if (i==0 || i==imax-1){
 		  coins.push_back(tmpz);
 		  dj=j?-1:1;
@@ -2692,7 +2692,7 @@ namespace giac {
 	      }
 	      if (fabs(e1x-e2x)<=dx11 && fabs(e1y-e2y)<=dy11){
 		vreverse(composante2._VECTptr->begin(),composante2._VECTptr->end());
-		swapdouble(b2x,e2x); 
+		swapdouble(b2x,e2x);
 		swapdouble(b2y,e2y);
 	      }
 	      if (fabs(e1x-b2x)<=dx11 && fabs(e1y-b2y)<=dy11){
@@ -2784,7 +2784,7 @@ namespace giac {
   static define_unary_function_eval_quoted (__plotcontour,&_plotcontour,_plotcontour_s);
   define_unary_function_ptr5( at_plotcontour ,alias_at_plotcontour,&__plotcontour,_QUOTE_ARGUMENTS,true);
 #endif
-  
+
   static gen setplotfuncerr(){
     return gensizeerr(gettext("Plotfunc: bad variable name"));
   }
@@ -2795,7 +2795,7 @@ namespace giac {
     double xmin=gnuplot_xmin,xmax=gnuplot_xmax,ymin=gnuplot_ymin,ymax=gnuplot_ymax,zmin=gnuplot_zmin,zmax=gnuplot_zmax;
     bool showeq=false;
     if (densityplot)
-      zmin=zmax; // if z-range is not given, then fmin/fmax will be used 
+      zmin=zmax; // if z-range is not given, then fmin/fmax will be used
     int nstep=gnuplot_pixels_per_eval,jstep=0;
     gen attribut=COLOR_BLACK;
     vecteur vargs(plotpreprocess(args,contextptr));
@@ -2842,7 +2842,7 @@ namespace giac {
 	xmin=e21._DOUBLE_val;
 	ymin=e22._DOUBLE_val;
 	xmax=e31._DOUBLE_val;
-	ymax=e32._DOUBLE_val; 
+	ymax=e32._DOUBLE_val;
 	if (s>4)
 	    attribut=vargs[4];
 	if (s>5 && vargs[5].type==_INT_)
@@ -2890,7 +2890,7 @@ namespace giac {
 	return gensizeerr(contextptr);
       *it=vect2c(*it);
     }
-    return symb_pnt(gen(w,_GROUP__VECT),attribut.val,contextptr); 
+    return symb_pnt(gen(w,_GROUP__VECT),attribut.val,contextptr);
     // should change symb_pnt so that attribut is more generic than color
   }
   gen _plot(const gen & g,const context * contextptr){
@@ -2986,7 +2986,7 @@ namespace giac {
 	continue;
       gen opt1=opt._VECTptr->front(),opt2=opt._VECTptr->back();
       double inf,sup;
-      if ( opt1.type==_IDNT &&chk_double_interval(opt2,inf,sup,contextptr)){	
+      if ( opt1.type==_IDNT &&chk_double_interval(opt2,inf,sup,contextptr)){
 	if (i==1){
 	  xvar=opt1;
 	  xmin=inf;
@@ -3201,7 +3201,7 @@ namespace giac {
       }
       if (readvar(vargsi)==t__IDNT_e){
 	f_autoscale=false;
-	readrange(vargsi,tmin,tmax,vargsi,tmin,tmax,contextptr); 
+	readrange(vargsi,tmin,tmax,vargsi,tmin,tmax,contextptr);
       }
       if (vargsi.is_equal() && vargsi._SYMBptr->feuille.type==_VECT && vargsi._SYMBptr->feuille._VECTptr->front().type==_INT_){
 	gen n=vargsi._SYMBptr->feuille._VECTptr->back();
@@ -3247,7 +3247,7 @@ namespace giac {
     if (theta.is_equal())
       theta=theta._SYMBptr->feuille._VECTptr->front();
     if (theta.type!=_IDNT)
-      return gensizeerr(gettext("2nd arg must be a free variable"));    
+      return gensizeerr(gettext("2nd arg must be a free variable"));
     // vargs.front()=symbolic_re(rho)*expi(degtorad(theta,contextptr),contextptr);
     vargs.front()=rho*exp(cst_i*angletorad(theta,contextptr),contextptr); // makevecteur(rho*cos(angletorad(theta,contextptr),contextptr),rho*sin(angletorad(theta,contextptr),contextptr));
     return _plotparam(gen(vargs,_SEQ__VECT),contextptr);
@@ -3409,7 +3409,7 @@ namespace giac {
     vecteur res;
     res.reserve(itend-it);
     for (;it!=itend;++it){
-      if (it->type!=_VECT || it->_VECTptr->empty() || it->_VECTptr->back().type!=_VECT) 
+      if (it->type!=_VECT || it->_VECTptr->empty() || it->_VECTptr->back().type!=_VECT)
 	continue;
       const vecteur & tmp=*it->_VECTptr->back()._VECTptr;
       if (tmp.size()!=2 || is_undef(tmp.front()) || is_undef(tmp.back()))
@@ -3494,7 +3494,7 @@ namespace giac {
       gen f=v[0]._SYMBptr->feuille;
       if (f.type==_VECT && f._VECTptr->size()==2 && f._VECTptr->front().type==_INT_){
 	*logptr(contextptr) << "Warning, replacing plotfield of " << v[0] << " by " << f._VECTptr->back() << "\n";
-	v[0]=f._VECTptr->back(); 
+	v[0]=f._VECTptr->back();
       }
     }
     for (int i=0;i<s;++i){
@@ -3602,15 +3602,15 @@ namespace giac {
 
 #endif
 
-  
+
   logo_turtle * turtleptr=0;
-  
+
   logo_turtle & turtle(){
     if (!turtleptr)
       turtleptr=new logo_turtle;
     return * turtleptr;
   }
-  
+
 #ifndef NOTURTLE
 #ifdef TURTLETAB
   const int MAX_LOGO=128; // 1024
@@ -3796,7 +3796,7 @@ namespace giac {
     if (s>1)
       v[1]=evalf_double(v[1],1,contextptr);
     if (s>2)
-      v[2]=evalf_double(v[2],1,contextptr); 
+      v[2]=evalf_double(v[2],1,contextptr);
     if (set_turtle_state(v,contextptr))
       return update_turtle_state(true,contextptr);
     return zero;
@@ -3897,14 +3897,14 @@ namespace giac {
       ecrisptr=new vector<string>;
     return * ecrisptr;
   }
-  gen _ecris(const gen & g,GIAC_CONTEXT){    
+  gen _ecris(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
 #if 0 //def TURTLETAB
     return gensizeerr("String support does not work with static turtle table");
 #endif
     // logo instruction
     (*turtleptr).radius=14;
-    if (g.type==_VECT){ 
+    if (g.type==_VECT){
       vecteur & v =*g._VECTptr;
       int s=int(v.size());
       if (s==2 && v[1].type==_INT_){
@@ -4105,7 +4105,7 @@ namespace giac {
 	gen v0=evalf_double(v[0],1,context0);
 	if (v0.type==_DOUBLE_)
 	  r=int(v0._DOUBLE_val+0.5);
-	else 
+	else
 	  return RAND_MAX; // setsizeerr(contextptr);
       }
       if (r<0){
@@ -4115,7 +4115,7 @@ namespace giac {
       int theta1;
       if (v[1].type==_DOUBLE_)
 	theta1=int(v[1]._DOUBLE_val+0.5);
-      else { 
+      else {
 	if (v[1].type==_INT_)
 	  theta1=v[1].val;
 	else return RAND_MAX; // setsizeerr(contextptr);
@@ -4330,14 +4330,14 @@ namespace giac {
   }
 
 #endif // TURTLE
-  
+
 #if defined(GIAC_GENERIC_CONSTANTS) || (defined(VISUALC) && !defined(RTOS_THREADX)) || defined(x86_64)
 unary_function_ptr plot_sommets[]={*at_pnt,0};
   unary_function_ptr not_point_sommets[]={0};
   unary_function_ptr notexprint_plot_sommets[]={0};
   unary_function_ptr implicittex_plot_sommets[]={0};
   unary_function_ptr point_sommet_tab_op[]={0};
-  unary_function_ptr nosplit_polygon_function[]={0}; 
+  unary_function_ptr nosplit_polygon_function[]={0};
   unary_function_ptr measure_functions[]={0};
   unary_function_ptr transformation_functions[]={0};
 

@@ -5,7 +5,7 @@
  *  input_lexer.ll must be processed with flex. */
 
 /*
- *  Original version by GiNaC 
+ *  Original version by GiNaC
  *  Copyright (C) 1999-2000 Johannes Gutenberg University Mainz, Germany
  *  Modified for Giac (c) 2001,2014 Bernard Parisse, Institut Fourier
  *
@@ -52,7 +52,7 @@ extern int giac_yylex(giac::YYSTYPE * yylval_param ,void * yyscanner);
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
-  
+
 
     // gen alias for static initialization on 32 bits processor
   struct charptr_gen_unary {
@@ -85,7 +85,7 @@ namespace giac {
     return strcmp(a.first, b.first) < 0;
   }
   bool tri1(const lexer_tab_int_type & a,const lexer_tab_int_type & b);
- 
+
   typedef std::pair<const char *,gen> charptr_gen;
   charptr_gen * builtin_lexer_functions_begin();
   charptr_gen * builtin_lexer_functions_end();
@@ -102,11 +102,11 @@ namespace giac {
   // function name, if so translate to the real giac function name
   // step 2: look in syms for an identifier, if no exists with this
   // name make one
-  // lexer_functions is the table of all used symbols with real giac names. 
+  // lexer_functions is the table of all used symbols with real giac names.
   // The subtype of the gen is used
   // to keep the parser token returned by the lexer
 
-  
+
   struct unary_function_ptr;
   // Return true if s is associated to a function with non prefix syntax
   bool has_special_syntax(const char * s);
@@ -116,14 +116,14 @@ namespace giac {
 
   // return the token associated to the string, T_SYMBOL if not found
   int find_or_make_symbol(const std::string & s,gen & res,void * scanner,bool check38,GIAC_CONTEXT);
-  
+
   /** Add to the list of predefined symbols for the lexer. */
   void set_lexer_symbols(const vecteur & l,GIAC_CONTEXT);
-  
+
   /** Set the input string to be parsed by giac_yyparse() (used internally). */
   YY_BUFFER_STATE set_lexer_string(const std::string &s,void * & scanner,const context * contextptr,int maxsize=0);
   int delete_lexer_string(YY_BUFFER_STATE &state,void * & scanner);
-  
+
   /** Get error message from the parser. */
   std::string get_parser_error(void);
 

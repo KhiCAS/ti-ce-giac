@@ -220,7 +220,7 @@ namespace giac {
     if (s.sommet==at_program){
       return gensizeerr(gettext("Expecting an expression, not a function"));
     }
-    if (s.sommet==at_ln){ 
+    if (s.sommet==at_ln){
       if (s.feuille.is_symb_of_sommet(at_abs) )
 	return rdiv(derive(s.feuille._SYMBptr->feuille,i,contextptr),s.feuille._SYMBptr->feuille,contextptr);
       if (s.feuille.is_inv())
@@ -243,7 +243,7 @@ namespace giac {
 	for (int j=1;j<vs;++j){
 	  gen & tmp=v[j];
 	  tmp=derive(tmp,i,contextptr); // v[j]=derive(v[j],i,contextptr);
-	  // if (is_undef(tmp)) return tmp; 
+	  // if (is_undef(tmp)) return tmp;
 	  // commented otherwise diff(when(x<0,x^2+3,undef)) returns undef
 	}
 	return symbolic(s.sommet,gen(v,s.feuille.subtype));
@@ -269,7 +269,7 @@ namespace giac {
 	return dexponent*ln(base,contextptr)*s+exponent*dbase*s/v[1];
       }
       if (vs>=3 && s.sommet==at_Beta){
-	gen v0=v[0],v1=v[1],v2=v[2]; 
+	gen v0=v[0],v1=v[1],v2=v[2];
 	if (!is_zero(derive(v0,i,contextptr)) || !is_zero(derive(v1,i,contextptr)) )
 	  return gensizeerr("diff of incomplete beta with respect to non constant 1st or 2nd arg not implemented");
 	// diff/v2 of int_0^v2 t^(v0-1)*(1-t)^(v1-1) dt
@@ -294,7 +294,7 @@ namespace giac {
 	return _sum(makesequence(derive(v0,i,contextptr),v1,v2,v3),contextptr);
       }
       if ( (vs==2 || (vs==3 && is_zero(v[2]))) && (s.sommet==at_upper_incomplete_gamma || s.sommet==at_lower_incomplete_gamma || s.sommet==at_Gamma)){
-	gen v0=v[0],v1=v[1]; 
+	gen v0=v[0],v1=v[1];
 	if (!is_zero(derive(v0,i,contextptr)))
 	  return gensizeerr(gettext("diff of incomplete gamma with respect to non constant 1st arg not implemented"));
 	// diff(int_v1^inf exp(-t)*t^(v0-1) dt)
@@ -354,7 +354,7 @@ namespace giac {
 	res=v[0];
       else {
 	res=subst(v[0],v[1],i,false,contextptr);
-	newint=derive(v[0],i,contextptr);	 
+	newint=derive(v[0],i,contextptr);
 	if (nargs<4)
 	  newint=integrate_gen(newint,v[1],contextptr);
       }
@@ -508,7 +508,7 @@ namespace giac {
 	return tmp;
       w.push_back(tmp);
     }
-    return w;    
+    return w;
   }
 
   static gen derivesymb(const gen& e,const gen & var,GIAC_CONTEXT){
@@ -572,7 +572,7 @@ namespace giac {
       ecopie=derive(ecopie,(*vars._VECTptr)[j],(*nderiv._VECTptr)[j],contextptr);
     }
     return ecopie;
-  }  
+  }
 
   gen symb_derive(const gen & a){
     return symbolic(at_derive,a);
@@ -647,7 +647,7 @@ namespace giac {
       return derive(v[0],v[1],contextptr);
     }
     if (s==3 && (v[2].type==_INT_ || (v[2].type==_VECT && v[2].subtype!=_SEQ__VECT)) )
-      return derive( v[0],v[1],v[2],contextptr);    
+      return derive( v[0],v[1],v[2],contextptr);
     if (s<3)
       return gensizeerr(contextptr);
     if (s>=3 && v.back().is_equal()){
@@ -730,7 +730,7 @@ namespace giac {
       }
     }
     identificateur _tmpi(" _x");
-    gen _tmp(_tmpi);    
+    gen _tmp(_tmpi);
     gen dg(derive(g(_tmp,contextptr),_tmp,contextptr));
     if (lop(dg,at_derive).empty()){
       identificateur tmpi(" x");
@@ -820,7 +820,7 @@ namespace giac {
       domain(f,x,eqs,excluded,mode,contextptr);
       res=gen2vecteur(_solve(makesequence(eqs,x),contextptr));
 #ifndef NO_STDEXCEPT
-    } catch (std::runtime_error & e ) { 
+    } catch (std::runtime_error & e ) {
       last_evaled_argptr(contextptr)=NULL;
       *logptr(contextptr) << e.what() << "\n";
     }

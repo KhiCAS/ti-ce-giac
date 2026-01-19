@@ -218,7 +218,7 @@ namespace giac {
   static define_unary_function_eval (__restart,&_restart,_restart_s);
   define_unary_function_ptr5( at_restart ,alias_at_restart,&__restart,0,T_RETURN);
 
-  
+
   gen _time(const gen & a,GIAC_CONTEXT){
 #if 1
     if ( a.type==_STRNG && a.subtype==-1) return  a;
@@ -244,7 +244,7 @@ namespace giac {
     double delta;
     int ntimes=1,i=0;
     int level=eval_level(contextptr);
-    unsigned t1= rtc_Minutes*60+rtc_Seconds; // RTC_GetTicks(); 
+    unsigned t1= rtc_Minutes*60+rtc_Seconds; // RTC_GetTicks();
     // CERR << t1 << "\n";
     for (unsigned i=1;i<=20;++i){
       eval(a,level,contextptr);
@@ -255,7 +255,7 @@ namespace giac {
     return 0.0;
 #else
     return undef;
-#endif    
+#endif
   }
   static const char _time_s []="time";
   static define_unary_function_eval_quoted (__time,&_time,_time_s);
@@ -428,7 +428,7 @@ namespace giac {
     if (args._VECTptr->size()>2)
       param=(*args._VECTptr)[2];
     else {
-      if (v.type!=_VECT) 
+      if (v.type!=_VECT)
 	return _count_eq(makesequence(v,f),contextptr);
     }
     return count(f,v,contextptr,param);
@@ -580,7 +580,7 @@ namespace giac {
 #endif
 	gen b=args._VECTptr->back();
 	if (b.val<0){
-	  gen gf=_floor(log10(abs(args._VECTptr->front(),contextptr),contextptr),contextptr); 
+	  gen gf=_floor(log10(abs(args._VECTptr->front(),contextptr),contextptr),contextptr);
 	  if (gf.type!=_INT_)
 	    return gensizeerr(contextptr);
 	  b=-1-b-gf;
@@ -662,7 +662,7 @@ namespace giac {
   gen _close(const gen & g0,GIAC_CONTEXT){
     return 0;
   }
-#else  
+#else
   // open a file, returns a FILE *
   gen _fopen(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
@@ -689,7 +689,7 @@ namespace giac {
 #if !defined(BESTA_OS) && !defined(NSPIRE_NEWLIB) && !defined(FXCG) && !defined TICE
     if (v[0].type==_INT_ && v[0].subtype==_INT_FD)
       f= fdopen(v[0].val,"a");
-#endif    
+#endif
     if (v[0].type==_POINTER_ && v[0].subtype==_FILE_POINTER)
       f=(FILE *) v[0]._POINTER_val;
     if (f){
@@ -1001,7 +1001,7 @@ namespace giac {
   static define_unary_function_eval (__rhs,&_rhs,_rhs_s);
   define_unary_function_ptr5( at_rhs ,alias_at_rhs,&__rhs,0,true);
 
-  // Given [v_0 ... v_(2n-1)] (begin of the recurrence sequence) 
+  // Given [v_0 ... v_(2n-1)] (begin of the recurrence sequence)
   // return [b_n...b_0] such that b_n*v_{n+k}+...+b_0*v_k=0
   // Example [1,-1,3,3] -> [1,-3,-6]
   // -> the recurrence relation is v_{n+2}=3v_{n+1}+6v_n
@@ -1093,7 +1093,7 @@ namespace giac {
 	  v[n/2]=data[n-1];
 	  n2=n/2;
 	}
-	else 
+	else
 	  n2=n/2+1;
 	for (int i=1;i<n2;++i){
 	  v[i]=gen(data[2*i-1],data[2*i]);
@@ -1149,7 +1149,7 @@ namespace giac {
       CERR << CLOCK()*1e-6 << " fft end" << "\n";
     return v;
 #endif
-    /* 
+    /*
        unsigned m=gen(n).bindigits()-1;
        if (n!=1<<m)
        return gensizeerr(gettext("Size is not a power of 2 ")+print_INT_(n));
@@ -1290,7 +1290,7 @@ namespace giac {
   }
 
   // solve vnext*sol[n+1]+v*sol[n]+vcst=0
-  // example: u_{n+1}=u_n/n+1 -> n*u_{n+1}-u_n-n=0 
+  // example: u_{n+1}=u_n/n+1 -> n*u_{n+1}-u_n-n=0
   // vnext=[1,0], v=[1], vcst=[-1,0] -> n solution
   static bool rsolve_particular(const modpoly & vnext,const modpoly & v,const modpoly & vcst,modpoly & sol,GIAC_CONTEXT){
     // find majoration of degree for solution
@@ -1387,7 +1387,7 @@ namespace giac {
   void gen2fracpoly1(const gen & g,vecteur & num,vecteur & den){
     if (g.type==_FRAC){
       num=gen2vecteur(g._FRACptr->num);
-      den=gen2vecteur(g._FRACptr->den);	  
+      den=gen2vecteur(g._FRACptr->den);
     }
     else {
       num=gen2vecteur(g);
@@ -1540,7 +1540,7 @@ namespace giac {
 	tmpden=r2e(tmpden,tmpv,contextptr);
 	tmpnum=_e2r(makesequence(tmpnum,n),contextptr);
 	tmpden=_e2r(makesequence(tmpden,n),contextptr);
-	if (is_zero(derive(tmpnum,n,contextptr)) && 
+	if (is_zero(derive(tmpnum,n,contextptr)) &&
 	    is_zero(derive(tmpnum,n,contextptr)) &&
 	    tmpnum.type==_VECT && tmpden.type==_VECT){
 	  vecteur tmpn,tmpd,ln,cn;
@@ -1609,7 +1609,7 @@ namespace giac {
     // u=P*v
     res=multmatvecteur(P,res);
     if (fs==1)
-      //return normal(subst(res[0],n,n-add,false,contextptr),contextptr);// normal(res[0]); 
+      //return normal(subst(res[0],n,n-add,false,contextptr),contextptr);// normal(res[0]);
       return ratnormal(res[0],contextptr);
     else
       return ratnormal(res,contextptr);
@@ -1623,7 +1623,7 @@ namespace giac {
       return makevecteur(un);
     gen initc=subst(initcond,u,_unapply(makesequence(un,n),contextptr),false,contextptr);
     initc=initc.eval(1,contextptr);
-    if (initc.type!=_VECT) 
+    if (initc.type!=_VECT)
       return vecteur(1,gensizeerr());
     vecteur valv=gsolve(*initc._VECTptr,uinit,/* complex mode */ true,0,contextptr);
     if (is_undef(valv))
@@ -1725,7 +1725,7 @@ namespace giac {
 	  idxn.push_back(n);
 	  gen vn=_seqsolve(makevecteur(*it,idxn,idx),contextptr);
 	  gen un=quotesubst(vn,n,n+1-M,contextptr);
-	  if (un.type!=_VECT) 
+	  if (un.type!=_VECT)
 	    return gensizeerr("Unable to solve this recurrence");
 	  if (int(un._VECTptr->size())!=uvs)
 	    return gendimerr(contextptr);
@@ -1735,10 +1735,10 @@ namespace giac {
 	  vecteur vout;
 	  for (int i=0;i<uvs;++i){
 	    vout.push_back(_unapply(makesequence(un[i],n),contextptr));
-	  }	  
+	  }
 	  gen initc=subst(initcond,uv,vout,false,contextptr);
 	  initc=initc.eval(1,contextptr);
-	  if (initc.type!=_VECT) 
+	  if (initc.type!=_VECT)
 	    return gensizeerr();
 	  vecteur valv=gsolve(*initc._VECTptr,idx,/* complex mode */ true,/* approx=no */ 0,contextptr);
 	  if (is_undef(valv))
@@ -1919,7 +1919,7 @@ namespace giac {
   gen _hexprint(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type == _INT_)
-      return string2gen(hexa_print_INT_(g.val), false);  
+      return string2gen(hexa_print_INT_(g.val), false);
     if (g.type == _ZINT)
       return string2gen(hexa_print_ZINT(*g._ZINTptr), false);
     return gentypeerr();
@@ -1927,11 +1927,11 @@ namespace giac {
   static const char _hexprint_s []="hex";
   static define_unary_function_eval (__hexprint,&_hexprint,_hexprint_s);
   define_unary_function_ptr5( at_hexprint ,alias_at_hexprint,&__hexprint,0,true);
-  
+
   gen _octprint(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type == _INT_)
-      return string2gen(octal_print_INT_(g.val), false);	
+      return string2gen(octal_print_INT_(g.val), false);
     if (g.type == _ZINT)
       return string2gen(octal_print_ZINT(*g._ZINTptr), false);
     return gentypeerr();
@@ -1939,7 +1939,7 @@ namespace giac {
   static const char _octprint_s []="oct";
   static define_unary_function_eval (__octprint,&_octprint,_octprint_s);
   define_unary_function_ptr5( at_octprint ,alias_at_octprint,&__octprint,0,true);
-  
+
   gen _binprint(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type == _INT_)
@@ -1952,7 +1952,7 @@ namespace giac {
   static define_unary_function_eval(__binprint,&_binprint,_binprint_s);
   define_unary_function_ptr5(at_binprint,alias_at_binprint,&__binprint,0,true);
   // const unary_function_ptr at_binprint (&__binprint,0,true);
-  
+
 
 
 #ifndef NO_NAMESPACE_GIAC

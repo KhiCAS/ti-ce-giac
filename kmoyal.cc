@@ -84,7 +84,7 @@ namespace giac {
 	  return res/a*std::exp(a*std::log(p)+(b-1)*std::log(1-p)+lngamma(a+b)-lngamma(a)-lngamma(b));
 	return res/a*std::exp(a*std::log(p)+(b-1)*std::log(1-p));
 #endif
-      }	
+      }
       Pm2=Pm1; Pm1=Pm;
       Qm2=Qm1; Qm1=Qm;
       if (absdouble(Pm)>deux){
@@ -176,8 +176,8 @@ namespace giac {
       double res=upper_incomplete_gammad(v[0]._DOUBLE_val,v[1]._DOUBLE_val,s==3?!is_zero(v[2]):false);
       if (res==-1){
 	if (s==3 && !is_zero(v[2]))
-	  return 1-lower_incomplete_gamma(v[0]._DOUBLE_val,v[1]._DOUBLE_val,true,contextptr); 
-	return Gamma(v[0]._DOUBLE_val,contextptr)-lower_incomplete_gamma(v[0]._DOUBLE_val,v[1]._DOUBLE_val,false,contextptr); 
+	  return 1-lower_incomplete_gamma(v[0]._DOUBLE_val,v[1]._DOUBLE_val,true,contextptr);
+	return Gamma(v[0]._DOUBLE_val,contextptr)-lower_incomplete_gamma(v[0]._DOUBLE_val,v[1]._DOUBLE_val,false,contextptr);
 	// return gensizeerr(contextptr);
       }
       return res;
@@ -385,7 +385,7 @@ namespace giac {
     vecteur & v=*g._VECTptr;
     int s=int(v.size());
     if (s==2)
-      return normal_cdf(v[1],contextptr)-normal_cdf(v[0],contextptr); 
+      return normal_cdf(v[1],contextptr)-normal_cdf(v[0],contextptr);
     if (s==3)
       return normal_cdf((v[2]-v[0])/v[1],contextptr);
     if (s==4)
@@ -490,7 +490,7 @@ namespace giac {
     if (is_strictly_positive(k,contextptr) && is_strictly_greater(1,k,contextptr)){
       if (is_strictly_positive(p,contextptr) && is_strictly_greater(1,p,contextptr))
 	return gensizeerr(contextptr);
-      return binomial(n,p,k,contextptr);	
+      return binomial(n,p,k,contextptr);
     }
     if (k.type==_DOUBLE_ || k.type==_FRAC){
       if (p.type==_DOUBLE_ || p.type==_FRAC)
@@ -517,7 +517,7 @@ namespace giac {
     }
     if (!is_positive(p,contextptr) || !is_greater(1,p,contextptr)){
       if (calc_mode(contextptr)!=1)
-	*logptr(contextptr) << "Assuming probability=" << p << "\n"; 
+	*logptr(contextptr) << "Assuming probability=" << p << "\n";
     }
     return comb(n,k,contextptr)*pow(p,k,contextptr)*pow(1-p,n-k,contextptr);
   }
@@ -537,7 +537,7 @@ namespace giac {
     }
     if (s==3){
       if (0 && calc_mode(contextptr)==1)
-	return binomial(v[0],v[2],v[1],contextptr);	
+	return binomial(v[0],v[2],v[1],contextptr);
       return binomial(v[0],v[1],v[2],contextptr);
     }
     return gensizeerr(contextptr);
@@ -902,7 +902,7 @@ namespace giac {
       return gensizeerr(contextptr);
     vecteur & v=*g._VECTptr;
     int s=int(v.size());
-    if (s<2 
+    if (s<2
 	|| s>2 // 3
 	)
       return gensizeerr(contextptr);
@@ -967,7 +967,7 @@ namespace giac {
 	prod /= long_double(i);
       }
       res *= std::exp(-N+(fx+1)*std::log(N)-lngamma(fx+2.));
-      return 1-res; 
+      return 1-res;
     }
 #if 1
     for (int i=fx;i>=0 && prod>1e-17;--i){
@@ -975,7 +975,7 @@ namespace giac {
       prod /= N;
       prod *= long_double(i);
     }
-    res *= std::exp(-N+fx*std::log(N)-lngamma(fx+1.));    
+    res *= std::exp(-N+fx*std::log(N)-lngamma(fx+1.));
     return res;
 #else
     for (int i=0;i<=fx;){
@@ -1065,7 +1065,7 @@ namespace giac {
     if (t==1)
       return plus_inf;
 #if 1
-    if (m>90){ 
+    if (m>90){
       // 170.! =7e306 we must insure that the naive definition does not return >170
       // hence the test since poisson_cdf(90.,170.)=1.0 to double precision
       // approximation using normal_icdf
@@ -1529,7 +1529,7 @@ namespace giac {
     double x0=utpc_initial_guess(m.val,1-t._DOUBLE_val,contextptr);
     // FIXME
     identificateur x(" z");
-    return newton(1-UTPC(m,x,contextptr)-t,x,x0,NEWTON_DEFAULT_ITERATION,1e-5,1e-12,true,1,0,1,0,.5,contextptr);   
+    return newton(1-UTPC(m,x,contextptr)-t,x,x0,NEWTON_DEFAULT_ITERATION,1e-5,1e-12,true,1,0,1,0,.5,contextptr);
   }
   gen _chisquare_icdf(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
@@ -1601,7 +1601,7 @@ namespace giac {
       return 2*UTPT(ddf,std::sqrt(x),contextptr);
     double y= (x*ndf)/ddf, sn2= y/(1+y), cs2= 1/(1+y),sum;
     y=std::sqrt(y);
-    if (ndf%2){ 
+    if (ndf%2){
       if (ddf%2){ // ndf && ddf odd
 	if (y<1){
 	  if (ddf==1) sum=0; else sum=1;
@@ -1715,7 +1715,7 @@ namespace giac {
     double x0=utpf_initial_guess(num.val,den.val,1-t._DOUBLE_val,contextptr);
     // FIXME
     identificateur x(" z");
-    return newton(1-UTPF(num,den,x,contextptr)-t,x,x0,NEWTON_DEFAULT_ITERATION,1e-5,1e-12,true,0,1.79769313486e+308,1,0,.5,contextptr);   
+    return newton(1-UTPF(num,den,x,contextptr)-t,x,x0,NEWTON_DEFAULT_ITERATION,1e-5,1e-12,true,0,1.79769313486e+308,1,0,.5,contextptr);
   }
   gen _snedecor_icdf(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
@@ -2062,7 +2062,7 @@ namespace giac {
       if (x0<1e-4)
 	return x0;
     }
-    return newton(symbolic(at_lower_incomplete_gamma,makesequence(alpha,x))-y*Gamma(alpha,contextptr),x,x0,NEWTON_DEFAULT_ITERATION,1e-5,1e-12,true,1,0,1,0,prefactor,contextptr)/beta; 
+    return newton(symbolic(at_lower_incomplete_gamma,makesequence(alpha,x))-y*Gamma(alpha,contextptr),x,x0,NEWTON_DEFAULT_ITERATION,1e-5,1e-12,true,1,0,1,0,prefactor,contextptr)/beta;
   }
   gen _gammad_icdf(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
@@ -2248,7 +2248,7 @@ namespace giac {
   static define_unary_function_eval (__geometric_cdf,&_geometric_cdf,_geometric_cdf_s);
   define_unary_function_ptr5( at_geometric_cdf ,alias_at_geometric_cdf,&__geometric_cdf,0,true);
 
-  // k=geometric_icdf(p,P) if 1-(1-p)^k>=P hence 
+  // k=geometric_icdf(p,P) if 1-(1-p)^k>=P hence
   gen geometric_icdf(const gen & p,const gen & P,GIAC_CONTEXT){
     return _ceil(ln(1-P,contextptr)/ln(1-p,contextptr),contextptr);
   }
@@ -2277,7 +2277,7 @@ namespace giac {
   define_unary_function_ptr5( at_randgeometric ,alias_at_randgeometric,&__randgeometric,0,true);
 
   // return 0 if not distrib
-  // 1 normal, 2 binomial, 3 negbinomial, 4 poisson, 5 student, 
+  // 1 normal, 2 binomial, 3 negbinomial, 4 poisson, 5 student,
   // 6 fisher, 7 cauchy, 8 weibull, 9 betad, 10 gammad, 11 chisquare
   // 12 geometric, 13 uniformd, 14 exponentiald
   int is_distribution(const gen & args){

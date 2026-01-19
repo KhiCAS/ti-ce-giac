@@ -45,7 +45,7 @@ namespace giac {
   vecteur interpolyedre(const vecteur & p,const gen & bb,GIAC_CONTEXT);
   vecteur interdroitehyperplan(const gen & a,const gen &b,GIAC_CONTEXT);
   vecteur interhyperplan(const gen & p1,const gen & p2,GIAC_CONTEXT);
-  vecteur interhypersurfacecurve(const gen & a,const gen &b,GIAC_CONTEXT); 
+  vecteur interhypersurfacecurve(const gen & a,const gen &b,GIAC_CONTEXT);
   vecteur inter2hypersurface(const gen & a,const gen &b,GIAC_CONTEXT);
   // a hyperplan, b hypersphere
   vecteur interplansphere(const gen & a,const gen & b,GIAC_CONTEXT);

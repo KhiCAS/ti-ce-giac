@@ -67,7 +67,7 @@ namespace giac {
   gen pa2b2(const gen & p,GIAC_CONTEXT);
   gen _pa2b2(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_pa2b2 ;
- 
+
   gen _propfrac(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_propfrac ;
 

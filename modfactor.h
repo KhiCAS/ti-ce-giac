@@ -39,7 +39,7 @@ namespace giac {
 
   // v[i]=x^(p*i) mod q
   // matrix of the v[i] for i=0..jstart or i=0..degree(q) if jstart=0
-  void qmatrix(const modpoly & q,environment * env,std::vector<modpoly> & v,int jstart=0);  
+  void qmatrix(const modpoly & q,environment * env,std::vector<modpoly> & v,int jstart=0);
   // compute s(x)=r(x^p) mod q using the q-matrix
   void xtoxpowerp(const modpoly & r, const std::vector<modpoly> & v,environment * env,int qsize,modpoly & s);
   // find modular roots and linear factors
@@ -63,7 +63,7 @@ namespace giac {
   // lift factorization from Z/pZ to Z/p^kZ for a sufficiently large k
   // modulo is modified to modulo^k
   bool liftl(environment * env,dense_POLY1 & q,gen &bound,std::vector<modpoly> & v_in,vectpoly & v_out);
-  // given a factorization v_in of q in Z/p^kZ find a factorization v_out 
+  // given a factorization v_in of q in Z/p^kZ find a factorization v_out
   // over Z, k is the minimal # of factors of v_in to be combined
   void combine(const dense_POLY1 & q, const std::vector<modpoly> & v_in,environment * env,vectpoly & v_out,std::vector<bool> & possible_degrees, int k=1);
 

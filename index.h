@@ -42,7 +42,7 @@
 #include <unordered_map>
 #endif
 
-#if defined UNORDERED_MAP  && !defined(VISUALC) // && !defined(__APPLE__) && !defined(__clang__) 
+#if defined UNORDERED_MAP  && !defined(VISUALC) // && !defined(__APPLE__) && !defined(__clang__)
 #include <tr1/unordered_map>
 #define HASH_MAP_NAMESPACE std::tr1
 #define hash_map unordered_map
@@ -56,7 +56,7 @@
 #ifdef HASH_MAP
 #include <hash_map>
 #ifndef HASH_MAP_NAMESPACE
-#ifndef VISUALC 
+#ifndef VISUALC
 #define HASH_MAP_NAMESPACE std
 #endif // VISUALC
 #endif // HASH_MAP_NAMESPACE
@@ -238,9 +238,9 @@ namespace giac {
     ref_index_t(index_t::const_iterator it,index_t::const_iterator itend):ref_count(1),i(it,itend) {}
   };
 
-  // direct access to deg_t in index_m 
+  // direct access to deg_t in index_m
   const int POLY_VARS_DIRECT=sizeof(ref_index_t *)/sizeof(deg_t);
-  // HAS_POLY_VARS_OTHER defines the number of word (pointer size) for 
+  // HAS_POLY_VARS_OTHER defines the number of word (pointer size) for
   // other deg_t directly encoded. Comment if none
 #define HAS_POLY_VARS_OTHER 1
 #if HAS_POLY_VARS_OTHER
@@ -256,7 +256,7 @@ namespace giac {
   public:
     ref_index_t * riptr;
     // construct
-    index_m(const index_m & im) { 
+    index_m(const index_m & im) {
       riptr=im.riptr;
       ++riptr->ref_count;
     }
@@ -281,11 +281,11 @@ namespace giac {
       --riptr->ref_count;
       if (!riptr->ref_count)
 	delete riptr;
-      riptr=other.riptr; 
+      riptr=other.riptr;
       ++riptr->ref_count;
       return *this;
     }
-    
+
     // members
     index_t iref() const { return riptr->i;} ;
     index_t::iterator begin() { return riptr->i.begin(); }
@@ -308,7 +308,7 @@ namespace giac {
     void reserve(size_t n) { riptr->i.reserve(n); }
     void push_back(deg_t x) { riptr->i.push_back(x); }
     size_t size() const { return riptr->i.size(); }
-    bool is_zero() const ; 
+    bool is_zero() const ;
     size_t total_degree() const ;
 #ifdef NSPIRE
     template<class T> friend nio::ios_base<T> & operator << (nio::ios_base<T> & os,const index_m & m ){
@@ -340,23 +340,23 @@ namespace giac {
     union {
       ref_index_t * riptr;
       struct {
-	deg_t taille; 
-	deg_t direct[POLY_VARS_DIRECT-1]; 
+	deg_t taille;
+	deg_t direct[POLY_VARS_DIRECT-1];
       };
     };
 #ifdef HAS_POLY_VARS_OTHER
     deg_t other[POLY_VARS_OTHER];
 #endif
     // construct
-    index_m(const index_m & im) { 
+    index_m(const index_m & im) {
       if ( im.taille % 2){
 	* (size_t *) & taille = * (size_t *) &im.taille;
 #if (HAS_POLY_VARS_OTHER==1)
-	* (size_t *) other = * (size_t *) im.other;	
+	* (size_t *) other = * (size_t *) im.other;
 #endif
 #if (HAS_POLY_VARS_OTHER==2)
-	* (size_t *) other = * (size_t *) im.other;	
-	* (((size_t *) other)+1) = * (((size_t *) im.other)+1);	
+	* (size_t *) other = * (size_t *) im.other;
+	* (((size_t *) other)+1) = * (((size_t *) im.other)+1);
 #endif
 #if (HAS_POLY_VARS_OTHER>2)
 	size_t * target = (size_t *) other, * end = target + POLY_VARS_OTHER/(sizeof(size_t)/sizeof(deg_t));
@@ -464,7 +464,7 @@ namespace giac {
 	  delete riptr;
       }
       if ( (other.taille % 2) == 0){
-	riptr=other.riptr; 
+	riptr=other.riptr;
 	++riptr->ref_count;
       }
       else {
@@ -478,7 +478,7 @@ namespace giac {
 #endif
 #if (HAS_POLY_VARS_OTHER>2)
 	const size_t * source = (size_t * ) other.other;
-	size_t * target = (size_t *) this->other; 
+	size_t * target = (size_t *) this->other;
 	size_t * end = target + POLY_VARS_OTHER/(sizeof(size_t)/sizeof(deg_t));
 	for (;target!=end;++source,++target)
 	  * target = * source;
@@ -486,13 +486,13 @@ namespace giac {
       }
       return *this;
     }
-    
+
     // members
     index_t iref() const ;
-    index_t::iterator begin() ; 
-    index_t::iterator end() ; 
-    index_t::const_iterator begin() const; 
-    index_t::const_iterator end() const; 
+    index_t::iterator begin() ;
+    index_t::iterator end() ;
+    index_t::const_iterator begin() const;
+    index_t::const_iterator end() const;
     deg_t & front() { return *begin(); }
     deg_t front() const { return *begin(); }
     deg_t & back() { return *(end()-1); }
@@ -568,7 +568,7 @@ namespace giac {
     hash_function_object() {};
   };
 
-  typedef HASH_MAP_NAMESPACE::hash_map< index_t,index_m,hash_function_object > hash_index ;  
+  typedef HASH_MAP_NAMESPACE::hash_map< index_t,index_m,hash_function_object > hash_index ;
 
   // extern std::vector<hash_index> global_hash_index;
 
@@ -630,13 +630,13 @@ namespace giac {
 
 #if 0 // def NSPIRE
 namespace std {
-  inline bool operator > (const giac::index_t & a,const giac::index_t & b){ 
-    if (a.size()!=b.size()) 
+  inline bool operator > (const giac::index_t & a,const giac::index_t & b){
+    if (a.size()!=b.size())
       return a.size()>b.size();
     return !giac::all_inf_equal(a,b);
   }
-  inline bool operator < (const giac::index_t & a,const giac::index_t & b){ 
-    if (a.size()!=b.size()) 
+  inline bool operator < (const giac::index_t & a,const giac::index_t & b){
+    if (a.size()!=b.size())
       return a.size()<b.size();
     return !giac::all_sup_equal(a,b);
   }

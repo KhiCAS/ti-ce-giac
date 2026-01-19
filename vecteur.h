@@ -48,7 +48,7 @@ namespace giac {
   double complex_abs(const complex_double & c);
   double complex_long_abs(const complex_long_double & c);
 
-  // make a matrix with free rows 
+  // make a matrix with free rows
   // (i.e. it is possible to modify the answer in place)
   matrice makefreematrice(const matrice & m);
   gen freecopy(const gen & g); // this one makes a free copy of a vector, not of a matrix
@@ -94,7 +94,7 @@ namespace giac {
   // numeric root utilities
   bool francis_schur(std_matrix<gen> & H,int n1,int n2,std_matrix<gen> & P,int maxiter,double eps,bool is_hessenberg,bool complex_schur,bool compute_P,bool no_lapack,GIAC_CONTEXT);
 
-  class matrix_double:public std::vector< std::vector<giac_double> >{    
+  class matrix_double:public std::vector< std::vector<giac_double> >{
   public:
     // inherited constructors
     matrix_double() : std::vector< std::vector<giac_double> >() { };
@@ -103,8 +103,8 @@ namespace giac {
     matrix_double(const matrix_double::const_iterator b,const matrix_double::const_iterator e) : std::vector< std::vector<giac_double> >(b,e) { };
     void dbgprint() const ;
   };
-  
-  class matrix_complex_double:public std::vector< std::vector<complex_double> >{    
+
+  class matrix_complex_double:public std::vector< std::vector<complex_double> >{
   public:
     // inherited constructors
     matrix_complex_double() : std::vector< std::vector<complex_double> >() { };
@@ -112,7 +112,7 @@ namespace giac {
     matrix_complex_double(int i,const std::vector<complex_double> v) : std::vector< std::vector<complex_double> >(i,v) { };
     void dbgprint() const ;
   };
-  
+
   bool balanced_eigenvalues(matrix_double & H,vecteur & res,int maxiter,double eps,bool is_hessenberg,GIAC_CONTEXT);
   bool francis_schur(matrix_double & H,int n1,int n2,matrix_double & P,int maxiter,double eps,bool is_hessenberg,bool compute_P);
   bool francis_schur(matrix_complex_double & H,int n1,int n2,matrix_complex_double & P,int maxiter,double eps,bool is_hessenberg,bool compute_P);
@@ -147,8 +147,8 @@ namespace giac {
   // these int are used to translate relative cells to spreadsheet names
   bool iscell(const gen & g,int & r,int & c,GIAC_CONTEXT);
   std::string printcell(const vecteur & v,GIAC_CONTEXT);
-  // given g=cell() or its argument at row i, column j 
-  // return 0 if not a cell, 1 if a cell, then compute r and c s.t. g refers to (r,c), 
+  // given g=cell() or its argument at row i, column j
+  // return 0 if not a cell, 1 if a cell, then compute r and c s.t. g refers to (r,c),
   // return 2 if g is e.g. A1:B4 compute ref of A1 and B4
   int cell2pos(const gen & g,int i,int j,int & r,int & c,int & r2,int & c2);
   // return cell(r,c) argument at (i,j) with same absolute/relative addressing
@@ -210,7 +210,7 @@ namespace giac {
   void vector_int2vecteur(const std::vector<int> & v,vecteur & res);
   void vectvector_int2vecteur(const std::vector< std::vector<int> > & v,vecteur & res);
   bool iszero(const std::vector<int> & p);
-  
+
   // matrice related functions
   bool ckmatrix(const matrice & a,bool allow_embedded_vect);
   bool ckmatrix(const matrice & a);
@@ -264,7 +264,7 @@ namespace giac {
   void tran_vect_vector_int(const std::vector< std::vector<int> > & N,std::vector< std::vector<int> > & tN);
   void apply_permutation(const std::vector<int> & permutation,const std::vector<int> &x,std::vector<int> & y);
   void vecteur2vector_int(const vecteur & v,int modulo,std::vector<int> & res);
-  
+
   enum matrix_algorithms {
     RREF_GAUSS_JORDAN=0,
     RREF_GUESS=1,
@@ -295,8 +295,8 @@ namespace giac {
   // holds temporary work storage for block operation
   struct smallmodrref_temp_t {
     std::vector< std::vector<int> > Ainvtran,Ainv,CAinv;
-    std::vector<int> permblock,maxrankblock; 
-    vecteur pivblock; 
+    std::vector<int> permblock,maxrankblock;
+    vecteur pivblock;
     std::vector<int> y,y1,y2,y3;
     std::vector<longlong> z,z1,z2,z3;
   };
@@ -305,7 +305,7 @@ namespace giac {
 	       int fullreduction,int dont_swap_below,const gen & modulo,bool ckprime,int rref_or_det_or_lu);
   bool mrref(const matrice & a, matrice & res, vecteur & pivots, gen & det,GIAC_CONTEXT);
   bool modrref(const matrice & a, matrice & res, vecteur & pivots, gen & det,const gen& modulo);
-  
+
 
   // finish full row reduction to echelon form if N is upper triangular
   // this is done from lmax-1 to l
@@ -335,7 +335,7 @@ namespace giac {
   gen _idn(const gen & e,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_idn ;
 
-  vecteur vranm(int n,const gen & f,GIAC_CONTEXT); 
+  vecteur vranm(int n,const gen & f,GIAC_CONTEXT);
   matrice mranm(int n,int m,const gen & f,GIAC_CONTEXT); // random matrix using f
   gen _ranm(const gen & e,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_ranm ;
@@ -347,10 +347,10 @@ namespace giac {
   bool modinv(const matrice & a,matrice & res,const gen & modulo,gen & det_mod_p);
   // solve a*x=b where a and b have integer coeffs
   // using a p-adic algorithm, n is the precision required
-  // c must be the inverse of a mod p 
+  // c must be the inverse of a mod p
   vecteur padic_linsolve_c(const matrice & a,const vecteur & b,const matrice & c,unsigned n,const gen & p,unsigned reconstruct=0);
   // solve a*x=b where a and b have integer coeffs using a p-adic algorithm
-  // lcmdeno of the answer may be used to give an estimate of the 
+  // lcmdeno of the answer may be used to give an estimate of the
   // least divisor element of a if b is random
   // returns 0 if no invertible found, -1 if det==0, 1 otherwise
   int padic_linsolve(const matrice & a,const vecteur & b,vecteur & res,gen & p,gen & det_mod_p,gen & h2,unsigned reconstruct=0,int maxtry=4);
@@ -360,7 +360,7 @@ namespace giac {
   // asub of max rank, ainv is the inverse of asub mod p
   // return -1 or the rank
   int padic_linsolve_prepare(const matrice & a,gen & p,std::vector<int> & ranklines, std::vector<int> & rankcols,matrice & asub,matrice & ainv,vecteur & compat,vecteur & kernel);
-  // solve a prepared non Cramer linear system 
+  // solve a prepared non Cramer linear system
   bool padic_linsolve_solve(const matrice & a,const gen & p,const std::vector<int> & ranklines,const std::vector<int> & rankcols,const matrice & asub,const matrice & ainv,const vecteur & compat,const vecteur & b,vecteur & sol);
   gen _padic_linsolve(const gen & g,GIAC_CONTEXT);
 
@@ -454,7 +454,7 @@ namespace giac {
   gen _size(const gen & a,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_size ;
   bool vecteur2index(const vecteur & v,index_t & i);
-#ifdef HAVE_LIBGSL 
+#ifdef HAVE_LIBGSL
   gsl_vector * vecteur2gsl_vector(const vecteur & v,GIAC_CONTEXT); // allocate
   int vecteur2gsl_vector(const vecteur & v,gsl_vector * w,GIAC_CONTEXT); // no alloc
   int vecteur2gsl_vector(const_iterateur it,const_iterateur itend,gsl_vector * w,GIAC_CONTEXT);
@@ -464,7 +464,7 @@ namespace giac {
   matrice gsl_matrix2matrice(const gsl_matrix * v);
   vecteur gsl_permutation2vecteur(const gsl_permutation * p,GIAC_CONTEXT);
 #endif // HAVE_LIBGSL
-  
+
   bool mlu(const matrice & a0,vecteur & P,matrice & L,matrice & U,GIAC_CONTEXT);
   gen lu(const gen & a,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_lu ;

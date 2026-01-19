@@ -31,7 +31,7 @@ namespace giac {
   // Lift the equality p(b)=qb*rb [where b is a vecteur like for peval
   // assumed to have p.dim-1 coordinates] to p=q*r mod (X-b)^deg
   // Assuming that lcoeff(q)=lcp, lcoeff(r)=lcp, lcoeff(p)=lcp^2
-  // If you want to find factors of a poly P such that P(b)=Qb*Rb, 
+  // If you want to find factors of a poly P such that P(b)=Qb*Rb,
   // if lcp is the leading coeff of P
   // then p=P*lcp, qb=Qb*lcp(b)/lcoeff(Qb), rb=Rb*lcp(b)/lcoeff(Rb)
   bool hensel_lift(const polynome & p, const polynome & lcp, const polynome & qb, const polynome & rb, const vecteur & b,polynome & q, polynome & r,bool linear_lift=true,double maxop=-1);
@@ -68,16 +68,16 @@ namespace giac {
   bool ezgcd(const polynome & F_orig,const polynome & G_orig,polynome & GCD,bool is_sqff=false,bool is_primitive=false,int max_gcddeg=0,double maxop=-1);
 
   gen _ezgcd(const gen & args,GIAC_CONTEXT);
-  extern const unary_function_ptr * const  at_ezgcd;  
+  extern const unary_function_ptr * const  at_ezgcd;
 
   gen _modgcd(const gen & args,GIAC_CONTEXT);
-  extern const unary_function_ptr * const  at_modgcd;  
+  extern const unary_function_ptr * const  at_modgcd;
 
   gen _heugcd(const gen & args,GIAC_CONTEXT);
-  extern const unary_function_ptr * const  at_heugcd;  
+  extern const unary_function_ptr * const  at_heugcd;
 
   gen _psrgcd(const gen & args,GIAC_CONTEXT);
-  extern const unary_function_ptr * const  at_psrgcd;  
+  extern const unary_function_ptr * const  at_psrgcd;
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

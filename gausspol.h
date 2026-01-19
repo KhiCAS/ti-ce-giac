@@ -162,7 +162,7 @@ namespace giac {
   void egcdlgcd(const polynome &p1, const polynome & p2, polynome & u,polynome & v,polynome & d);
   void egcdpsr(const polynome &p1, const polynome & p2, polynome & u,polynome & v,polynome & d);
   void egcd(const polynome &p1, const polynome & p2, polynome & u,polynome & v,polynome & d);
-  // Input a,b,c,u,v,d such that a*u+b*v=d, 
+  // Input a,b,c,u,v,d such that a*u+b*v=d,
   // Output u,v,C such that a*u+b*v=c*C
   void egcdtoabcuv(const tensor<gen> & a,const tensor<gen> &b, const tensor<gen> &c, tensor<gen> &u,tensor<gen> &v, tensor<gen> & d, tensor<gen> & C);
 
@@ -207,7 +207,7 @@ namespace giac {
   // prototype of factorization of univariate sqff unitary polynomial
   // provided e.g. by smodular
   bool factorunivsqff(const polynome & q,environment * env,vectpoly & v,int & ithprime,int debug,int modfactor_primes);
-  // find linear factor only 
+  // find linear factor only
   int linearfind(const polynome & q,environment * env,polynome & qrem,vectpoly & v,int & ithprime);
   // prototype of modular 1-d gcd algorithm
   bool gcd_modular_algo1(polynome &p,polynome &q,polynome &d,bool compute_cof);
@@ -514,7 +514,7 @@ namespace giac {
 	    *iitback += deg_t((u+(*ditbeg))-prevu);
 	    prevu=u;
 	  }
-	  else 
+	  else
 	  {
 	    prevu=u;
 	    for (k=pdim,dit=ditbeg;dit!=ditend;++dit,--k){
@@ -549,7 +549,7 @@ namespace giac {
 	    prevu=u;
 	    // cerr << "/" << u << ":" << i << endl;
 	  }
-	  else 
+	  else
           {
 	    prevu=u;
 	    for (k=pdim-1,dit=ditbeg;dit!=ditend;++dit,--k){
@@ -573,7 +573,7 @@ namespace giac {
       CERR << "Divisions: " << count << std::endl;
   }
 
-  
+
   template<class T,class U>
   struct convert_t {
     typename std::vector< T_unsigned<T,U> >::const_iterator it,itend;
@@ -582,7 +582,7 @@ namespace giac {
     int mode;
   };
 
-  template<class T,class U> 
+  template<class T,class U>
   void * do_convert_from(void * ptr){
     convert_t<T,U> * argptr = (convert_t<T,U> *) ptr;
     convert_from<T,U>(argptr->it,argptr->itend,*argptr->degptr,argptr->jt,argptr->mode);
@@ -600,12 +600,12 @@ namespace giac {
     std::vector< monomial<gen> >::iterator jt=p.coord.begin();
     int nthreads=threads;
     if (nthreads==1 || !threaded || p.dim>POLY_VARS){
-      convert_from<T,U>(it,itend,deg,jt,0); 
+      convert_from<T,U>(it,itend,deg,jt,0);
       return;
     }
 #if defined(HAVE_PTHREAD_H) && !defined(EMCC) // && !defined(__clang__)
     unsigned taille=itend-it;
-    if (nthreads>1 
+    if (nthreads>1
 	&& int(taille)>nthreads*1000
 	){
       pthread_t tab[nthreads];
@@ -630,7 +630,7 @@ namespace giac {
       return;
     } // end if (nthreads>1)
 #endif
-    convert_from<T,U>(it,itend,deg,jt,0); 
+    convert_from<T,U>(it,itend,deg,jt,0);
   }
 
 #ifndef NO_NAMESPACE_GIAC

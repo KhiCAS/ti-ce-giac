@@ -31,7 +31,7 @@ namespace giac {
   struct symbolic;
 
   gen makeline(const gen & a,const gen &b);
-  
+
   bool proot_cached(const vecteur & v,double eps,vecteur & res);
   bool proot_cache(const vecteur & v,double eps,const vecteur & res);
 
@@ -65,7 +65,7 @@ namespace giac {
   gen rootof(const gen & e,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_rootof ;
   vecteur min_pol(gen & a);
-  
+
   // Return the signed subresultant Sturm sequence for a rational
   // fraction g with respect to x
   // A squarefree factorization is performed first

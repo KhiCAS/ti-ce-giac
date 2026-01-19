@@ -26,7 +26,7 @@
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
-  extern bool user_screen; 
+  extern bool user_screen;
   extern int user_screen_io_x,user_screen_io_y,user_screen_fontsize;
   extern const int rand_max2; // replace RAND_MAX if giac_rand(contextptr) is used
   extern bool warn_equal_in_prog;
@@ -49,11 +49,11 @@ namespace giac {
   int digits2bits(int n);
   int bits2digits(int n);
   // debug_info should be a vecteur containing
-  // w[0]=function + args, w[2]= res of last evaluation, 
+  // w[0]=function + args, w[2]= res of last evaluation,
   // w[3] = source, w[4]=current_instruction
   // w[5] = watch vecteur, w[6] = watch values
   gen equaltosame(const gen & a);
-  gen sametoequal(const gen & a);    
+  gen sametoequal(const gen & a);
   gen equaltosto(const gen & g,GIAC_CONTEXT);
   int giac_bind(const vecteur & vals,const vecteur & vars,context * & contextptr);
   bool leave(int protect,vecteur & vars,context * & contextptr);
@@ -105,87 +105,87 @@ namespace giac {
   extern const unary_function_ptr * const  at_local;
 
   gen _return(const gen & args,GIAC_CONTEXT);
-  extern const unary_function_ptr * const  at_return;  
+  extern const unary_function_ptr * const  at_return;
 
   gen _try_catch(const gen & args,GIAC_CONTEXT);
-  extern const unary_function_ptr * const  at_try_catch;  
+  extern const unary_function_ptr * const  at_try_catch;
 
   gen _check_type(const gen & args,GIAC_CONTEXT);
-  extern const unary_function_ptr * const  at_check_type;  
+  extern const unary_function_ptr * const  at_check_type;
 
   gen _type(const gen & args,GIAC_CONTEXT);
-  extern const unary_function_ptr * const  at_type;  
+  extern const unary_function_ptr * const  at_type;
   gen _nop(const gen & a,GIAC_CONTEXT);
 
   gen _feuille(const gen & args,GIAC_CONTEXT);
-  extern const unary_function_ptr * const  at_feuille;  
+  extern const unary_function_ptr * const  at_feuille;
   gen _maple_op(const gen & args,GIAC_CONTEXT);
-  extern const unary_function_ptr * const  at_maple_op;  
+  extern const unary_function_ptr * const  at_maple_op;
 
   gen _sommet(const gen & args,GIAC_CONTEXT);
-  extern const unary_function_ptr * const  at_sommet;  
+  extern const unary_function_ptr * const  at_sommet;
 
   gen subsop(const gen & g,const vecteur & v,GIAC_CONTEXT);
   gen subsop(const vecteur & g,const vecteur & v,const gen & sommet,GIAC_CONTEXT);
   gen _maple_subsop(const gen & args,GIAC_CONTEXT);
-  extern const unary_function_ptr * const  at_maple_subsop;  
+  extern const unary_function_ptr * const  at_maple_subsop;
 
   gen _subsop(const gen & args,GIAC_CONTEXT);
-  extern const unary_function_ptr * const  at_subsop;  
+  extern const unary_function_ptr * const  at_subsop;
 
   gen _append(const gen & args,GIAC_CONTEXT);
-  extern const unary_function_ptr * const  at_append;  
+  extern const unary_function_ptr * const  at_append;
 
   gen _prepend(const gen & args,GIAC_CONTEXT);
-  extern const unary_function_ptr * const  at_prepend;  
+  extern const unary_function_ptr * const  at_prepend;
 
   gen concat(const gen & g,bool glue_lines,GIAC_CONTEXT);
   gen _concat(const gen & args,GIAC_CONTEXT);
-  extern const unary_function_ptr * const  at_concat;  
-  
+  extern const unary_function_ptr * const  at_concat;
+
   gen _contains(const gen & args,GIAC_CONTEXT);
-  extern const unary_function_ptr * const  at_contains;  
+  extern const unary_function_ptr * const  at_contains;
 
   gen _select(const gen & args,GIAC_CONTEXT);
-  extern const unary_function_ptr * const  at_select;  
+  extern const unary_function_ptr * const  at_select;
 
   gen _remove(const gen & args,GIAC_CONTEXT);
-  extern const unary_function_ptr * const  at_remove;  
+  extern const unary_function_ptr * const  at_remove;
 
   gen _option(const gen & args,GIAC_CONTEXT);
-  extern const unary_function_ptr * const  at_option;  
+  extern const unary_function_ptr * const  at_option;
 
   gen _case(const gen & args,GIAC_CONTEXT);
-  extern const unary_function_ptr * const  at_case;  
+  extern const unary_function_ptr * const  at_case;
 
   gen _rand(const gen & args,GIAC_CONTEXT);
-  extern const unary_function_ptr * const  at_rand;  
-  extern const unary_function_ptr * const  at_random;  
+  extern const unary_function_ptr * const  at_rand;
+  extern const unary_function_ptr * const  at_random;
   gen rand_interval(const vecteur & v,bool entier,GIAC_CONTEXT);
 
   gen _srand(const gen & args,GIAC_CONTEXT);
-  extern const unary_function_ptr * const  at_srand;  
+  extern const unary_function_ptr * const  at_srand;
 
   gen _char(const gen & args,GIAC_CONTEXT);
-  extern const unary_function_ptr * const  at_char;  
+  extern const unary_function_ptr * const  at_char;
 
   gen _asc(const gen & args,GIAC_CONTEXT);
-  extern const unary_function_ptr * const  at_asc;  
+  extern const unary_function_ptr * const  at_asc;
 
   gen _map(const gen & args,GIAC_CONTEXT);
-  extern const unary_function_ptr * const  at_map;  
-  
+  extern const unary_function_ptr * const  at_map;
+
   gen _apply(const gen & args,GIAC_CONTEXT);
-  extern const unary_function_ptr * const  at_apply;  
-  
+  extern const unary_function_ptr * const  at_apply;
+
   gen _makelist(const gen & args,GIAC_CONTEXT);
-  extern const unary_function_ptr * const  at_makelist;  
-  
+  extern const unary_function_ptr * const  at_makelist;
+
   gen symb_interval(const gen & a,const gen & b);
   gen _interval(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_interval;
   gen symb_interval(const gen & a,const gen & b);
-  
+
   gen _comment(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_comment;
 
@@ -228,7 +228,7 @@ namespace giac {
 
   gen _lname(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_lname;
-  
+
   gen _halt(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_halt;
 
@@ -310,7 +310,7 @@ namespace giac {
 
   gen _angle_radian(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_angle_radian;
- 
+
   gen _epsilon(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_epsilon;
 
@@ -595,12 +595,12 @@ namespace giac {
     double cd;
     double E;
   };
-  gen symb_unit(const gen & a,const gen & b,GIAC_CONTEXT);  
+  gen symb_unit(const gen & a,const gen & b,GIAC_CONTEXT);
   extern const mksa_unit * const unitptr_tab[]; // table of units alpha-sorted
   extern const unsigned unitptr_tab_length;
   extern const char * const unitname_tab[];
   extern const char * const * const unitname_tab_end;
-  
+
   gen symb_unit(const gen & a,const gen & b,GIAC_CONTEXT);
   gen symb_interrogation(const gen & e1,const gen & e3);
   std::string printasDigits(const gen & feuille,const char * sommetstr,GIAC_CONTEXT);
@@ -849,13 +849,13 @@ namespace giac {
   extern gen _chain_unit;
   extern gen _Curie_unit;
   extern gen _ct_unit;
-  // extern gen _°_unit;
+  // extern gen _ï¿½_unit;
   extern gen _d_unit;
   extern gen _dB_unit;
   extern gen _dyn_unit;
   extern gen _erg_unit;
   extern gen _eV_unit;
-  // extern gen _°F_unit;
+  // extern gen _ï¿½F_unit;
   extern gen _fath_unit;
   extern gen _fbm_unit;
   // extern gen _fc_unit;
@@ -964,7 +964,7 @@ namespace giac {
 #if !defined FXCG && !defined TICE
   const unary_function_ptr * binary_op_tab();
 #endif
-  
+
   extern const unary_function_ptr * const  at_piecewise;
   extern const unary_function_ptr * const  at_PIECEWISE;
   gen _piecewise(const gen & g,GIAC_CONTEXT);
@@ -1034,4 +1034,3 @@ namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
 
 #endif // _GIAC_PROG_H
-

@@ -23,7 +23,7 @@
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
 
-#if !defined DOUBLEVAL && (defined __amd64 || defined x86_64) && !defined SMARTPTR64 
+#if !defined DOUBLEVAL && (defined __amd64 || defined x86_64) && !defined SMARTPTR64
 #define DOUBLEVAL 1
 #endif
 
@@ -326,7 +326,7 @@ namespace giac {
     _GL_LIGHT4=37,
     _GL_LIGHT5=38,
     _GL_LIGHT6=39,
-    _GL_LIGHT7=40,    
+    _GL_LIGHT7=40,
     _GL_AMBIENT=50,
     _GL_SPECULAR=51,
     _GL_DIFFUSE=52,
@@ -337,7 +337,7 @@ namespace giac {
     _GL_CONSTANT_ATTENUATION=57,
     _GL_LINEAR_ATTENUATION=58,
     _GL_QUADRATIC_ATTENUATION=59,
-    _GL_LIGHT_MODEL_AMBIENT=60, 
+    _GL_LIGHT_MODEL_AMBIENT=60,
     _GL_LIGHT_MODEL_LOCAL_VIEWER=61,
     _GL_LIGHT_MODEL_TWO_SIDE=62,
     _GL_LIGHT_MODEL_COLOR_CONTROL=72,
@@ -518,7 +518,7 @@ namespace giac {
     _POINT_INVISIBLE = 1 << 27,
     _POINT_CARRE = 100663296,
     _POINT_TRIANGLE = 167772160,
-    _POINT_ETOILE = 201326592, 
+    _POINT_ETOILE = 201326592,
     _POINT_POINT = 234881024,
     _FILL_POLYGON = 1 << 30,
     _QUADRANT1 = 0,

@@ -28,7 +28,7 @@
 
 /*
 #ifndef WIN32
-#if defined(__APPLE__) || defined(__FreeBSD__) || defined(VISUALC) | defined(__NetBSD__) 
+#if defined(__APPLE__) || defined(__FreeBSD__) || defined(VISUALC) | defined(__NetBSD__)
 #else // was #ifndef __APPLE__
 #include <sys/sysinfo.h>
 #endif
@@ -137,7 +137,7 @@ namespace giac {
   int invmod(longlong a,int reduce);
 
 #ifdef INT128
-  
+
   inline bool is_zero(const int128_t & a){
     return a==0;
   }
@@ -228,7 +228,7 @@ namespace giac {
     }
   }
 
-  // tmp is an allocated mpz_t 
+  // tmp is an allocated mpz_t
   inline void mpz2longlong(mpz_t * ptr,mpz_t * tmp,longlong & ans){
     int i=mpz_sgn(*ptr);
     if (i<0)
@@ -245,7 +245,7 @@ namespace giac {
   }
 
 #ifdef INT128
-  // tmp is an allocated mpz_t 
+  // tmp is an allocated mpz_t
   inline void mpz2int128(mpz_t * ptr,mpz_t * tmp,int128_t & ans){
     int i=mpz_sgn(*ptr);
     if (i<0)
@@ -336,9 +336,9 @@ namespace giac {
   }
   typedef T_unsigned<int,unsigned> int_unsigned;
 
-#ifdef NSPIRE    
+#ifdef NSPIRE
   template<class T,class U,class I>
-  nio::ios_base<I> & operator << (nio::ios_base<I> & os, const std::vector< T_unsigned<T,U> > & v){  
+  nio::ios_base<I> & operator << (nio::ios_base<I> & os, const std::vector< T_unsigned<T,U> > & v){
     typename std::vector< T_unsigned<T,U> >::const_iterator it=v.begin(),itend=v.end();
     for (;it!=itend;++it){
       os << "(" << it->g << "," << it->u << "),";
@@ -347,7 +347,7 @@ namespace giac {
   }
 #else
   template<class T,class U>
-  std::ostream & operator << (std::ostream & os, const std::vector< T_unsigned<T,U> > & v){  
+  std::ostream & operator << (std::ostream & os, const std::vector< T_unsigned<T,U> > & v){
     typename std::vector< T_unsigned<T,U> >::const_iterator it=v.begin(),itend=v.end();
     for (;it!=itend;++it){
       os << "(" << it->g << "," << it->u << "),";
@@ -373,21 +373,21 @@ namespace giac {
     T v0;
     T v1;
     vector_size64(){ taille=1;}
-    vector_size64(size_t t){ 
-      if (t>2){ 
-	taille=0; * (longlong *) &v0=0; * (longlong *) &v1=0; 
-	std::vector<T> tmp(t); 
+    vector_size64(size_t t){
+      if (t>2){
+	taille=0; * (longlong *) &v0=0; * (longlong *) &v1=0;
+	std::vector<T> tmp(t);
 	std::vector<T> & v = * (std::vector<T> *) &taille;
-	std::swap(tmp,v); 
+	std::swap(tmp,v);
       }
       else { taille=2*t+1; * (longlong *) &v0=0; * (longlong *) &v1=0;}
     }
-    vector_size64(size_t t,const T & elem){ 
-      if (t>2){ 
-	taille=0; * (longlong *) &v0=0; * (longlong *) &v1=0; 
-	std::vector<T> tmp(t,elem); 
+    vector_size64(size_t t,const T & elem){
+      if (t>2){
+	taille=0; * (longlong *) &v0=0; * (longlong *) &v1=0;
+	std::vector<T> tmp(t,elem);
 	std::vector<T> & v = * (std::vector<T> *) &taille;
-	std::swap(tmp,v); 
+	std::swap(tmp,v);
       }
       else { taille=2*t+1; v0=elem; v1=elem;}
     }
@@ -406,7 +406,7 @@ namespace giac {
 	  tmp[1]=v1;
 	  tmp[2]=t;
 	  tmp.pop_back();
-	  taille=0; * (longlong *) &v0=0; * (longlong *) &v1=0; 
+	  taille=0; * (longlong *) &v0=0; * (longlong *) &v1=0;
 	  std::vector<T> & v = * (std::vector<T> *) &taille;
 	  std::swap(tmp,v);
 	  return;
@@ -414,7 +414,7 @@ namespace giac {
 	taille += 2;
 	if (taille==5)
 	  v1=t;
-	else 
+	else
 	  v0=t;
       }
       else {
@@ -498,7 +498,7 @@ namespace giac {
       T v2;
     };
     vector_size32(){ taille=1;}
-    vector_size32(size_t t){ 
+    vector_size32(size_t t){
       if (t>3){
 	mytab<T> * mytabptr = (mytab<T> *) this;
 	mytabptr->tab = new T[t];
@@ -509,8 +509,8 @@ namespace giac {
       }
       else { taille=2*t+1; * (int *) &v0=0; * (longlong *) &v1=0;}
     }
-    vector_size32(size_t t,const T & elem){ 
-      if (t>3){ 
+    vector_size32(size_t t,const T & elem){
+      if (t>3){
 	mytab<T> * mytabptr = (mytab<T> *) this;
 	mytabptr->tab = new T[t];
 	mytabptr->_size = mytabptr->_capacity = t;
@@ -543,8 +543,8 @@ namespace giac {
 	taille += 2;
 	if (taille==7)
 	  v2=t;
-	else { 
-	  if (taille==5) v1=t; else v0=t; 
+	else {
+	  if (taille==5) v1=t; else v0=t;
 	}
       }
       else {
@@ -872,7 +872,7 @@ namespace giac {
   }
 
   // eval v1 at vars.back()=g
-  // should be used with reduce!=0, T=int or longlong 
+  // should be used with reduce!=0, T=int or longlong
   // (powmod should be defined for T,U,T)
   // * should not overflow in T, if T=int, reduce must be < 46340
   // this could be fixed using type_operator_... instead of *
@@ -919,7 +919,7 @@ namespace giac {
   }
 
   // eval v1 at vars.back()=g
-  // should be used with T=gen 
+  // should be used with T=gen
   template<class T,class U>
   void smallhorner(const std::vector< T_unsigned<T,U> > & v1,const T & g,const std::vector<U> & vars,std::vector< T_unsigned<T,U> > & v){
     typename std::vector< T_unsigned<T,U> >::const_iterator it=v1.begin(),itend=v1.end();
@@ -994,7 +994,7 @@ namespace giac {
     }
     // interpolation
     for (int alpha=s-1;alpha>=0;--alpha){
-      smallmult<T,U,R>(-alpha,v,tmp2,reduce); 
+      smallmult<T,U,R>(-alpha,v,tmp2,reduce);
       smallshift(v,U(1),v); // multiply v*(x-alpha)
       smalladd<T,U,R>(v,tmp2,tmp3,reduce);
       smalladd<T,U,R>(tmp3,tab[alpha],v,reduce);
@@ -1030,7 +1030,7 @@ namespace giac {
     }
     // interpolation
     for (int alpha=s-1;alpha>=0;--alpha){
-      smallmult<T,U>(-alpha,v,tmp2); 
+      smallmult<T,U>(-alpha,v,tmp2);
       smallshift(v,U(1),v); // multiply v*(x-alpha)
       smalladd<T,U>(v,tmp2,tmp3);
       smalladd<T,U>(tmp3,tab[alpha],v);
@@ -1133,11 +1133,11 @@ namespace giac {
   // wrt to the 1st var changes
   template<class T,class U,class R>
   void smallmult(const std::vector< T_unsigned<T,U> > & v1,const std::vector< T_unsigned<T,U> > & v2,std::vector< T_unsigned<T,U> > & v,const R & reduce,size_t possible_size){
-    if (v1.empty()){ 
-      v.clear(); return; 
+    if (v1.empty()){
+      v.clear(); return;
     }
-    if (v2.empty()){ 
-      v.clear(); return; 
+    if (v2.empty()){
+      v.clear(); return;
     }
     if (&v1==&v || &v2==&v){
       std::vector< T_unsigned<T,U> > tmp;
@@ -1165,7 +1165,7 @@ namespace giac {
       for (;slice_it2beg<slice_it2end;slice_it2beg=it2end){
 	it2beg=slice_it2beg;
 	it2end=it2beg+slice_size;
-	if (it2end>slice_it2end) 
+	if (it2end>slice_it2end)
 	  it2end=slice_it2end;
 	for (it1=it1beg;it1!=it1end;++it1){
 	  g1=it1->g;
@@ -1242,7 +1242,7 @@ namespace giac {
 	  std::vector< std::pair<unsigned,unsigned> >::iterator it,itend;
 	  nouveau.clear();
 	  while (heapend!=heapbeg && topu==heapbeg->u){
-	    // add all elements of the top chain	
+	    // add all elements of the top chain
 	    it=vindex[heapbeg->v].begin();
 	    itend=vindex[heapbeg->v].end();
 	    for (;it!=itend;++it){
@@ -1262,7 +1262,7 @@ namespace giac {
 	  }
 	  if (!is_zero(g))
 	    v.push_back(T_unsigned<T,U>(g,topu));
-	  // erase top node, then push each element of the incremented top chain 
+	  // erase top node, then push each element of the incremented top chain
 	  it=nouveau.begin();
 	  itend=nouveau.end();
 	  U prevu=0; int previndex=-1;
@@ -1351,9 +1351,9 @@ namespace giac {
 	  if (Mitbeg->first!=deg)
 	    ++Mitbeg;
 	  Mit=Mitbeg;
-	  type_operator_reduce((it1beg+Mit->second.first)->g,(it2beg+Mit->second.second)->g,coeff,reduce); 
+	  type_operator_reduce((it1beg+Mit->second.first)->g,(it2beg+Mit->second.second)->g,coeff,reduce);
 	  for (++Mit;Mit!=Mend;++Mit){
-	    type_operator_plus_times_reduce((it1beg+Mit->second.first)->g,(it2beg+Mit->second.second)->g,coeff,reduce); 
+	    type_operator_plus_times_reduce((it1beg+Mit->second.first)->g,(it2beg+Mit->second.second)->g,coeff,reduce);
 	  }
 	  if (!is_zero(coeff))
 	    v.push_back(T_unsigned<T,U>(coeff,deg));
@@ -1423,12 +1423,12 @@ namespace giac {
       }
       for (;heapbeg!=heapend;){
 	if (!v.empty() && v.back().u==heapbeg->u){
-	  type_operator_plus_times_reduce((it1beg+heapbeg->i1)->g,(it2beg+heapbeg->i2)->g,v.back().g,reduce); 
+	  type_operator_plus_times_reduce((it1beg+heapbeg->i1)->g,(it2beg+heapbeg->i2)->g,v.back().g,reduce);
 	  if ( is_zero(v.back().g) )
 	    v.pop_back();
 	}
 	else {
-	  type_operator_reduce((it1beg+heapbeg->i1)->g,(it2beg+heapbeg->i2)->g,g,reduce); 
+	  type_operator_reduce((it1beg+heapbeg->i1)->g,(it2beg+heapbeg->i2)->g,g,reduce);
 	  v.push_back(T_unsigned<T,U>(g,heapbeg->u));
 	}
 	++heapbeg->i2;
@@ -1472,8 +1472,8 @@ namespace giac {
       typedef std::map<U,T> hash_prod;
 #endif
       // cout << "small map" << std::endl;
-      hash_prod produit; 
-#endif    
+      hash_prod produit;
+#endif
       typename hash_prod::iterator prod_it,prod_itend;
       for (;it1!=it1end;++it1){
 	g1=it1->g;
@@ -1483,9 +1483,9 @@ namespace giac {
 	    u=u1+it2->u;
 	    prod_it=produit.find(u);
 	    if (prod_it==produit.end())
-	      type_operator_reduce(g1,it2->g,produit[u],reduce); // g=g1*it2->g; 
-	    else 
-	      type_operator_plus_times_reduce(g1,it2->g,prod_it->second,reduce); 
+	      type_operator_reduce(g1,it2->g,produit[u],reduce); // g=g1*it2->g;
+	    else
+	      type_operator_plus_times_reduce(g1,it2->g,prod_it->second,reduce);
 	  }
 	}
 	else {
@@ -1493,11 +1493,11 @@ namespace giac {
 	    u=u1+it2->u;
 	    prod_it=produit.find(u);
 	    if (prod_it==produit.end()){
-	      type_operator_times(g1,it2->g,produit[u]); // g=g1*it2->g; 
+	      type_operator_times(g1,it2->g,produit[u]); // g=g1*it2->g;
 	    }
 	    else {
-	      type_operator_plus_times(g1,it2->g,prod_it->second); 
-	      // g=g1*it2->g; 
+	      type_operator_plus_times(g1,it2->g,prod_it->second);
+	      // g=g1*it2->g;
 	      // prod_it->second+=g;
 	    }
 	  }
@@ -1511,7 +1511,7 @@ namespace giac {
 	  gu.u=prod_it->first;
 	  v.push_back(gu);
 	}
-      }    
+      }
       // CERR << "smallmult sort " << CLOCK() << std::endl;
       sort(v.begin(),v.end());
       // CERR << "smallmult sort end " << CLOCK() << std::endl;
@@ -1578,47 +1578,47 @@ namespace giac {
 		for (it2=it2beg;it2<=it2end;it2+=4){
 		  u2=it2->u;
 		  g2=it2->g;
-		  type_operator_plus_times(g1,g2,prod0[u2]); 
-		  type_operator_plus_times(g1_1,g2,prod1[u2]); 
-		  type_operator_plus_times(g1_2,g2,prod2[u2]); 
-		  type_operator_plus_times(g1_3,g2,prod3[u2]); 
+		  type_operator_plus_times(g1,g2,prod0[u2]);
+		  type_operator_plus_times(g1_1,g2,prod1[u2]);
+		  type_operator_plus_times(g1_2,g2,prod2[u2]);
+		  type_operator_plus_times(g1_3,g2,prod3[u2]);
 		  u2=(it2+1)->u;
 		  g2=(it2+1)->g;
-		  type_operator_plus_times(g1,g2,prod0[u2]); 
-		  type_operator_plus_times(g1_1,g2,prod1[u2]); 
-		  type_operator_plus_times(g1_2,g2,prod2[u2]); 
-		  type_operator_plus_times(g1_3,g2,prod3[u2]); 
+		  type_operator_plus_times(g1,g2,prod0[u2]);
+		  type_operator_plus_times(g1_1,g2,prod1[u2]);
+		  type_operator_plus_times(g1_2,g2,prod2[u2]);
+		  type_operator_plus_times(g1_3,g2,prod3[u2]);
 		  u2=(it2+2)->u;
 		  g2=(it2+2)->g;
-		  type_operator_plus_times(g1,g2,prod0[u2]); 
-		  type_operator_plus_times(g1_1,g2,prod1[u2]); 
-		  type_operator_plus_times(g1_2,g2,prod2[u2]); 
-		  type_operator_plus_times(g1_3,g2,prod3[u2]); 
+		  type_operator_plus_times(g1,g2,prod0[u2]);
+		  type_operator_plus_times(g1_1,g2,prod1[u2]);
+		  type_operator_plus_times(g1_2,g2,prod2[u2]);
+		  type_operator_plus_times(g1_3,g2,prod3[u2]);
 		  u2=(it2+3)->u;
 		  g2=(it2+3)->g;
-		  type_operator_plus_times(g1,g2,prod0[u2]); 
-		  type_operator_plus_times(g1_1,g2,prod1[u2]); 
-		  type_operator_plus_times(g1_2,g2,prod2[u2]); 
-		  type_operator_plus_times(g1_3,g2,prod3[u2]); 
+		  type_operator_plus_times(g1,g2,prod0[u2]);
+		  type_operator_plus_times(g1_1,g2,prod1[u2]);
+		  type_operator_plus_times(g1_2,g2,prod2[u2]);
+		  type_operator_plus_times(g1_3,g2,prod3[u2]);
 		}
 		it2end += 4;
 		for (;it2!=it2end;++it2){
 		  u2=it2->u;
 		  g2=it2->g;
-		  type_operator_plus_times(g1,g2,prod0[u2]); 
-		  type_operator_plus_times(g1_1,g2,prod1[u2]); 
-		  type_operator_plus_times(g1_2,g2,prod2[u2]); 
-		  type_operator_plus_times(g1_3,g2,prod3[u2]); 
+		  type_operator_plus_times(g1,g2,prod0[u2]);
+		  type_operator_plus_times(g1_1,g2,prod1[u2]);
+		  type_operator_plus_times(g1_2,g2,prod2[u2]);
+		  type_operator_plus_times(g1_3,g2,prod3[u2]);
 		}
 	      }
 	      else {
 		for (it2=it2beg;it2!=it2end;++it2){
 		  u2=it2->u;
 		  g2=it2->g;
-		  type_operator_plus_times_reduce(g1,g2,prod0[u2],reduce); 
-		  type_operator_plus_times_reduce(g1_1,g2,prod1[u2],reduce); 
-		  type_operator_plus_times_reduce(g1_2,g2,prod2[u2],reduce); 
-		  type_operator_plus_times_reduce(g1_3,g2,prod3[u2],reduce); 
+		  type_operator_plus_times_reduce(g1,g2,prod0[u2],reduce);
+		  type_operator_plus_times_reduce(g1_1,g2,prod1[u2],reduce);
+		  type_operator_plus_times_reduce(g1_2,g2,prod2[u2],reduce);
+		  type_operator_plus_times_reduce(g1_3,g2,prod3[u2],reduce);
 		}
 	      }
 	      it1 += 3;
@@ -1628,13 +1628,13 @@ namespace giac {
 	    T * prod0 = prod+u1;
 	    if (is_zero(reduce)){
 	      for (it2=it2beg;it2!=it2end;++it2){
-		type_operator_plus_times(g1,it2->g,prod0[it2->u]); 
-		// prod_it->second += g; 
+		type_operator_plus_times(g1,it2->g,prod0[it2->u]);
+		// prod_it->second += g;
 	      }
 	    }
 	    else {
 	      for (it2=it2beg;it2!=it2end;++it2){
-		type_operator_plus_times_reduce(g1,it2->g,prod0[it2->u],reduce); 
+		type_operator_plus_times_reduce(g1,it2->g,prod0[it2->u],reduce);
 	      }
 	    }
 	  } // end it1 loop
@@ -1700,7 +1700,7 @@ namespace giac {
 	  vector_size32< std::pair<unsigned short,unsigned short> > * vptr;
 	  nouveau.clear();
 	  while (heapend!=heapbeg && topu==heapbeg->u){
-	    // add all elements of the top chain	
+	    // add all elements of the top chain
 	    vptr = &(*vsmallindexptr)[heapbeg->v];
 	    it=vptr->begin();
 	    itend=vptr->end();
@@ -1728,7 +1728,7 @@ namespace giac {
 	  }
 	  if (!is_zero(g))
 	    v.push_back(T_unsigned<T,U>(g,topu));
-	  // erase top node, then push each element of the incremented top chain 
+	  // erase top node, then push each element of the incremented top chain
 	  it=nouveau.begin();
 	  itend=nouveau.end();
 	  U prevu=0; int previndex=-1;
@@ -1796,7 +1796,7 @@ namespace giac {
 	  vector_size64< std::pair<unsigned,unsigned> > * vptr;
 	  nouveau.clear();
 	  while (heapend!=heapbeg && topu==heapbeg->u){
-	    // add all elements of the top chain	
+	    // add all elements of the top chain
 	    vptr = &(*vindexptr)[heapbeg->v];
 	    it=vptr->begin();
 	    itend=vptr->end();
@@ -1824,7 +1824,7 @@ namespace giac {
 	  }
 	  if (!is_zero(g))
 	    v.push_back(T_unsigned<T,U>(g,topu));
-	  // erase top node, then push each element of the incremented top chain 
+	  // erase top node, then push each element of the incremented top chain
 	  it=nouveau.begin();
 	  itend=nouveau.end();
 	  U prevu=0; int previndex=-1;
@@ -1888,8 +1888,8 @@ namespace giac {
 #else
     typedef std::map<U,T> hash_prod;
     // cout << "small map" << std::endl;
-    hash_prod produit; 
-#endif    
+    hash_prod produit;
+#endif
     typename hash_prod::iterator prod_it,prod_itend;
     for (;it1!=it1end;++it1){
       u1=it1->u;
@@ -1908,9 +1908,9 @@ namespace giac {
 	  u=u1+u2;
 	  prod_it=produit.find(u);
 	  if (prod_it==produit.end())
-	    type_operator_reduce(g1,it2->g,produit[u],reduce); // g=g1*it2->g; 
-	  else 
-	    type_operator_plus_times_reduce(g1,it2->g,prod_it->second,reduce); 
+	    type_operator_reduce(g1,it2->g,produit[u],reduce); // g=g1*it2->g;
+	  else
+	    type_operator_plus_times_reduce(g1,it2->g,prod_it->second,reduce);
 	}
       }
       else {
@@ -1919,12 +1919,12 @@ namespace giac {
 	  u=u1+u2;
 	  prod_it=produit.find(u);
 	  if (prod_it==produit.end()){
-	    type_operator_times(g1,it2->g,g); // g=g1*it2->g; 
+	    type_operator_times(g1,it2->g,g); // g=g1*it2->g;
 	    produit[u]=g;
 	  }
-	  else 
-	    type_operator_plus_times(g1,it2->g,prod_it->second); 
-	  // prod_it->second += g; 
+	  else
+	    type_operator_plus_times(g1,it2->g,prod_it->second);
+	  // prod_it->second += g;
 	}
       }
     }
@@ -1937,7 +1937,7 @@ namespace giac {
 	gu.u=prod_it->first;
 	v.push_back(gu);
       }
-    }    
+    }
     // CERR << "do_threadmult end " << CLOCK() << std::endl;
     sort(v.begin(),v.end());
     // CERR << "do_threadmult sort end " << CLOCK() << std::endl;
@@ -1961,7 +1961,7 @@ namespace giac {
 
     int nthreads=threads;
 
-    if (nthreads<2) 
+    if (nthreads<2)
       ; // return false;
     double v1v2=v1s*v2s;
     T * prod =0;
@@ -1978,15 +1978,15 @@ namespace giac {
     }
     // if array multiplication is faster, set prod
     bool use_heap = (heap_mult<0) || (heap_mult>0 && v1v2>heap_mult);
-    if (!prod && use_heap 
+    if (!prod && use_heap
 	//&& nthreads<2
-	) // multi-thread heap disabled because of locks by inserting in chains 
-      return false;  
+	) // multi-thread heap disabled because of locks by inserting in chains
+      return false;
     if (debug_infolevel>20){
       CERR << "// " << CLOCK() << "using threaded " ;
       if (use_heap)
 	CERR << "heap";
-      else 
+      else
 	CERR << "hash";
       CERR << " multiplication" << std::endl;
     }
@@ -2034,7 +2034,7 @@ namespace giac {
     int i=deg1v;
     bool smallindex=(v1s<65535 && v2s<65535);
     if (
-	// true || 
+	// true ||
 	nthreads==1){
       U_unsigned<U> *heapptr=new U_unsigned<U>[v1si];
       std::vector< vector_size64< std::pair<unsigned,unsigned> > >* vindexptr=smallindex?0:(new std::vector< vector_size64< std::pair<unsigned,unsigned> > >(v1si));
@@ -2067,7 +2067,7 @@ namespace giac {
 	  CERR << "Computing degree " << i << " " << CLOCK() << std::endl;
 	do_threadmult<T,U,R>(&arg[i]);
 	threads_time += arg[i].clock;
-	possible_size += arg[i].vptr->size();	
+	possible_size += arg[i].vptr->size();
       }
       delete [] heapptr;
       delete vindexptr;
@@ -2143,7 +2143,7 @@ namespace giac {
 		--i;
 		++todo;
 	      } // end if (i>=0)
-	      else 
+	      else
 		in_progress[j]=-1;
 	    } // if (concurrent!=2)
 	    else
@@ -2182,7 +2182,7 @@ namespace giac {
 	if (!u)
 	  break;
       }
-      delete [] prod ;      
+      delete [] prod ;
       for (int i=deg1v;i>=0;--i){
 	delete arg[i].vptr;
       }
@@ -2196,7 +2196,7 @@ namespace giac {
 	}
 	delete arg[i].vptr;
       }
-      /* 
+      /*
       v=std::vector< T_unsigned<T,U> >(possible_size);
       typename std::vector< T_unsigned<T,U> >::const_iterator jt=v.begin();
       for (int i=deg1v;i>=0;--i){
@@ -2258,7 +2258,7 @@ namespace giac {
   }
 
   // convert u monomial from vars source to vars target, tmp is a temp index_t
-  template<class U> 
+  template<class U>
   void convert(U & u,const std::vector<U> & source,const std::vector<U> & target,index_t & tmp){
     partial_degrees(u,source,tmp);
     u=0;
@@ -2284,7 +2284,7 @@ namespace giac {
 #ifdef INT128
   inline bool hashdivrem_finish_later(int128_t a){return false;}
 #endif
-  
+
   inline bool hashdivrem_finish_later(const gen & a){return true;}
   inline bool hashdivrem_finish_later(const my_mpz & a){return true;}
 #ifdef HAVE_GMPXX_H
@@ -2293,7 +2293,7 @@ namespace giac {
 
   template<class U>
   inline bool one_index_smaller(U u,U v,const std::vector<int> & varsshift){
-    if (u<v) 
+    if (u<v)
       return true;
     return false;
     /*
@@ -2303,7 +2303,7 @@ namespace giac {
       int shift=*it;
       U u1=(u>>shift);
       U v1=(v>>shift);
-      if (u1<v1) 
+      if (u1<v1)
 	return true;
       u -= (u1 << shift);
       v -= (v1 << shift);
@@ -2320,7 +2320,7 @@ namespace giac {
   // vars is the list of monomials x,y,z,etc. as translated in U type
   // quo_only==-3 means heap div (compute quo and rem)
   // quo_only==-2 means compute quotient only using heap div
-  // quo_only==-1 heap quotient then guess between heap remainder 
+  // quo_only==-1 heap quotient then guess between heap remainder
   //              or r=a-b*q must be done by caller (if returns 2)
   // quo_only==0 array division or univariate with hashmap
   // quo_only==1 means we want to check that b divides a
@@ -2423,7 +2423,7 @@ namespace giac {
 	  if (!is_zero(g))
 	    maincoeff.push_back(T_unsigned<T,U>(g,umax-ushift));
 	}
-	if (maincoeff.empty()) 
+	if (maincoeff.empty())
 	  continue;
 	ushift=U(rdeg-bdeg) << mainvar;
 	// divide maincoeff by lcoeff(b)
@@ -2473,7 +2473,7 @@ namespace giac {
 	      u=u1+it2->u;
 	      register int deg = int(u >> mainvar); // deg=deg1+it2->u/mainvar;
 	      if (deg<rdeg){
-		type_operator_plus_times_reduce(g1,it2->g,rem[u],reduce); 
+		type_operator_plus_times_reduce(g1,it2->g,rem[u],reduce);
 	      }
 	    }
 	  }
@@ -2482,7 +2482,7 @@ namespace giac {
 	      u=u1+it2->u;
 	      register int deg=int(u >> mainvar);
 	      if (deg<rdeg){
-		type_operator_plus_times(g1,it2->g,rem[u]);	      
+		type_operator_plus_times(g1,it2->g,rem[u]);
 	      }
 	    }
 	  }
@@ -2500,8 +2500,8 @@ namespace giac {
       delete [] rem;
       return 1;
     } // end array division
-    bool use_heap=false && 
-      (heap_mult>0 
+    bool use_heap=false &&
+      (heap_mult>0
        && v1v2>=heap_mult
        );
 #if 1 // heap division
@@ -2569,7 +2569,7 @@ namespace giac {
 	      nouveau.clear();
 	      while (heapend!=heapbeg && heapu==heapbeg->u){
 		//nouveau.clear();
-		// add all elements of the top chain	
+		// add all elements of the top chain
 		std::vector< std::pair<unsigned,unsigned> > & V=vindex[heapbeg->v];
 		it=V.begin();
 		itend=V.end();
@@ -2586,10 +2586,10 @@ namespace giac {
 		  if (its<qsize){
 		    nouveau.push_back(*it);
 		  }
-		  else // wait for computation of a new term of a before adding to the heap 
+		  else // wait for computation of a new term of a before adding to the heap
 		    qnouveau.push_back(*it);
 		}
-		// erase top node, 
+		// erase top node,
 #ifdef USTL
 		ustl::pop_heap(heapbeg,heapend);
 #else
@@ -2599,7 +2599,7 @@ namespace giac {
 		--heapend;
 	      } // while heapend!=heapbeg && heapu==
 	      {
-		// push each element of the incremented top chain 
+		// push each element of the incremented top chain
 		it=nouveau.begin();
 		itend=nouveau.end();
 		for (;it!=itend;++it) {
@@ -2670,7 +2670,7 @@ namespace giac {
 	  if (ita!=itaend && (heapu=ita->u)>=bu){
 	    g=ita->g;
 	    ++ita;
-	  } 
+	  }
 	} // end if (!heap.empty())
 	if (is_zero(g))
 	  break;
@@ -2833,7 +2833,7 @@ namespace giac {
 	    if (its<q.size())
 	      qnouveau.push_back(*it);
 	  }
-	  // erase top node, 
+	  // erase top node,
 #ifdef USTL
 	  ustl::pop_heap(heapbeg,heapend);
 #else
@@ -2841,7 +2841,7 @@ namespace giac {
 #endif
 	  // std::pop_heap(heapbeg,heapend);
 	  --heapend;
-	  // push each element of the incremented top chain 
+	  // push each element of the incremented top chain
 	  it=qnouveau.begin();
 	  itend=qnouveau.end();
 	  U prevu=0; int previndex=-1;
@@ -2895,7 +2895,7 @@ namespace giac {
 	r.push_back(*ita);
       delete [] heap;
       return 1;
-    }    
+    }
 #endif // heap division
 #ifdef HASH_MAP_NAMESPACE
     typedef HASH_MAP_NAMESPACE::hash_map< U,T,hash_function_unsigned_object> hash_prod ;
@@ -2906,8 +2906,8 @@ namespace giac {
 #else
     typedef std::map<U,T> hash_prod;
 #endif
-    std::vector< hash_prod > produit(adeg+1); 
-#endif    
+    std::vector< hash_prod > produit(adeg+1);
+#endif
     typename hash_prod::iterator prod_it,prod_itend;
     hash_prod * hashptr;
     // find maincoeff of b
@@ -2919,9 +2919,9 @@ namespace giac {
       lcoeffb.push_back(T_unsigned<T,U>(cit->g,u-rstop));
     }
     // copy a to remainder
-    for (cit=a.begin(),citend=a.end();cit!=citend;++cit){ 
-      U u=cit->u; 
-      produit[unsigned(u >> mainvar)][u]=cit->g; 
+    for (cit=a.begin(),citend=a.end();cit!=citend;++cit){
+      U u=cit->u;
+      produit[unsigned(u >> mainvar)][u]=cit->g;
     }
     for (rdeg=adeg;rdeg>=bdeg;--rdeg){
       if (debug_infolevel>20)
@@ -2935,7 +2935,7 @@ namespace giac {
 	if (!is_zero(prod_it->second))
 	  maincoeff.push_back(T_unsigned<T,U>(prod_it->second,prod_it->first-ushift));
       }
-      if (maincoeff.empty()) 
+      if (maincoeff.empty())
 	continue;
       sort(maincoeff.begin(),maincoeff.end());
       ushift=U(rdeg-bdeg) << mainvar;
@@ -2981,12 +2981,12 @@ namespace giac {
 	      hashptr = &produit[deg];
 	      prod_it=hashptr->find(u);
 	      if (prod_it==hashptr->end())
-		//(*hashptr)[u]=(g1*it2->g)%reduce; 
-		type_operator_reduce(g1,it2->g,(*hashptr)[u],reduce); 
+		//(*hashptr)[u]=(g1*it2->g)%reduce;
+		type_operator_reduce(g1,it2->g,(*hashptr)[u],reduce);
 	      else {
 		// prod_it->second += g1*it2->g;
 		// prod_it->second %= reduce;
-		type_operator_plus_times_reduce(g1,it2->g,prod_it->second,reduce); 
+		type_operator_plus_times_reduce(g1,it2->g,prod_it->second,reduce);
 		if (is_zero(prod_it->second)) hashptr->erase(prod_it);
 	      }
 	    }
@@ -3000,10 +3000,10 @@ namespace giac {
 	      hashptr = &produit[deg];
 	      prod_it=hashptr->find(u);
 	      if (prod_it==hashptr->end()){
-		type_operator_times(g1,it2->g,(*hashptr)[u]); 
+		type_operator_times(g1,it2->g,(*hashptr)[u]);
 	      }
 	      else {
-		type_operator_plus_times(g1,it2->g,prod_it->second);	      
+		type_operator_plus_times(g1,it2->g,prod_it->second);
 		if (is_zero(prod_it->second)) hashptr->erase(prod_it);
 	      }
 	    }
@@ -3024,9 +3024,9 @@ namespace giac {
 	  gu.u=prod_it->first;
 	  r.push_back(gu);
 	}
-      }    
+      }
     }
-    // IMPROVE: might do partial sort 
+    // IMPROVE: might do partial sort
     sort(r.begin(),r.end());
     return 1;
   }
@@ -3046,7 +3046,7 @@ namespace giac {
     typedef std::map<U,T> hash_prod;
 #endif
     // cout << "small map" << std::endl;
-    hash_prod produit; 
+    hash_prod produit;
 #endif
     U outer_index,inner_index;
     typename std::vector< T_unsigned<T,U> >::const_iterator it=v.begin(),itend=v.end();
@@ -3104,7 +3104,7 @@ namespace giac {
 	// dense case
 	for (;it!=itstop;){
 	  ++it;
-	  ans = (ans*x+it->g)%reduce;	  
+	  ans = (ans*x+it->g)%reduce;
 	}
 	++it;
       }

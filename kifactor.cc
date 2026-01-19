@@ -1,14 +1,14 @@
 // -*- mode:C++ ; compile-command: "g++-3.4 -I.. -g -c ifactor.cc -DHAVE_CONFIG_H -DIN_GIAC" -*-
 #include "giacPCH.h"
 #if !defined __MINGW_H && !defined FXCG && !defined TICE && !defined NSPIRE_NEWLIB
-#define GIAC_MPQS // define if you want to use giac for sieving 
+#define GIAC_MPQS // define if you want to use giac for sieving
 #endif
 
 
 
 #include "path.h"
 /*
- *  Copyright (C) 2003,14 R. De Graeve & B. Parisse, 
+ *  Copyright (C) 2003,14 R. De Graeve & B. Parisse,
  *  Institut Fourier, 38402 St Martin d'Heres
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -67,14 +67,14 @@ namespace giac {
       mpz_neg(*(mpz_t *)&a,a);
       return b-res;
     }
-    mp_digit C; 
+    mp_digit C;
     mp_mod_d((mp_int *)&a,b,&C);
     return C;
   }
 
   // Pollard-rho algorithm
   const int POLLARD_GCD=64;
-#ifdef GIAC_MPQS 
+#ifdef GIAC_MPQS
 #if defined(RTOS_THREADX) // !defined(BESTA_OS)
   const int POLLARD_MAXITER=3000;
 #else
@@ -82,7 +82,7 @@ namespace giac {
 #endif
 #else
   const int POLLARD_MAXITER=15000;
-#endif  
+#endif
 
   static gen pollard(gen n, gen k,GIAC_CONTEXT){
     k.uncoerce();
@@ -120,7 +120,7 @@ namespace giac {
 #ifdef COMPILE_FOR_STABILITY
       control_c();
 #endif
-      a=2*a+1;//a=2^(e+1)-1=2*l(m)-1 
+      a=2*a+1;//a=2^(e+1)-1=2*l(m)-1
       while (!ctrl_c && !interrupted && mpz_cmp_si(g,1)==0 && a>m) { // ok
 #ifdef COMPILE_FOR_STABILITY
 	control_c();
@@ -141,13 +141,13 @@ namespace giac {
 	}
 	else
 	  mpz_set(x,x2k);
-#else 
+#else
 	mpz_mul(x2,x,x);
 	mpz_add(x2k,x2,*k._ZINTptr);
 	mpz_tdiv_r(x,x2k,*n._ZINTptr);
 #endif
 	m += 1;
-	if (debug_infolevel && ((m % 
+	if (debug_infolevel && ((m %
 #if defined(RTOS_THREADX) || defined(BESTA_OS) || defined NSPIRE || defined FXCG || defined TICE
 				 (1<<10)
 #else
@@ -156,7 +156,7 @@ namespace giac {
 				 )==0))
 	  *logptr(contextptr) << CLOCK() << gettext(" Pollard-rho try ") << m << "\n";
 	if (m > maxiter ){
-	  if (debug_infolevel)	  
+	  if (debug_infolevel)
 	    *logptr(contextptr) << CLOCK() << gettext(" Pollard-rho failure, ntries ") << m << "\n";
 	  mpz_clear(alloc5);
 	  mpz_clear(alloc4);
@@ -188,14 +188,14 @@ namespace giac {
 	  // mpz_set_si(alloc5,0);
 	  alloc_mp_div(&x2,n._ZINTptr,&tmpq,&p,&alloc1,&alloc2,&alloc3,&alloc4,&alloc5);
 	}
-	else 
+	else
 	  mpz_set(p,x2);
 #else
 	mpz_tdiv_r(p,x2,*n._ZINTptr);
 #endif
 	c += 1;
 	if (c==POLLARD_GCD) {
-	  // g=gcd(abs(p,context0),n); 
+	  // g=gcd(abs(p,context0),n);
 	  mpz_abs(q,p);
 	  my_mpz_gcd(g,q,*n._ZINTptr);
 	  if (mpz_cmp_si(g,1)==0) {
@@ -226,7 +226,7 @@ namespace giac {
 	    // mpz_set_si(alloc5,0);
 	    alloc_mp_div(&x2k,n._ZINTptr,&tmpq,&x,&alloc1,&alloc2,&alloc3,&alloc4,&alloc5);
 	  }
-	  else 
+	  else
 	    mpz_set(x,x2);
 #else
 	  mpz_tdiv_r(x,x2k,*n._ZINTptr);
@@ -265,7 +265,7 @@ namespace giac {
 	  alloc_mp_div(&x2k,n._ZINTptr,&tmpq,&x,&alloc1,&alloc2,&alloc3,&alloc4,&alloc5);
 	}
 	else
-	  mpz_set(x,x2k);	  
+	  mpz_set(x,x2k);
 #else
 	mpz_tdiv_r(x,x2k,*n._ZINTptr);
 #endif
@@ -300,7 +300,7 @@ namespace giac {
 	  // mpz_set_si(alloc5,0);
 	  alloc_mp_div(&q,n._ZINTptr,&tmpq,&p,&alloc1,&alloc2,&alloc3,&alloc4,&alloc5);
 	}
-	else 
+	else
 	  mpz_set(p,q);
 #else
 	mpz_tdiv_r(p,q,*n._ZINTptr);
@@ -345,7 +345,7 @@ namespace giac {
     if (mpz_cmp(g,*n._ZINTptr)==0) {
       if (k==1) {
 	mpz_clear(g);
-	return(pollard(n,-1,contextptr)); 
+	return(pollard(n,-1,contextptr));
       }
       else {
 	if (k*k==1){
@@ -367,9 +367,9 @@ namespace giac {
 	    mpz_clear(g);
 	    return(pollard(n,k+2,contextptr));
 	  }
-	} 
+	}
       }
-    } 
+    }
     ref_mpz_t * ptr=new ref_mpz_t;
     mpz_init_set(ptr->z,g);
     mpz_clear(g);
@@ -387,7 +387,7 @@ namespace giac {
     if (n+1>erato.size()){
       unsigned N=int(n);
       ++N;
-#if defined BESTA_OS 
+#if defined BESTA_OS
       if (N>2e6)
 	return false;
 #else
@@ -395,14 +395,14 @@ namespace giac {
 	return false;
 #endif
       N = (N*11)/10;
-      erato=vector<bool>(N+1,true); 
+      erato=vector<bool>(N+1,true);
       // insure that we won't recompute all again from start for ithprime(i+1)
       for (unsigned p=2;;++p){
 	while (!erato[p]) // find next prime
 	  ++p;
 	if (p*p>N) // finished
 	  return true;
-	for (unsigned i=2*p;i<=N;i+=p) 
+	for (unsigned i=2*p;i<=N;i+=p)
 	  erato[i]=false; // remove p multiples
       }
     }
@@ -418,7 +418,7 @@ namespace giac {
     if (n/2>=erato.size()){
       unsigned N=int(n);
       ++N;
-#if defined BESTA_OS 
+#if defined BESTA_OS
       if (N>4e6)
 	return false;
 #else
@@ -434,7 +434,7 @@ namespace giac {
 	if (p*p>2*N+1) // finished
 	  return true;
 	// p is prime, set p*p, (p+2)*p, etc. to be non prime
-	for (unsigned i=(p*p)/2;i<=N;i+=p) 
+	for (unsigned i=(p*p)/2;i<=N;i+=p)
 	  erato[i]=false; // remove p multiples
       }
     }
@@ -544,7 +544,7 @@ namespace giac {
     return n.val%a==0;
   }
 
-  // find trivial factors of n, 
+  // find trivial factors of n,
   // if add_last is true the remainder is put in the vecteur,
   // otherwise n contains the remainder
   vecteur pfacprem(gen & n,bool add_last,GIAC_CONTEXT){
@@ -568,7 +568,7 @@ namespace giac {
       mpz_init(alloc4);
       mpz_init(alloc5);
       for (i=0;i<int(sizeof(giac_primes)/sizeof(short int));++i){
-	if (mpz_cmp_si(cur->z,1)==0) 
+	if (mpz_cmp_si(cur->z,1)==0)
 	  break;
 	prime=giac_primes[i];
 	mpz_set_ui(div,prime);
@@ -615,12 +615,12 @@ namespace giac {
     }
     else {
       for (i=0;i<int(sizeof(giac_primes)/sizeof(short int));++i){
-	if (n==1) 
+	if (n==1)
 	  break;
 	a.val=giac_primes[i];
 	p=0;
 	while (is_divisible_by(n,a.val)){ // while (irem(n,a,q)==0){
-	  n=iquo(n,a); 
+	  n=iquo(n,a);
 	  p=p+1;
 	}
 	if (p!=0){
@@ -637,7 +637,7 @@ namespace giac {
       gen n2=_round(nf,contextptr);
       if (n2*n2==n){
 	u.push_back(n2);
-	u.push_back(2);	
+	u.push_back(2);
       }
       else {
 	u.push_back(n);
@@ -647,7 +647,7 @@ namespace giac {
     }
     //v[0]=n;
     //v[1]=u;
-    
+
     return(u);
   }
 
@@ -658,7 +658,7 @@ namespace giac {
     control_c();
 #endif
 #ifdef GIAC_MPQS
-    if (b==-1 && !ctrl_c && !interrupted){ 
+    if (b==-1 && !ctrl_c && !interrupted){
       do_pollard=false;
       if (msieve(a,b,contextptr)) return b; else return -1; }
 #endif
@@ -670,7 +670,7 @@ namespace giac {
 #if defined RTOS_THREADX || defined NSPIRE || defined FXCG || defined TICE
     debug_infolevel=2;
     if (do_pollard)
-      *logptr(contextptr) << gettext("Pollard-rho on ") << a << "\n"; 
+      *logptr(contextptr) << gettext("Pollard-rho on ") << a << "\n";
 #else
     debug_infolevel=0;
 #endif
@@ -691,7 +691,7 @@ namespace giac {
     control_c();
 #endif
 #ifdef GIAC_MPQS
-    if (b==-1 && !ctrl_c && !interrupted){ 
+    if (b==-1 && !ctrl_c && !interrupted){
       do_pollard=false;
       if (msieve(a,b,contextptr)) return b; else return -1; }
 #endif
@@ -752,7 +752,7 @@ namespace giac {
   }
 
   static vecteur facprem(gen & n,GIAC_CONTEXT){
-    vecteur v;    
+    vecteur v;
     if (n==1) { return v; }
     if ( (n.type==_INT_ && n.val<giac_last_prime*giac_last_prime) || is_probab_prime_p(n)) {
       v.push_back(n);
@@ -873,7 +873,7 @@ namespace giac {
       }
       u.push_back(last);
       u.push_back(p);
-    }   
+    }
     g=mergevecteur(f,u);
     return g;
   }
@@ -891,7 +891,7 @@ namespace giac {
       return vecteur(1,gensizeerr(gettext("ifactors")));
     if (is_one(n0))
       return vecteur(0);
-    gen g(pari_ifactor(n0),contextptr); 
+    gen g(pari_ifactor(n0),contextptr);
     if (g.type==_VECT){
       matrice m(mtran(*g._VECTptr));
       vecteur res;
@@ -943,7 +943,7 @@ namespace giac {
       if (is_positive(args,context0))
 	return makevecteur(plus_one,res);
       else
-	return makevecteur(minus_one,res);	
+	return makevecteur(minus_one,res);
     }
     return gentypeerr(gettext("ifactors"));
   }
@@ -1164,7 +1164,7 @@ namespace giac {
 	return vecteur(1,gensizeerr(gettext("Integer too large")));
       for (int j=1;j<=ei;j++){
 	gen dj=pow(d,j);
-	for (int l=0;l<s1;l++){ 
+	for (int l=0;l<s1;l++){
 	  l4[l]=l1[l]*dj;
 	}
 	// l2=mergevecteur(l2,l4);
@@ -1177,7 +1177,7 @@ namespace giac {
       for (;it!=itend;++it)
 	l1.push_back(*it);
     }
-    return(l1); 
+    return(l1);
   }
   gen idivis(const gen & n,GIAC_CONTEXT){
     vecteur l3(ifactors(n,contextptr));
@@ -1189,7 +1189,7 @@ namespace giac {
     if (args.type==_VECT)
       return apply(args,_idivis,contextptr);
     gen n=args;
-    if (is_zero(n) || (!is_integral(n) && !is_integer(n)) || n.type==_CPLX) 
+    if (is_zero(n) || (!is_integral(n) && !is_integer(n)) || n.type==_CPLX)
       return gentypeerr(contextptr);
     return _sort(idivis(abs(n,contextptr),contextptr),contextptr);
   }
@@ -1240,7 +1240,7 @@ namespace giac {
   }
   static const char _ichinreme_s []="ichinreme";
   static define_unary_function_eval (__ichinreme,&_ichinreme,_ichinreme_s);
-  define_unary_function_ptr5( at_ichinreme ,alias_at_ichinreme,&__ichinreme,0,true); 
+  define_unary_function_ptr5( at_ichinreme ,alias_at_ichinreme,&__ichinreme,0,true);
   */
 
   gen euler(const gen & e,GIAC_CONTEXT){
@@ -1296,7 +1296,7 @@ namespace giac {
   static const char _propfrac_s []="propfrac";
   static define_unary_function_eval (__propfrac,&_propfrac,_propfrac_s);
   define_unary_function_ptr5( at_propfrac ,alias_at_propfrac,&__propfrac,0,true);
-  
+
   gen iabcuv(const gen & a,const gen & b,const gen & c,GIAC_CONTEXT){
     gen d=gcd(a,b);
     if (c%d!=0)  return gensizeerr(gettext("No solution in ring"));
@@ -1367,7 +1367,7 @@ namespace giac {
   static const char _simp2_s []="simp2";
   static define_unary_function_eval (__simp2,&_simp2,_simp2_s);
   define_unary_function_ptr5( at_simp2 ,alias_at_simp2,&__simp2,0,true);
- 
+
   gen fxnd(const gen & a){
     vecteur v(lvar(a));
     gen g=e2r(a,v,context0); // ok
@@ -1383,9 +1383,8 @@ namespace giac {
   }
   static const char _fxnd_s []="fxnd";
   static define_unary_function_eval (__fxnd,&_fxnd,_fxnd_s);
-  define_unary_function_ptr5( at_fxnd ,alias_at_fxnd,&__fxnd,0,true); 
+  define_unary_function_ptr5( at_fxnd ,alias_at_fxnd,&__fxnd,0,true);
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC
-

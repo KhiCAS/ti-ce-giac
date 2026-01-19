@@ -24,8 +24,8 @@
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
   // dimension of the LaTeX output figures default 12 cm x 12 cm
-  extern double horiz_latex; 
-  extern double vert_latex;  
+  extern double horiz_latex;
+  extern double vert_latex;
   extern const char tex_preamble[];
   extern const char tex_end[];
   extern const char mbox_begin[];
@@ -47,7 +47,7 @@ namespace giac {
 
   std::string gen2tex(const gen & e,GIAC_CONTEXT);
   // convert _, &, {, } to \_ \& \{ \}
-  std::string translate_underscore(const std::string & s); 
+  std::string translate_underscore(const std::string & s);
   int greek2tex(const std::string & s,std::string & texs,bool mathmode);
 
   std::string spread2tex(const matrice & m,int formule,GIAC_CONTEXT); // was formule=1 by default

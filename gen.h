@@ -23,13 +23,13 @@
    this will make sizeof(gen)==8 instead of 16
    Currently the address of pointers is obtained by using the reserved and val fields
    (48 bits) and adding 00 for the most significant bits
-   On systems that use pointers above 0x00ffffffff it might be better to use a table 
-   of most significants 32 bits addresses (refered by the reserved field) 
+   On systems that use pointers above 0x00ffffffff it might be better to use a table
+   of most significants 32 bits addresses (refered by the reserved field)
    and use the val field for offset.
    Define -DDOUBLEVAL if you did not define SMARTPTR64 and want full double precision
    (53 bit mantissa). Otherwise, the 8 less significant bits will be used for the type
    field of a gen, i.e. 0x01 for a double, hence 45 bit mantissa will be used for doubles
-   Using full double precision increases sizeof(gen) to 12 on a 32 bits CPU 
+   Using full double precision increases sizeof(gen) to 12 on a 32 bits CPU
    (and 16 on a 64 bits CPU)
  */
 
@@ -91,22 +91,22 @@ namespace giac {
   struct char16 {
     char c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15,c16;
   };
-  
+
   struct char36 {
     char c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15,c16,
       d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,d16,c33,c34,c35,c36;
   };
-  
+
   extern char11 * tab11;
   extern char15 * tab15;
   extern char16 * tab16;
   extern char36 * tab36;
   size_t freeslotmem();
 #define NBYTES_INT (SIZEOF_INT*8)
-  
-  const int ALLOC11=12*NBYTES_INT; // symbolic 24*12=288*11 
-  const int ALLOC15=12*NBYTES_INT; // vecteur 24*12=288*15 
-  const int ALLOC16=12*NBYTES_INT; // complex 24*12=288*16 
+
+  const int ALLOC11=12*NBYTES_INT; // symbolic 24*12=288*11
+  const int ALLOC15=12*NBYTES_INT; // vecteur 24*12=288*15
+  const int ALLOC16=12*NBYTES_INT; // complex 24*12=288*16
   const int ALLOC36=12*NBYTES_INT; // eqwdata 24*12=288*36 total 288*78=22.5Ko
 
 #ifdef USE_GMP_REPLACEMENTS
@@ -116,7 +116,7 @@ namespace giac {
 
   void my_mpz_gcd(mpz_t &z,const mpz_t & A,const mpz_t & B);
 
-  class gen ; 
+  class gen ;
   // errors
   void settypeerr(GIAC_CONTEXT0);
   void setsizeerr(GIAC_CONTEXT0);
@@ -201,7 +201,7 @@ namespace giac {
     return r-(unsigned((m>>1)-r)>>23)*m;
   }
   int smod(int a,int b); // where b is assumed to be positive
-  int smod(longlong a,int b); 
+  int smod(longlong a,int b);
   int simplify(int & a,int & b);
 
   struct ref_mpz_t {
@@ -220,7 +220,7 @@ namespace giac {
   struct unary_function_ptr;
   typedef const unary_function_ptr *  const_unary_function_ptr_ptr;
   typedef const unary_function_eval *  const_unary_function_eval_ptr;
-  struct ref_unary_function_ptr; // in unary.h 
+  struct ref_unary_function_ptr; // in unary.h
   struct eqwdata;
   struct ref_eqwdata ; // defined below after gen
   struct ref_complex;
@@ -252,7 +252,7 @@ namespace giac {
   template<class T> class Tref_tensor; // in poly.h
   typedef Tref_tensor<gen> ref_polynome;
   typedef Tfraction<gen> fraction;
-  template<class T> class Tref_fraction; 
+  template<class T> class Tref_fraction;
   typedef Tref_fraction<gen> ref_fraction;
 
   struct ref_vecteur;
@@ -286,30 +286,30 @@ namespace giac {
 #else
     mpf_t inf;
 #endif
-    real_object(double d); 
+    real_object(double d);
 #ifdef HAVE_LIBMPFR
-    real_object(const mpfr_t & d); 
-    real_object(const mpf_t & d); 
+    real_object(const mpfr_t & d);
+    real_object(const mpf_t & d);
 #else
-    real_object(const mpf_t & d); 
+    real_object(const mpf_t & d);
 #endif
     real_object(const gen & g);
     real_object(const gen & g,unsigned int precision);
     real_object() ;
     virtual std::string print(GIAC_CONTEXT) const;
-    const char * dbgprint() const { 
-      static std::string s; 
+    const char * dbgprint() const {
+      static std::string s;
       s=this->print(0);
 #if 0 // ndef NSPIRE
       CERR << s << std::endl;
 #endif
-      return s.c_str(); 
+      return s.c_str();
     }
-    virtual ~real_object() { 
+    virtual ~real_object() {
 #ifdef HAVE_LIBMPFR
       mpfr_clear(inf);
 #else
-      mpf_clear(inf); 
+      mpf_clear(inf);
 #endif
     }
     virtual real_object & operator = (const real_object & g);
@@ -375,47 +375,47 @@ namespace giac {
       mpfi_init_set_fr(infsup,inf);
 #else
 #ifdef HAVE_LIBMPFR
-      mpfr_init_set(sup,inf,GMP_RNDN); 
+      mpfr_init_set(sup,inf,GMP_RNDN);
 #else
-      mpf_init_set(sup,inf); 
+      mpf_init_set(sup,inf);
 #endif
 #endif
     }
 #ifdef HAVE_LIBMPFI
-    real_interval(const mpfi_t & interv); 
+    real_interval(const mpfi_t & interv);
 #endif
-    real_interval(const real_object & r):real_object(r) { 
+    real_interval(const real_object & r):real_object(r) {
 #ifdef HAVE_LIBMPFI
       mpfi_init2(infsup,mpfr_get_prec(r.inf));
       mpfi_set_fr(infsup,r.inf);
 #else
 #ifdef HAVE_LIBMPFR
-      mpfr_init_set(sup,r.inf,GMP_RNDN); 
+      mpfr_init_set(sup,r.inf,GMP_RNDN);
 #else
-      mpf_init_set(sup,r.inf); 
+      mpf_init_set(sup,r.inf);
 #endif
 #endif
     }
-    real_interval(const real_interval & r):real_object(r) { 
+    real_interval(const real_interval & r):real_object(r) {
 #ifdef HAVE_LIBMPFI
       mpfi_init2(infsup,mpfi_get_prec(r.infsup));
       mpfi_set(infsup,r.infsup);
 #else
 #ifdef HAVE_LIBMPFR
-      mpfr_init_set(sup,r.sup,GMP_RNDN); 
+      mpfr_init_set(sup,r.sup,GMP_RNDN);
 #else
-      mpf_init_set(sup,r.sup); 
+      mpf_init_set(sup,r.sup);
 #endif
 #endif
     }
-    virtual ~real_interval() { 
+    virtual ~real_interval() {
 #ifdef HAVE_LIBMPFI
-      mpfi_clear(infsup); 
+      mpfi_clear(infsup);
 #else
 #ifdef HAVE_LIBMPFR
-      mpfr_clear(sup); 
+      mpfr_clear(sup);
 #else
-      mpf_clear(sup); 
+      mpf_clear(sup);
 #endif
 #endif
     }
@@ -547,23 +547,23 @@ namespace giac {
     }
 #endif // NO_UNARY_FUNCTION_COMPOSE
     bool quoted() const ;
-    inline bool operator ==(const unary_function_ptr & u) const { 
-      // if (&u==this) return true; 
+    inline bool operator ==(const unary_function_ptr & u) const {
+      // if (&u==this) return true;
       return ((ulonglong)(_ptr) & 0x7fffff )  == ((ulonglong)( u._ptr) & 0x7fffff );
 #ifdef x86_64
-      //return ((ulonglong)(_ptr) & 0xfffffffffffffffc)  == ((ulonglong)( u._ptr) & 0xfffffffffffffffc ); 
+      //return ((ulonglong)(_ptr) & 0xfffffffffffffffc)  == ((ulonglong)( u._ptr) & 0xfffffffffffffffc );
 #else
-      //return ((size_t)(_ptr) & 0xfffffffc) == ((size_t)(u._ptr) & 0xfffffffc); 
+      //return ((size_t)(_ptr) & 0xfffffffc) == ((size_t)(u._ptr) & 0xfffffffc);
 #endif
     }
     inline bool operator !=(const unary_function_ptr & u) const { return !(*this==u); }
-    inline bool operator ==(const unary_function_ptr * u) const { 
-      // if (&u==this) return true; 
-      return u && ( ((ulonglong)(_ptr) & 0x7fffff ) == ((ulonglong)(u->_ptr) & 0x7fffff) ); 
+    inline bool operator ==(const unary_function_ptr * u) const {
+      // if (&u==this) return true;
+      return u && ( ((ulonglong)(_ptr) & 0x7fffff ) == ((ulonglong)(u->_ptr) & 0x7fffff) );
 #ifdef x86_64
-      //return u && ( ((ulonglong)(_ptr) & 0xfffffffffffffffc) == ((ulonglong)(u->_ptr) & 0xfffffffffffffffc) ); 
+      //return u && ( ((ulonglong)(_ptr) & 0xfffffffffffffffc) == ((ulonglong)(u->_ptr) & 0xfffffffffffffffc) );
 #else
-      //return u && ( ((size_t)(_ptr) & 0xfffffffc) == ((size_t)(u->_ptr) & 0xfffffffc ) ); 
+      //return u && ( ((size_t)(_ptr) & 0xfffffffc) == ((size_t)(u->_ptr) & 0xfffffffc ) );
 #endif
     }
     inline bool operator !=(const unary_function_ptr * u) const { return !(*this==u); }
@@ -592,7 +592,7 @@ namespace giac {
       ref_algext * __EXTptr; // 2 gens for alg. extension (type ext)
       // alg ext: 1st gen is a std::vector or a fraction, 2nd gen is
       // a/ a std::vector, the minimal monic polynomial (the roots are permutable)
-      // b/ a real_complex_rootof given by it's min poly and 
+      // b/ a real_complex_rootof given by it's min poly and
       // c/ another type meaning that the root is expressed in terms
       //    of another rootof, in this case ext_reduce should be called
       // For 2nd order extension, X^2=d is used if d!=1 mod 4
@@ -620,7 +620,7 @@ namespace giac {
 #if 1 //def GIAC_TYPE_ON_8BITS
     unsigned char type;  // see dispatch.h
 #else
-    unsigned char type_unused:3; 
+    unsigned char type_unused:3;
     unsigned char type:5;  // 32 types is enough, keep 3 bits more for double
 #endif
     volatile ref_count_t & ref_count() const;
@@ -631,7 +631,7 @@ namespace giac {
 #ifdef COMPILE_FOR_STABILITY
       control_c();
 #endif
-      __POINTERptr=new ref_void_pointer(ptr); 
+      __POINTERptr=new ref_void_pointer(ptr);
     };
 
     gen(size_t i): type(_INT_),subtype(0),val((int)i)  {
@@ -671,7 +671,7 @@ namespace giac {
     gen (const identificateur & s);
     gen (ref_identificateur * sptr);
     gen (const vecteur & v,short int s=0);
-    gen (ref_vecteur * vptr,short int s=0); 
+    gen (ref_vecteur * vptr,short int s=0);
     // vptr must be a pointer allocated by new, do not delete it explicitly
     gen (const symbolic & s);
     gen (ref_symbolic * sptr);
@@ -729,14 +729,14 @@ namespace giac {
     std::string print(GIAC_CONTEXT) const;
     inline const char * printcharptr(GIAC_CONTEXT) const { return print(contextptr).c_str(); };
     // if sptr==0, return length required, otherwise print at end of *sptr
-    int sprint(std::string * sptr,GIAC_CONTEXT) const; 
+    int sprint(std::string * sptr,GIAC_CONTEXT) const;
     std::string print_universal(GIAC_CONTEXT) const;
     std::string print() const;
     inline const char * printcharptr() const { return print().c_str(); };
-    wchar_t * wprint(GIAC_CONTEXT) const ; 
+    wchar_t * wprint(GIAC_CONTEXT) const ;
     // print then convert to a malloc-ated wchar_t *
     void modify(int i) { *this =gen(i); };
-    const char * dbgprint() const; 
+    const char * dbgprint() const;
     void uncoerce() ;
     gen conj(GIAC_CONTEXT) const;
     gen re(GIAC_CONTEXT) const ;
@@ -794,17 +794,17 @@ namespace giac {
   gen change_subtype(const gen &g,int newsubtype);
   gen genfromstring(const std::string & s);
   // pointer to an int describing display mode for complex numbers
-  int * complex_display_ptr(const gen & g); 
+  int * complex_display_ptr(const gen & g);
   // value==0 to cartesian, 1 to polar, 2 toggle, 3 count complex
   // returns the number of complex
-  int adjust_complex_display(gen & res,int value); 
+  int adjust_complex_display(gen & res,int value);
 
 #if defined(SMARTPTR64)
   typedef ulonglong alias_gen;
 #else
   struct alias_gen {
     int value;
-    // unsigned short reserved; // not used 
+    // unsigned short reserved; // not used
     signed char subtype;
     unsigned char type;  // see dispatch.h
   };
@@ -814,9 +814,9 @@ namespace giac {
   public:
     vectpoly():std::vector<polynome>::vector() {};
     vectpoly(size_t i,const polynome & p):std::vector<polynome>::vector(i,p) {};
-    const char * dbgprint(){  
+    const char * dbgprint(){
 #if !defined(NSPIRE) && !defined(FXCG) && !defined TICE
-      CERR << *this << std::endl; 
+      CERR << *this << std::endl;
 #endif
       return "Done";
     }
@@ -940,13 +940,13 @@ namespace giac {
   gen operator_plus (const gen & a,const gen & b,unsigned t,GIAC_CONTEXT);
   gen operator + (const gen & a,const gen & b);
   gen & operator_plus_eq (gen & a,const gen & b,GIAC_CONTEXT);
-  inline gen & operator += (gen & a,const gen & b){ 
+  inline gen & operator += (gen & a,const gen & b){
     return operator_plus_eq(a,b,context0);
   }
   Tfraction<gen> operator + (const Tfraction<gen> & a,const Tfraction<gen> & b); // specialization
   gen sym_add (const gen & a,const gen & b,GIAC_CONTEXT);
   gen & operator_minus_eq (gen & a,const gen & b,GIAC_CONTEXT);
-  inline gen & operator -= (gen & a,const gen & b){ 
+  inline gen & operator -= (gen & a,const gen & b){
     return operator_minus_eq(a,b,context0);
   }
   gen operator_minus (const gen & a,const gen & b,GIAC_CONTEXT);
@@ -963,7 +963,7 @@ namespace giac {
   gen iquo(const gen & a,const gen & b); // same
   gen irem(const gen & a,const gen & b,gen & q); // same
   gen smod(const gen & a,const gen & b); // same
-  void smod(const vecteur & v,const gen & g,vecteur & w); 
+  void smod(const vecteur & v,const gen & g,vecteur & w);
   vecteur smod(const vecteur & a,const gen & b); // same
   gen rdiv(const gen & a,const gen & b,GIAC_CONTEXT0); // rational division
   inline gen operator /(const gen & a,const gen & b){ return rdiv(a,b); };
@@ -1027,7 +1027,7 @@ namespace giac {
   gen sign(const gen & a,GIAC_CONTEXT);
   inline int signint(int i){ return i?(i>0?1:-1):0;}
 
-  // Large tests if strictly not precised, if sign is unknown return false 
+  // Large tests if strictly not precised, if sign is unknown return false
   bool is_greater(const gen & a,const gen &b,GIAC_CONTEXT);
   bool is_strictly_greater(const gen & a,const gen &b,GIAC_CONTEXT);
   inline bool operator > (const gen & a,const gen & b){
@@ -1094,12 +1094,12 @@ namespace giac {
   gen prevprime(const gen & a); // more precisely prev probably prime
   int jacobi(const gen & A, const gen &B);
   int legendre(const gen & A, const gen & B);
-  vecteur pascal_next_line(const vecteur & v); 
+  vecteur pascal_next_line(const vecteur & v);
   vecteur pascal_nth_line(int n);
   // convert a __VECTOR__VECT vecteur to a normal vecteur
   gen vector2vecteur(const vecteur & v);
 
-  // if b is a _MOD, returns a as a b _MOD 
+  // if b is a _MOD, returns a as a b _MOD
   gen chkmod(const gen& a,const gen & b);
   // make a _MOD a%b
   gen makemod(const gen & a,const gen & b);
@@ -1150,8 +1150,8 @@ namespace giac {
   class gen_user{
   public:
     virtual gen_user * memory_alloc() const { gen_user * ptr = new gen_user(*this); return ptr; }
-    virtual ~gen_user() {}; 
-    // redefine operations if it makes sense. 
+    virtual ~gen_user() {};
+    // redefine operations if it makes sense.
     // You can redefine gen_user + gen_user for speed
     virtual gen operator + (const gen &) const { return gensizeerr(gettext("+ not redefined")); }
     virtual gen operator + (const gen_user & a) const { return (*this) + gen(a); }
@@ -1162,21 +1162,21 @@ namespace giac {
     virtual gen operator * (const gen_user & a) const { return (*this) * gen(a); }
     virtual gen operator / (const gen_user & a) const { return (*this) * a.inv(); }
     virtual gen operator / (const gen & a) const { return gensizeerr(gettext("Binary / not redefined")); }
-    virtual bool is_zero() const { 
+    virtual bool is_zero() const {
 #ifndef NO_STDEXCEPT
-      setsizeerr(gettext("==0 not redefined")); 
+      setsizeerr(gettext("==0 not redefined"));
 #endif
       return false;
     }
-    virtual bool is_one() const { 
+    virtual bool is_one() const {
 #ifndef NO_STDEXCEPT
-      setsizeerr(gettext("==1 not redefined")); 
+      setsizeerr(gettext("==1 not redefined"));
 #endif
       return false;
     }
-    virtual bool is_minus_one() const { 
+    virtual bool is_minus_one() const {
 #ifndef NO_STDEXCEPT
-      setsizeerr(gettext("==-1 not redefined")); 
+      setsizeerr(gettext("==-1 not redefined"));
 #endif
       return false;
     }
@@ -1189,9 +1189,9 @@ namespace giac {
     virtual gen sqrt(GIAC_CONTEXT) const { return gensizeerr(gettext("Sqrt not redefined")); }
     virtual gen operator () (const gen &,GIAC_CONTEXT) const { return gensizeerr(gettext("() not redefined")); }
     virtual gen operator [] (const gen &) { return gensizeerr(gettext("[] not redefined")); }
-    virtual bool operator == (const gen &) const { 
+    virtual bool operator == (const gen &) const {
 #ifndef NO_STDEXCEPT
-      setsizeerr(gettext("== not redefined")); 
+      setsizeerr(gettext("== not redefined"));
 #endif
       return false;
     }
@@ -1201,15 +1201,15 @@ namespace giac {
     virtual gen operator > (const gen_user & a) const { return superieur_strict(*this, gen(a),0); }
     virtual gen operator <= (const gen &) const { return gensizeerr(gettext("<= not redefined")); }
     virtual gen operator <= (const gen_user & a) const { return inferieur_egal(*this, gen(a),0); }
-    virtual gen polygcd (const polynome &,const polynome &,polynome &) const { return gensizeerr(gettext("Polynomial gcd not redefined")); }    
+    virtual gen polygcd (const polynome &,const polynome &,polynome &) const { return gensizeerr(gettext("Polynomial gcd not redefined")); }
     virtual gen polyfactor (const polynome & p,
-			     factorization & f) const { 
-      return gensizeerr(gettext("Polynomial gcd not redefined")); 
-    }    
-    virtual gen gcd (const gen &) const { return gensizeerr(gettext("gcd not redefined")); }    
+			     factorization & f) const {
+      return gensizeerr(gettext("Polynomial gcd not redefined"));
+    }
+    virtual gen gcd (const gen &) const { return gensizeerr(gettext("gcd not redefined")); }
     virtual gen gcd (const gen_user & a) const { return gcd(gen(a)); }
     virtual std::string print (GIAC_CONTEXT) const { return  "Nothing_to_print";}
-    const char * dbgprint () const { 
+    const char * dbgprint () const {
       static std::string s;
       s=this->print(0);
 #if !defined( NSPIRE) && !defined(FXCG) && !defined TICE
@@ -1236,7 +1236,7 @@ namespace giac {
   // I/O
 #ifdef NSPIRE
   template<class T> nio::ios_base<T> & operator<<(nio::ios_base<T> & os,const gen & a){
-    return os << a.print(context0); 
+    return os << a.print(context0);
   }
   template<class T> nio::ios_base<T> & operator>>(nio::ios_base<T> & is,gen & a);
 #else
@@ -1269,7 +1269,7 @@ namespace giac {
   inline bool operator == (const monome & a,const monome & b){ return a.coeff==b.coeff && a.exponent==b.exponent; }
   inline bool operator != (const monome & a,const monome & b){ return a.coeff!=b.coeff || a.exponent!=b.exponent; }
   polynome apply( const polynome & p, const context * contextptr, gen (* f) (const gen &, const context *));
-  
+
   const char * printi(GIAC_CONTEXT);
   std::string hexa_print_ZINT(const mpz_t & a);
   std::string octal_print_ZINT(const mpz_t & a);
@@ -1316,9 +1316,9 @@ namespace giac {
     sparse_poly1 s;
     ref_sparse_poly1(const sparse_poly1 & S):ref_count(1),s(S) {}
   };
-  
 
-  // extern environment * env; 
+
+  // extern environment * env;
 
   struct attributs {
     int fontsize;
@@ -1330,7 +1330,7 @@ namespace giac {
 
   // Terminal data for EQW display
   struct eqwdata {
-    gen g; 
+    gen g;
     attributs eqw_attributs;
     int x,y,dx,dy;
     bool selected;
@@ -1340,9 +1340,9 @@ namespace giac {
     int baseline;
     eqwdata(int dxx,int dyy,int xx, int yy,const attributs & a,const gen& gg):g(gg),eqw_attributs(a),x(xx),y(yy),dx(dxx),dy(dyy),selected(false),active(false),hasbaseline(false),modifiable(true),baseline(0) {};
     eqwdata(int dxx,int dyy,int xx, int yy,const attributs & a,const gen& gg,int mybaseline):g(gg),eqw_attributs(a),x(xx),y(yy),dx(dxx),dy(dyy),selected(false),active(false),hasbaseline(true),modifiable(true),baseline(mybaseline) {};
-    const char * dbgprint(){ 
+    const char * dbgprint(){
 #if !defined( NSPIRE) && !defined(FXCG) && !defined TICE
-      CERR << g << ":" << dx<< ","<< dy<< "+"<<x <<","<< y<< "," << baseline << "," << eqw_attributs.fontsize << "," << eqw_attributs.background << "," << eqw_attributs.text_color << std::endl; 
+      CERR << g << ":" << dx<< ","<< dy<< "+"<<x <<","<< y<< "," << baseline << "," << eqw_attributs.fontsize << "," << eqw_attributs.background << "," << eqw_attributs.text_color << std::endl;
 #endif
       return "Done";
     }
@@ -1361,16 +1361,16 @@ namespace giac {
     // std::string * name;
     const char * id_name;
     vecteur * localvalue;
-    // value / localvalue might be an assumption if it's a vecteur 
+    // value / localvalue might be an assumption if it's a vecteur
     // of subtype _ASSUME__VECT
     // The first gen of an assumption vecteur is the type (_FRAC for rational)
     // If the type is _REAL, the vecteur has 2 other elements
-    // * an interval or a _SET_VECT of intervals 
+    // * an interval or a _SET_VECT of intervals
     //   where interval=vecteur of length 2 of subtype _LINE__VECT
     // * a list of excluded particular values
     // If the type is _DOUBLE_ the variable will be evalf-ed but not eval-ed
     // This is useful in geometry to make figures and get exact results
-    // If the type is _INT_ it 
+    // If the type is _INT_ it
     short int * quoted;
     identificateur();
     explicit identificateur(const std::string & s);
@@ -1387,9 +1387,9 @@ namespace giac {
     bool in_eval(int level,const gen & orig,gen & evaled,const context * context_ptr, bool No38Lookup=false); // if No38Lookup, does not check if HP38 knows about this name...
     const char * print(const context * context_ptr) const ;
     std::string name() const { return id_name; }
-    const char * dbgprint() const { 
+    const char * dbgprint() const {
       static std::string s;
-      s=this->print(context0); 
+      s=this->print(context0);
 #if 0 // ndef NSPIRE
       COUT << s;
 #endif
@@ -1426,7 +1426,7 @@ namespace giac {
     ref_unary_function_ptr(const unary_function_ptr * U):ref_count(1),u(*U) {}
   };
   struct symbolic {
-    unary_function_ptr sommet; 
+    unary_function_ptr sommet;
     gen feuille;
     symbolic(const unary_function_ptr & o,const gen & e): sommet(o),feuille(e){
       //dbg_printf("symbolic %x %s\n",o.ptr(),e.print(context0).c_str());
@@ -1443,11 +1443,11 @@ namespace giac {
     symbolic(const gen & a,const unary_function_ptr & o,const gen & b);
     symbolic(const gen & a,const unary_function_ptr * o,const gen & b);
     std::string print(GIAC_CONTEXT) const;
-    const char * dbgprint() const { 
+    const char * dbgprint() const {
       static std::string s;
       s=this->print(context0);
 #if 0 // ndef NSPIRE
-      COUT << s << std::endl; 
+      COUT << s << std::endl;
 #endif
       return s.c_str();
     }
@@ -1472,20 +1472,20 @@ namespace giac {
   struct alias_ref_symbolic {
     ref_count_t ref_count;
     unary_function_eval * sommet;
-    int value ; 
+    int value ;
     signed char subtype;
     unsigned char type;  // see dispatch.h
   };
-#else  
+#else
   struct alias_ref_symbolic {
     ref_count_t ref_count;
     unary_function_eval * sommet;
 #ifdef DOUBLEVAL
     longlong value;
 #else
-    long value ; 
+    long value ;
 #endif
-    unsigned short reserved; // not used 
+    unsigned short reserved; // not used
     signed char subtype;
     unsigned char type;  // see dispatch.h
   };
@@ -1641,7 +1641,7 @@ namespace giac {
   extern const alias_type alias_at_display;
   extern const alias_type alias_at_of;
   extern const alias_type alias_at_at;
-  extern const alias_type alias_at_normalmod;  
+  extern const alias_type alias_at_normalmod;
   extern const alias_type alias_at_pointplus;
   extern const alias_type alias_at_pointminus;
   extern const alias_type alias_at_struct_dot;

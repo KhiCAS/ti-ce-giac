@@ -191,4 +191,3 @@
       {"yellow"         ,1, _YELLOW, _INT_COLOR ,T_NUMBER},
       //{"ystep"         ,1, _YSTEP , _INT_PLOT ,T_NUMBER},
       //{"zstep"         ,1, _ZSTEP , _INT_PLOT ,T_NUMBER}
-

@@ -101,7 +101,7 @@ namespace giac {
   matrice ascsort(const matrice & m,bool column=true);
 
   vecteur hermite(int n);
-  gen _divergence(const gen &,GIAC_CONTEXT);  
+  gen _divergence(const gen &,GIAC_CONTEXT);
   gen _hermite(const gen & args,GIAC_CONTEXT);
   gen _laguerre(const gen & args,GIAC_CONTEXT);
   vecteur tchebyshev1(int n);

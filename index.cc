@@ -61,7 +61,7 @@ namespace giac {
     index_t::const_iterator ita=a.begin(),itaend=a.end(),itb=b.begin();
     unsigned s=unsigned(itaend-ita);
     index_t res(s);
-    index_t::iterator itres=res.begin();  
+    index_t::iterator itres=res.begin();
 #ifdef DEBUG_SUPPORT
     if (s!=b.size())
       setsizeerr(gettext("Error index.cc index_gcd"));
@@ -75,7 +75,7 @@ namespace giac {
     index_t::const_iterator ita=a.begin(),itaend=a.end(),itb=b.begin();
     unsigned s=unsigned(itaend-ita);
     index_t res(s);
-    index_t::iterator itres=res.begin();  
+    index_t::iterator itres=res.begin();
 #ifdef DEBUG_SUPPORT
     if (s!=b.size())
       setsizeerr(gettext("index.cc index_lcm"));
@@ -89,7 +89,7 @@ namespace giac {
     index_t::const_iterator ita=a.begin(),itaend=a.end(),itb=b.begin();
     unsigned s=unsigned(itaend-ita);
     res.resize(s);
-    index_t::iterator itres=res.begin();  
+    index_t::iterator itres=res.begin();
     for (;ita!=itaend;++itb,++itres,++ita)
       *itres=giacmax(*ita,*itb);
   }
@@ -97,14 +97,14 @@ namespace giac {
   // index and monomial ordering/operations implementation
   void add(const index_t & a, const index_t & b,index_t & res){
     index_t::const_iterator ita=a.begin(),itaend=a.end(),itb=b.begin();
-    index_t::iterator itres=res.begin();  
+    index_t::iterator itres=res.begin();
     for (;ita!=itaend;++itb,++itres,++ita)
       *itres=(*ita)+(*itb);
   }
 
   void add(const index_m & a, const index_m & b,index_t & res){
     index_t::const_iterator ita=a.begin(),itaend=a.end(),itb=b.begin();
-    index_t::iterator itres=res.begin();  
+    index_t::iterator itres=res.begin();
     for (;ita!=itaend;++itb,++itres,++ita)
       *itres=(*ita)+(*itb);
   }
@@ -113,7 +113,7 @@ namespace giac {
     index_t::const_iterator ita=a.begin(),itaend=a.end(),itb=b.begin();
     unsigned s=unsigned(itaend-ita);
     index_t res(s);
-    index_t::iterator itres=res.begin();  
+    index_t::iterator itres=res.begin();
 #ifdef DEBUG_SUPPORT
     if (s!=b.size())
       setsizeerr(gettext("index.cc operator +"));
@@ -236,7 +236,7 @@ namespace giac {
     boot_sprintf(c, "0x%x", i);
     return c;
   }
-  
+
   string octal_print_INT_(int i){
     char c[sizeof("0o77777777")];
     boot_sprintf(c, "0o%o", i);
@@ -300,7 +300,7 @@ namespace giac {
 
   string print_INT_(int i){
     char c[256];
-    // sprint_int(c,i); 
+    // sprint_int(c,i);
     sprintf(c,"%d",i);
     return c;
   }
@@ -342,7 +342,7 @@ namespace giac {
     if (!i)
       return string("0");
     if (i<0)
-      return string("-")+print_INT_(-i);      
+      return string("-")+print_INT_(-i);
     int length = (int) std::floor(std::log10((double) i));
     char s[length+2];
     s[length+1]=0;
@@ -368,7 +368,7 @@ namespace giac {
 	s += ',';
     }
   }
-  
+
   string print_INT_(const vector<int> & m){
     vector<int>::const_iterator it=m.begin(),itend=m.end();
     if (it==itend)
@@ -384,7 +384,7 @@ namespace giac {
     }
   }
 #endif
-  
+
 #ifdef NSPIRE
   template<class T> nio::ios_base<T> & operator << (nio::ios_base<T> & os, const index_t & m ){
     return os << ":index_t: " << print_INT_(m) << " " ;
@@ -469,54 +469,54 @@ namespace giac {
   }
 
 #else
-  index_t index_m::iref() const { 
+  index_t index_m::iref() const {
     if ( (taille % 2)==0)
       return riptr->i;
     return index_t(direct,direct+taille/2);
   }
 
-  index_t::iterator index_m::begin() { 
+  index_t::iterator index_m::begin() {
     if ( (taille % 2)==0)
-      return riptr->i.begin(); 
+      return riptr->i.begin();
     return index_t::iterator((giac::deg_t *) direct);
   }
 
-  index_t::iterator index_m::end() { 
+  index_t::iterator index_m::end() {
     if ( (taille % 2)==0)
-      return riptr->i.end(); 
+      return riptr->i.end();
     return index_t::iterator((giac::deg_t *) direct + taille/2) ;
   }
 
-  index_t::const_iterator index_m::begin() const { 
+  index_t::const_iterator index_m::begin() const {
     if ( (taille % 2)==0)
-      return riptr->i.begin(); 
+      return riptr->i.begin();
     return index_t::const_iterator((giac::deg_t *) direct);
   }
 
-  index_t::const_iterator index_m::end() const { 
+  index_t::const_iterator index_m::end() const {
     if ( (taille % 2)==0)
-      return riptr->i.end(); 
+      return riptr->i.end();
     return index_t::const_iterator((giac::deg_t *) direct + taille/2 );
   }
 
-  void index_m::clear() { 
+  void index_m::clear() {
     if ( (taille % 2)==0)
-      riptr->i.clear(); 
+      riptr->i.clear();
     else
       taille=1;
   }
 
-  void index_m::reserve(size_t n) { 
+  void index_m::reserve(size_t n) {
     if (int(n)>POLY_VARS){
       if ( taille % 2)
 	// alloc a true vector with correct size, copy into
-	riptr = new ref_index_t(begin(),end()); 
+	riptr = new ref_index_t(begin(),end());
       // taille=0;
-      riptr->i.reserve(n); 
+      riptr->i.reserve(n);
     }
   }
 
-  void index_m::push_back(deg_t x){ 
+  void index_m::push_back(deg_t x){
     if ( taille % 2){
       int pos = taille /2 ;
       taille += 2;
@@ -524,17 +524,17 @@ namespace giac {
 	direct[pos]=x;
 	return;
       }
-      riptr = new ref_index_t(index_t::iterator((giac::deg_t *)direct),index_t::iterator((giac::deg_t *)direct+pos)); 
+      riptr = new ref_index_t(index_t::iterator((giac::deg_t *)direct),index_t::iterator((giac::deg_t *)direct+pos));
       // taille = 0;
     }
-    riptr->i.push_back(x); 
+    riptr->i.push_back(x);
   }
 
-  size_t index_m::size() const { 
+  size_t index_m::size() const {
     if (taille % 2)
       return taille/2;
     else
-      return riptr->i.size(); 
+      return riptr->i.size();
   }
 
   index_m index_m::set_first_zero() const {
@@ -563,7 +563,7 @@ namespace giac {
 	if (*ptr1!=*ptr2)
 	  return false;
       }
-      const deg_t * i1ptr=(const deg_t *) ptr1,*i1end=i1ptr+n%4,* i2ptr= (const deg_t *) ptr2;    
+      const deg_t * i1ptr=(const deg_t *) ptr1,*i1end=i1ptr+n%4,* i2ptr= (const deg_t *) ptr2;
       for (;i1ptr!=i1end;++i2ptr,++i1ptr){
 	if (*i1ptr!=*i2ptr)
 	  return false;
@@ -612,14 +612,14 @@ namespace giac {
     return true;
   }
 
-  size_t index_m::total_degree() const { 
+  size_t index_m::total_degree() const {
     size_t i=0;
     for (index_t::const_iterator it=begin();it!=end();++it)
       i=i+(*it);
     return i;
   }
 
-  
+
   index_m operator + (const index_m & a, const index_m & b){
     const deg_t * ita=&*a.begin(), * itb=&*b.begin();
     int s=int(a.size());
@@ -805,8 +805,8 @@ namespace giac {
     return(i_lex_is_greater(v1,v2));
   }
 
-  bool i_total_lex_is_strictly_greater(const index_m & v1, const index_m & v2){ 
-    return !i_total_lex_is_greater(v2,v1); 
+  bool i_total_lex_is_strictly_greater(const index_m & v1, const index_m & v2){
+    return !i_total_lex_is_greater(v2,v1);
   }
 
   bool i_total_revlex_is_greater(const index_m & v1, const index_m & v2){
@@ -848,7 +848,7 @@ namespace giac {
     if (*(it1+1)!=*(it2+1))
       return *(it1+1)<=*(it2+1);
     if (*it1!=*it2) v1.dbgprint(); // instantiate
-    d1=sum_degree_from(v1,3); 
+    d1=sum_degree_from(v1,3);
     d2=sum_degree_from(v2,3);
     if (d1!=d2)
       return d1>=d2;
@@ -882,7 +882,7 @@ namespace giac {
       return *(it1+2)<=*(it2+2);
     if (*(it1+1)!=*(it2+1))
       return *(it1+1)<=*(it2+1);
-    d1=sum_degree_from(v1,7); 
+    d1=sum_degree_from(v1,7);
     d2=sum_degree_from(v2,7);
     if (d1!=d2)
       return d1>=d2;
@@ -928,7 +928,7 @@ namespace giac {
       return *(it1+2)<=*(it2+2);
     if (*(it1+1)!=*(it2+1))
       return *(it1+1)<=*(it2+1);
-    d1=sum_degree_from(v1,11); 
+    d1=sum_degree_from(v1,11);
     d2=sum_degree_from(v2,11);
     if (d1!=d2)
       return d1>=d2;
@@ -1003,8 +1003,8 @@ namespace giac {
     return i_nvar_is_greater(v1,v2,64,false);
   }
 
-  bool i_total_revlex_is_strictly_greater(const index_m & v1, const index_m & v2){ 
-    return !i_total_revlex_is_greater(v2,v1); 
+  bool i_total_revlex_is_strictly_greater(const index_m & v1, const index_m & v2){
+    return !i_total_revlex_is_greater(v2,v1);
   }
 
   bool disjoint(const index_m & a,const index_m & b){

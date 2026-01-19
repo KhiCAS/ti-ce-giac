@@ -5,7 +5,7 @@
 #include "k_csdk.h"
 int Console_Disp(int redraw_mode); // bit0=0 means minimal redraw (current line only)
 
-/*  
+/*
  *  Copyright (C) 2000,14 B. Parisse, Institut Fourier, 38402 St Martin d'Heres
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -83,7 +83,7 @@ using namespace std;
 
 #if defined VISUALC && !defined BESTA_OS && !defined RTOS_THREADX && !defined FREERTOS
 #include <Windows.h>
-#endif 
+#endif
 
 #ifdef BESTA_OS
 #include <stdlib.h>
@@ -133,7 +133,7 @@ namespace giac {
   double opaque_double_val(const void * source){
     longlong r = * (longlong *)(source) ;
     (* (gen *) (&r)).type = 0;
-    return * (double *)(&r); 
+    return * (double *)(&r);
   }
 
   double min_proba_time=10; // in seconds
@@ -166,7 +166,7 @@ namespace giac {
 #ifdef NSPIRE_NEWLIB
   void usleep(int t){
   }
-  
+
 #ifdef TIMEOUT
 #if !defined(EMCC) && !defined(EMCC2)
   double time(int ){
@@ -185,9 +185,9 @@ namespace giac {
 #else
 	back_key_pressed()
 #endif
-	){ 
+	){
       kbd_interrupted=true;
-      ctrl_c=interrupted=true; 
+      ctrl_c=interrupted=true;
     }
 #else
     if (caseval_unitialized!=-123454321){
@@ -196,21 +196,21 @@ namespace giac {
       caseval_n=0;
       caseval_maxtime=15;
     }
-    if (caseval_mod>0){ 
-      ++caseval_n; 
+    if (caseval_mod>0){
+      ++caseval_n;
       if (caseval_n >=caseval_mod){
-	caseval_n=0; 
-	caseval_current=time(0); 
+	caseval_n=0;
+	caseval_current=time(0);
 #if defined(EMCC) || defined(EMCC2)
 	if (difftime(caseval_current,caseval_begin)>caseval_maxtime)
 #else
 	if (caseval_current>caseval_maxtime+caseval_begin)
 #endif
-	  { 
-	    CERR << "Timeout" << '\n'; ctrl_c=true; interrupted=true; 
+	  {
+	    CERR << "Timeout" << '\n'; ctrl_c=true; interrupted=true;
 	    caseval_begin=caseval_current;
-	  } 
-      } 
+	  }
+      }
     }
 #endif // NSPIRE
   }
@@ -219,7 +219,7 @@ namespace giac {
 #endif
 
 #if defined VISUALC || defined BESTA_OS
-#if !defined FREERTOS && !defined HAVE_LIBMPIR 
+#if !defined FREERTOS && !defined HAVE_LIBMPIR
   int R_OK=4;
 #endif
   int access(const char *path, int mode ){
@@ -291,7 +291,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       return _last_evaled_argptr_;
   }
 
-  static int _language_=0; 
+  static int _language_=0;
   int & language(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_language_;
@@ -307,7 +307,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       _language_=b;
   }
 
-  static int _max_sum_sqrt_=3; 
+  static int _max_sum_sqrt_=3;
   int & max_sum_sqrt(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_max_sum_sqrt_;
@@ -322,9 +322,9 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
 #ifdef GIAC_HAS_STO_38 // Prime sum(x^2,x,0,100000) crash on hardware
-  static int _max_sum_add_=10000; 
+  static int _max_sum_add_=10000;
 #else
-  static int _max_sum_add_=100000; 
+  static int _max_sum_add_=100000;
 #endif
   int & max_sum_add(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
@@ -416,7 +416,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 #if 1
 #ifdef TICE
   const double init_epsilon=1e-5;
-#else  
+#else
   const double _epsilon_=1e-12;
 #endif
   static double _epsilon_=init_epsilon;
@@ -448,7 +448,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       return _proba_epsilon_;
   }
 
-  static bool _expand_re_im_=true; 
+  static bool _expand_re_im_=true;
   bool & expand_re_im(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_expand_re_im_;
@@ -462,7 +462,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       _expand_re_im_=b;
   }
 
-  static int _scientific_format_=0; 
+  static int _scientific_format_=0;
   int & scientific_format(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_scientific_format_;
@@ -476,7 +476,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       _scientific_format_=b;
   }
 
-  static int _decimal_digits_=12; 
+  static int _decimal_digits_=12;
 
   int & decimal_digits(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
@@ -491,7 +491,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       _decimal_digits_=b;
   }
 
-  static int _minchar_for_quote_as_string_=1; 
+  static int _minchar_for_quote_as_string_=1;
 
   int & minchar_for_quote_as_string(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
@@ -506,7 +506,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       _minchar_for_quote_as_string_=b;
   }
 
-  static int _xcas_mode_=0; 
+  static int _xcas_mode_=0;
   int & xcas_mode(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_xcas_mode_;
@@ -521,7 +521,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
 
-  static int _integer_format_=0; 
+  static int _integer_format_=0;
   int & integer_format(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_integer_format_;
@@ -534,7 +534,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     else
       _integer_format_=b;
   }
-  static int _latex_format_=0; 
+  static int _latex_format_=0;
   int & latex_format(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_latex_format_;
@@ -542,7 +542,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       return _latex_format_;
   }
 #ifdef BCD
-  static u32 _bcd_decpoint_='.'|('E'<<16)|(' '<<24); 
+  static u32 _bcd_decpoint_='.'|('E'<<16)|(' '<<24);
   u32 & bcd_decpoint(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_bcd_decpoint_;
@@ -550,7 +550,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       return _bcd_decpoint_;
   }
 
-  static u32 _bcd_mantissa_=12+(15<<8); 
+  static u32 _bcd_mantissa_=12+(15<<8);
   u32 & bcd_mantissa(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_bcd_mantissa_;
@@ -558,7 +558,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       return _bcd_mantissa_;
   }
 
-  static u32 _bcd_flags_=0; 
+  static u32 _bcd_flags_=0;
   u32 & bcd_flags(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_bcd_flags_;
@@ -608,7 +608,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       _python_compat_=b;
   }
 
-  static bool _complex_mode_=false; 
+  static bool _complex_mode_=false;
   bool & complex_mode(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_complex_mode_;
@@ -623,7 +623,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       _complex_mode_=b;
   }
 
-  static bool _escape_real_=true; 
+  static bool _escape_real_=true;
   bool & escape_real(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_escape_real_;
@@ -683,7 +683,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       _eval_equaltosto_=b;
   }
 
-  static bool _all_trig_sol_=false; 
+  static bool _all_trig_sol_=false;
   bool & all_trig_sol(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_all_trig_sol_;
@@ -698,7 +698,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       _all_trig_sol_=b;
   }
 
-  static bool _try_parse_i_=true; 
+  static bool _try_parse_i_=true;
   bool & try_parse_i(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_try_parse_i_;
@@ -713,7 +713,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       _try_parse_i_=b;
   }
 
-  static bool _specialtexprint_double_=false; 
+  static bool _specialtexprint_double_=false;
   bool & specialtexprint_double(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_specialtexprint_double_;
@@ -728,7 +728,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       _specialtexprint_double_=b;
   }
 
-  static bool _atan_tan_no_floor_=false; 
+  static bool _atan_tan_no_floor_=false;
   bool & atan_tan_no_floor(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_atan_tan_no_floor_;
@@ -743,7 +743,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       _atan_tan_no_floor_=b;
   }
 
-  static bool _keep_acosh_asinh_=false; 
+  static bool _keep_acosh_asinh_=false;
   bool & keep_acosh_asinh(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_keep_acosh_asinh_;
@@ -758,7 +758,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       _keep_acosh_asinh_=b;
   }
 
-  static bool _keep_algext_=false; 
+  static bool _keep_algext_=false;
   bool & keep_algext(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_keep_algext_;
@@ -773,7 +773,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       _keep_algext_=b;
   }
 
-  static bool _lexer_close_parenthesis_=true; 
+  static bool _lexer_close_parenthesis_=true;
   bool & lexer_close_parenthesis(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_lexer_close_parenthesis_;
@@ -788,7 +788,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       _lexer_close_parenthesis_=b;
   }
 
-  static bool _rpn_mode_=false; 
+  static bool _rpn_mode_=false;
   bool & rpn_mode(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_rpn_mode_;
@@ -803,7 +803,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       _rpn_mode_=b;
   }
 
-  static bool _ntl_on_=true; 
+  static bool _ntl_on_=true;
   bool & ntl_on(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_ntl_on_;
@@ -818,7 +818,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       _ntl_on_=b;
   }
 
-  static bool _complex_variables_=false; 
+  static bool _complex_variables_=false;
   bool & complex_variables(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_complex_variables_;
@@ -1085,7 +1085,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 #else
   static stdostream * _logptr_=&cout;
 #endif
-  
+
   stdostream * logptr(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_logptr_;
@@ -1108,7 +1108,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 			      ,eval_thread(0),stackaddr(0)
 #endif
 #endif
-  { 
+  {
   }
 
   thread_param * & context0_thread_param_ptr(){
@@ -1193,7 +1193,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   int thread_eval_status(GIAC_CONTEXT){
     return -1;
   }
-  
+
   void thread_eval_status(int val,GIAC_CONTEXT){
   }
 
@@ -1415,7 +1415,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       _pl()._initialisation_done_=b;
   }
 
-  static int _calc_mode_=0; 
+  static int _calc_mode_=0;
   int & calc_mode(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_calc_mode_;
@@ -1622,15 +1622,15 @@ extern "C" void Sleep(unsigned int miliSecond);
   bool block_signal=false;
   bool CAN_USE_LAPACK = true;
   bool simplify_sincosexp_pi=true;
-  int history_begin_level=0; 
-  // variable used to avoid copying the whole history between processes 
+  int history_begin_level=0;
+  // variable used to avoid copying the whole history between processes
 #ifdef TICE // Temporary
   const int debug_infolevel=0;
 #else
   int debug_infolevel=0;
 #endif
   int printprog=0;
-#if defined __APPLE__ || defined VISUALC || defined __MINGW_H || defined BESTA_OS || defined NSPIRE || defined FXCG || defined NSPIRE_NEWLIB || defined TICE 
+#if defined __APPLE__ || defined VISUALC || defined __MINGW_H || defined BESTA_OS || defined NSPIRE || defined FXCG || defined NSPIRE_NEWLIB || defined TICE
   int threads=1;
 #else
   int threads=sysconf (_SC_NPROCESSORS_ONLN);
@@ -1657,7 +1657,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   int HENSEL_QUADRATIC_POWER=25;
   int KARAMUL_SIZE=13;
   int INT_KARAMUL_SIZE=300;
-  int FFTMUL_SIZE=100; 
+  int FFTMUL_SIZE=100;
   int FFTMUL_INT_MAXBITS=1024;
 #ifdef GIAC_GGB
   int MAX_ALG_EXT_ORDER_SIZE = 3;
@@ -1730,7 +1730,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     return s;
   }
 
-  
+
   void read_config(const string & name,GIAC_CONTEXT,bool verbose){
     return;
   }
@@ -1898,11 +1898,11 @@ extern "C" void Sleep(unsigned int miliSecond);
     if (!ans) ans=new vector<context *>(1,(context *) 0);
     return *ans;
   }
-  context::context() { 
+  context::context() {
     // CERR << "new context " << this << "\n";
     parent=0;
-    tabptr=new sym_tab; 
-    globalcontextptr=this; previous=0; globalptr=new global; 
+    tabptr=new sym_tab;
+    globalcontextptr=this; previous=0; globalptr=new global;
     quoted_global_vars=new vecteur;
     rootofs=new vecteur;
     history_in_ptr=new vecteur;
@@ -1912,7 +1912,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
 
-  context::context(const context & c) { 
+  context::context(const context & c) {
     *this = c;
   }
 
@@ -1978,9 +1978,9 @@ extern "C" void Sleep(unsigned int miliSecond);
      ptr->globalptr->_last_evaled_argptr_=_last_evaled_argptr_;
      ptr->globalptr->_last_evaled_function_name_=_last_evaled_function_name_;
      ptr->globalptr->_currently_scanned_="";
-     ptr->globalptr->_max_sum_sqrt_=_max_sum_sqrt_;      
-     ptr->globalptr->_max_sum_add_=_max_sum_add_;   
-     
+     ptr->globalptr->_max_sum_sqrt_=_max_sum_sqrt_;
+     ptr->globalptr->_max_sum_add_=_max_sum_add_;
+
   }
 
   context * clone_context(const context * contextptr) {
@@ -2079,7 +2079,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     debug_localvars=new gen;
     debug_contextptr=0;
   }
-  
+
   debug_struct::~debug_struct(){
     delete debug_info_ptr;
     delete fast_debug_info_ptr;
@@ -2141,19 +2141,19 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
 
-  global::global() : _xcas_mode_(0), 
+  global::global() : _xcas_mode_(0),
 		     _calc_mode_(0),_decimal_digits_(12),_minchar_for_quote_as_string_(1),
-		     _scientific_format_(0), _integer_format_(0), _latex_format_(0), 
+		     _scientific_format_(0), _integer_format_(0), _latex_format_(0),
 #ifdef BCD
 		     _bcd_decpoint_('.'|('E'<<16)|(' '<<24)),_bcd_mantissa_(12+(15<<8)), _bcd_flags_(0),_bcd_printdouble_(false),
 #endif
-		     _expand_re_im_(true), _do_lnabs_(true), _eval_abs_(true),_eval_equaltosto_(true),_integer_mode_(true),_complex_mode_(false), _escape_real_(true),_complex_variables_(false), _increasing_power_(false), _approx_mode_(false), _variables_are_files_(false), _local_eval_(true), 
-		     _withsqrt_(true), 
+		     _expand_re_im_(true), _do_lnabs_(true), _eval_abs_(true),_eval_equaltosto_(true),_integer_mode_(true),_complex_mode_(false), _escape_real_(true),_complex_variables_(false), _increasing_power_(false), _approx_mode_(false), _variables_are_files_(false), _local_eval_(true),
+		     _withsqrt_(true),
 		     _all_trig_sol_(false),
 #ifdef WITH_MYOSTREAM
 		     _ntl_on_(true),
 		     _lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_atan_tan_no_floor_(false),_keep_acosh_asinh_(false),_keep_algext_(false),_python_compat_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_step_infolevel_(0), _epsilon_(init_epsilon), _proba_epsilon_(1e-15),  _spread_Row_ (-1), _spread_Col_ (-1),_logptr_(&my_CERR),_prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_last_evaled_function_name_(0),_currently_scanned_(""),_last_evaled_argptr_(0),_max_sum_sqrt_(3),
-#ifdef GIAC_HAS_STO_38 // Prime sum(x^2,x,0,100000) crash on hardware	
+#ifdef GIAC_HAS_STO_38 // Prime sum(x^2,x,0,100000) crash on hardware
 		     _max_sum_add_(10000),
 #else
 		     _max_sum_add_(100000),
@@ -2161,11 +2161,11 @@ extern "C" void Sleep(unsigned int miliSecond);
 		     _total_time_(0),_evaled_table_(0),_extra_ptr_(0),_series_variable_name_('h'),_series_default_order_(5),
 #else
 		     _ntl_on_(true),
-		     _lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_atan_tan_no_floor_(false),_keep_acosh_asinh_(false),_keep_algext_(false),_python_compat_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_step_infolevel_(0), _epsilon_(init_epsilon), _proba_epsilon_(1e-15),  _spread_Row_ (-1), _spread_Col_ (-1), 
+		     _lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_atan_tan_no_floor_(false),_keep_acosh_asinh_(false),_keep_algext_(false),_python_compat_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_step_infolevel_(0), _epsilon_(init_epsilon), _proba_epsilon_(1e-15),  _spread_Row_ (-1), _spread_Col_ (-1),
 #ifdef EMCC
-		     _logptr_(&COUT), 
+		     _logptr_(&COUT),
 #else
-#if defined FXCG || defined TICE 
+#if defined FXCG || defined TICE
 		     _logptr_(&cout),
 #else
 #if defined NSPIRE_NEWLIB
@@ -2176,14 +2176,14 @@ extern "C" void Sleep(unsigned int miliSecond);
 #endif
 #endif
 		     _prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_last_evaled_function_name_(0),_currently_scanned_(""),_last_evaled_argptr_(0),_max_sum_sqrt_(3),
-#ifdef GIAC_HAS_STO_38 // Prime sum(x^2,x,0,100000) crash on hardware	
+#ifdef GIAC_HAS_STO_38 // Prime sum(x^2,x,0,100000) crash on hardware
 		     _max_sum_add_(10000),
 #else
 		     _max_sum_add_(100000),
 #endif
 		     _total_time_(0),_evaled_table_(0),_extra_ptr_(0),_series_variable_name_('h'),_series_default_order_(5)
 #endif
-  { 
+  {
     _pl._i_sqrt_minus1_=1;
     _debug_ptr=new debug_struct;
     _thread_param_ptr=new thread_param;
@@ -2479,7 +2479,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 
 
 
-#include "input_parser.h" 
+#include "input_parser.h"
 
     bool lexer_functions_register(const unary_function_ptr & u,const char * s,int parser_token){
       return false;
@@ -2558,7 +2558,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 	}
 	index_status(contextptr)=(p.first->second.subtype==T_UNARY_OP-256);
 	int token=p.first->second.subtype;
-	token += (token<0)?512:256 ;	
+	token += (token<0)?512:256 ;
 	return token;
       }
       lexer_tab_int_type tst={ts.c_str(),0,0,0,0};
@@ -2576,7 +2576,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       lock_syms_mutex();
       sym_string_tab::const_iterator i2 = syms().find(s),i2end=syms().end();
       if (i2 == i2end) {
-	unlock_syms_mutex();  
+	unlock_syms_mutex();
 	const char * S = s.c_str();
 	res = identificateur(s);
 	// printf("ident %s %s\n",S,res._IDNTptr->id_name);
@@ -2586,7 +2586,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 	return T_SYMBOL;
       } // end if ==syms.end()
       res = i2->second;
-      unlock_syms_mutex();  
+      unlock_syms_mutex();
       return T_SYMBOL;
     }
 
@@ -2603,7 +2603,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       sym_string_tab::const_iterator i = syms().find(it->_IDNTptr->id_name),iend=syms().end();
       if (i==iend)
 	syms()[it->_IDNTptr->name()] = *it;
-      unlock_syms_mutex();  
+      unlock_syms_mutex();
     }
   }
 
@@ -2624,15 +2624,15 @@ extern "C" void Sleep(unsigned int miliSecond);
     return res;
   }
 #endif
-  
+
   charptr_gen * builtin_lexer_functions_begin(){
     return (charptr_gen *) builtin_lexer_functions;
   }
-  
+
   charptr_gen * builtin_lexer_functions_end(){
     return builtin_lexer_functions_begin()+builtin_lexer_functions_number;
   }
-  
+
   gen make_symbolic(const gen & op,const gen & args){
     return symbolic(*op._FUNCptr,args);
   }
@@ -2754,7 +2754,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 	}
 	else
 	  cur.insert(cur.begin()+pos,'0');
-	continue;	
+	continue;
       }
       if (curch=='%'){
 	cur.insert(cur.begin()+pos+1,'/');
@@ -2776,7 +2776,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     int i=s.find('\\');
     if (i<0 || i>=ss)
       return s;
-    string res,line;    
+    string res,line;
     for (i=0;i<ss;++i){
       if (s[i]!='\n'){
 	line += s[i];
@@ -2793,7 +2793,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 	line ="";
       }
       else
-	line=line.substr(0,j); 
+	line=line.substr(0,j);
     }
     return res+line;
   }
@@ -2815,7 +2815,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     }
     if (poscmath>=0 && poscmath<cs){
       // add python cmath shortcuts
-      static bool alertcmath=true;      
+      static bool alertcmath=true;
       if (alertcmath){
 	alertcmath=false;
 	alert(gettext("Assigning phase, j, J and rect."),contextptr);
@@ -2825,7 +2825,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     }
     if (posmath>=0 && posmath<cs){
       // add python math shortcuts
-      static bool alertmath=true;      
+      static bool alertmath=true;
       if (alertmath){
 	alertmath=false;
 	alert(gettext("Assigning log2, gamma, fabs, modf, radians and degrees."),contextptr);
@@ -2888,7 +2888,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
 
-  // detect Python like syntax: 
+  // detect Python like syntax:
   // remove """ """ docstrings and ''' ''' comments
   // cut string in lines, remove comments at the end (search for #)
   // warning don't take care of # inside strings
@@ -2977,7 +2977,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       if (endl<0 || endl>=sss)
 	endl=sss;
       ++first;
-      if (first<endl && (s_orig[first]==';' || s_orig[first]=='=')) 
+      if (first<endl && (s_orig[first]==';' || s_orig[first]=='='))
 	continue; // ignore :;
       // search for line finishing with : (or with # comment)
       for (;first<endl;++first){
@@ -2988,14 +2988,14 @@ extern "C" void Sleep(unsigned int miliSecond);
 	  break;
 	}
       }
-      if (first==endl) 
+      if (first==endl)
 	break;
     }
     // probably Python-like
     string res;
     res.reserve(1.2*s_orig.size());
     res=s_orig;
-    if (res.size()>18 && res.substr(0,17)=="add_autosimplify(" 
+    if (res.size()>18 && res.substr(0,17)=="add_autosimplify("
 	&& res[res.size()-1]==')'
 	)
       res=res.substr(17,res.size()-18);
@@ -3005,7 +3005,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     res=remove_comment(res,"'''",true);
     res=glue_lines_backslash(res);
     vector<int_string> stack;
-    string s,cur; 
+    string s,cur;
     s.reserve(res.capacity());
     if (pythoncompat) pythonmode=true;
     for (;res.size();){
@@ -3072,7 +3072,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 	  if (p<cs
 	      //&& c1
 	      && c3==0){
-	    // table initialization, replace {} by table( ) , 
+	    // table initialization, replace {} by table( ) ,
 	    // cur=cur.substr(0,pos)+"table("+cur.substr(pos+1,p-pos-1)+")"+cur.substr(p+1,cs-pos-1);
 	    string tmp=cur.substr(0,pos);
 	    tmp += "{/";
@@ -3091,13 +3091,13 @@ extern "C" void Sleep(unsigned int miliSecond);
 	  }
 	  int p=pos,q=pos+1,beg; // skip spaces
 	  for (p++;p<int(cur.size());++p)
-	    if (cur[p]!=' ') 
+	    if (cur[p]!=' ')
 	      break;
 	  if (p!=cur.size()){
-	    // find matching ' 
+	    // find matching '
 	    beg=q;
 	    for (;p<int(cur.size());++p)
-	      if (cur[p]=='\'') 
+	      if (cur[p]=='\'')
 		break;
 	    if (p>0 && p<int(cur.size())){
 	      --p;
@@ -3141,7 +3141,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 	  if (cur.size()>pos+8 && (cur.substr(pos,8)=="# local " || cur.substr(pos,7)=="#local ")){
 	    cur.erase(cur.begin()+pos);
 	    if (cur[pos]==' ')
-	      cur.erase(cur.begin()+pos);	      
+	      cur.erase(cur.begin()+pos);
 	  }
 	  else
 	    cur=cur.substr(0,pos);
@@ -3197,7 +3197,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 	    cur = ' '+cur;
 	  python_import(cur,cs,posturtle,poscmath,posmath,posnumpy,posmatplotlib,contextptr);
 	  pythonmode=true;
-	  break;	    
+	  break;
 	}
 	if (ch=='l' && pos+6<int(cur.size()) && cur.substr(pos,6)=="lambda" && instruction_at(cur,pos,6)){
 	  int posdot=cur.find(':',pos);
@@ -3231,8 +3231,8 @@ extern "C" void Sleep(unsigned int miliSecond);
 	if (cur[pos]!=' ' && cur[pos]!=char(9))
 	  break;
       }
-      if (pos<0){ 
-	s+='\n';  
+      if (pos<0){
+	s+='\n';
 	continue;
       }
       if (cur[pos]!=':'){ // detect oneliner and function/fonction
@@ -3255,7 +3255,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 	  if (cur[p]==':' && cur[p+1]!=';')
 	    break;
 	  if (cur[p]=='"' && cur[p-1]!='\\')
-	    instr=true;	  
+	    instr=true;
 	}
 	if (p==0){
 	  // = or return expr if cond else alt_expr => ifte(cond,expr,alt_expr)
@@ -3365,7 +3365,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 	int progpos=cur.find("else");
 	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,4)){
 	  pythonmode=true;
-	  if (stack.size()>1){ 
+	  if (stack.size()>1){
 	    int indent=stack[stack.size()-1].decal;
 	    if (ws<indent){
 	      // remove last \n and add explicit endbloc delimiters from stack
@@ -3391,7 +3391,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 	progpos=cur.find("except");
 	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,6)){
 	  pythonmode=true;
-	  if (stack.size()>1){ 
+	  if (stack.size()>1){
 	    int indent=stack[stack.size()-1].decal;
 	    if (ws<indent){
 	      // remove last \n and add explicit endbloc delimiters from stack
@@ -3416,7 +3416,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 	progpos=cur.find("elif");
 	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,4)){
 	  pythonmode=true;
-	  if (stack.size()>1){ 
+	  if (stack.size()>1){
 	    int indent=stack[stack.size()-1].decal;
 	    if (ws<indent){
 	      // remove last \n and add explicit endbloc delimiters from stack
@@ -3442,7 +3442,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 	  continue;
 	}
       }
-      if (!stack.empty()){ 
+      if (!stack.empty()){
 	int indent=stack.back().decal;
 	if (ws<=indent){
 	  // remove last \n and add explicit endbloc delimiters from stack
@@ -3515,7 +3515,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 	progpos=cur.find("def");
 	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,3)){
 	  pythonmode=true;
-	  //python_compat(1,contextptr); 
+	  //python_compat(1,contextptr);
 	  pythoncompat=true;
 	  // should remove possible returned type, between -> ... and :
 	  string entete=cur.substr(progpos+3,pos-progpos-3);
@@ -3574,7 +3574,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     res.clear(); cur.clear();
     return string(s.begin(),s.end());
   }
-  
+
   /* END PYTHON */
 
   // optional, call it just before exiting
@@ -3589,7 +3589,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     for (int i=0;i<builtin_lexer_functions_number;++i){
 #ifdef SMARTPTR64
       if (debug_infolevel)
-	CERR << builtin_lexer_functions_begin()[i].first << "\n"; 
+	CERR << builtin_lexer_functions_begin()[i].first << "\n";
       builtin_lexer_functions_begin()[i].second=0;
       //delete (ref_unary_function_ptr *) (* ((ulonglong * ) &builtin_lexer_functions_begin()[i].second) >> 16);
 #endif

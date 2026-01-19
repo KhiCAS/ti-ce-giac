@@ -816,7 +816,7 @@
 //{"uniformd",0,9,13},
 //{"uniformd_cdf",0,9,13},
 //{"uniformd_icdf",0,9,13},
-{"unit",0,22,13}, 
+{"unit",0,22,13},
 {"unquote",0,9,13},
 //{"upper",0,9,13},
 #ifdef WITH_UNITS

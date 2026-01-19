@@ -48,7 +48,7 @@ namespace giac {
   vecteur lvarxpow(const gen &e,const gen & x);
 
   // Check for hypergeometric e, if true
-  // write e(x+1)/e(x) as P(n+1)/P(n)*Q(x)/R(x+1) 
+  // write e(x+1)/e(x) as P(n+1)/P(n)*Q(x)/R(x+1)
   bool is_hypergeometric(const gen & e,const identificateur &x,vecteur &v,polynome & P,polynome & Q,polynome & R,GIAC_CONTEXT);
   // Write a fraction A/B as E[P]/P*Q/E[R] where E[P]=subst(P,x,x+1)
   // and Q and all positive shifts of R are prime together
@@ -85,7 +85,7 @@ namespace giac {
   // replace x=a..b by x,a,b in the second vector arg
   bool adjust_int_sum_arg(vecteur & v,int & s);
   bool rational_sum(const gen & e,const gen & x,gen & res,gen& remains_to_sum,bool allow_psi,GIAC_CONTEXT);
-  gen prodsum(const gen & g,bool isprod);  
+  gen prodsum(const gen & g,bool isprod);
   polynome taylor(const polynome & P,const gen & g);
   bool gosper(const polynome & P,const polynome & Q,const polynome & R,polynome & Y,gen & deno,GIAC_CONTEXT);
   bool is_hypergeometric(const gen & e,const identificateur &x,vecteur &v,polynome & P,polynome & Q,polynome & R,GIAC_CONTEXT);
@@ -124,7 +124,7 @@ namespace giac {
 
   gen preval(const gen & f,const gen & x,const gen & a,const gen & b,GIAC_CONTEXT);
   gen _ibpdv(const gen & args,GIAC_CONTEXT);
-  extern const unary_function_ptr * const  at_ibpdv;  
+  extern const unary_function_ptr * const  at_ibpdv;
 
   gen fourier_an(const gen & f,const gen & x,const gen & T,const gen & n,const gen & a,GIAC_CONTEXT);
   gen fourier_bn(const gen & f,const gen & x,const gen & T,const gen & n,const gen & a,GIAC_CONTEXT);
@@ -136,7 +136,7 @@ namespace giac {
 
   gen _fourier_bn(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_fourier_bn ;
-   
+
   gen _fourier_cn(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_fourier_cn ;
 

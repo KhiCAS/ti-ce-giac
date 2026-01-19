@@ -19,7 +19,7 @@ namespace giac {
     template <typename T>
     friend my_ostream & operator<<(my_ostream &, const T &);
 
-    // Additional overload to handle ostream specific io manipulators 
+    // Additional overload to handle ostream specific io manipulators
     friend my_ostream & operator<<(my_ostream &, std::ostream & (*)(std::ostream &));
 
     //my_ostream do not own ostream* os... Caller must handle delete

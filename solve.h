@@ -20,9 +20,9 @@
 #include "first.h"
 
 // GIAC_64VARS is currently compatible with GROEBNER_VARS 15 only
-#define GIAC_64VARS 
+#define GIAC_64VARS
 // comment if you don't want the modular algorithm for gbasis with >15 var
-//#define GIAC_CHARDEGTYPE 
+//#define GIAC_CHARDEGTYPE
 // uncomment if you want degrees as unsigned char (8 bits instead of 15)
 
 #ifndef NO_NAMESPACE_GIAC
@@ -59,10 +59,10 @@ namespace giac {
   // also sets iszero to -2 if endpoints have same sign, -1 if err or undef
   // 1 if zero found, 2 if sign reversal (no undef),
   // set iszero to 0 on entry if only one root
-  // set to -1 or positive if you want many sign reversals 
+  // set to -1 or positive if you want many sign reversals
   // -1 means no step specified, positive means nstep specified
   vecteur bisection_solver(const gen & equation,const gen & var,const gen & a0,const gen &b0,int & iszero,GIAC_CONTEXT);
-  // FIXME: implement msolve without GSL 
+  // FIXME: implement msolve without GSL
   // gen msolve(const gen & f,const vecteur & vars,const vecteur & g,int method,double eps,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_fsolve ;
   vecteur sxa(const vecteur & sl,const vecteur & x,GIAC_CONTEXT);
@@ -72,12 +72,12 @@ namespace giac {
   extern const unary_function_ptr * const  at_linsolve ;
   void linsolve_u(const matrice & m,const vecteur & y,vecteur & a);
   void linsolve_l(const matrice & m,const vecteur & y,vecteur & a);
-  
+
   /*
   gen newtona(const gen & f, const gen & x, const gen & arg,int niter1, int niter2, double eps1,double eps2,double prefact1,double prefact2, int & b);
   gen newton(const gen & f, const gen & x,const gen & guess,int niter1=5,int niter2=50,double eps1=1e-3,double eps2=1e-12,double prefact1=0.5,double prefact2=1.0);
   */
-  
+
   // if real is true random re-initialization will be real only,
   // if xmin<xmax random-reinitialization and boundaries for x are xmin xmax
   gen newton(const gen & f, const gen & x,const gen & guess,int niter,double eps1,double eps2,bool real,double xmin,double xmax,double rand_xmin,double rand_xmax,double init_prefactor,GIAC_CONTEXT);
@@ -160,7 +160,7 @@ namespace giac {
 /*
  * Copyright (c) 1992, Michael J. D. Powell (M.J.D.Powell@damtp.cam.ac.uk)
  * Copyright (c) 2004, Jean-Sebastien Roy (js@jeannot.org)
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
  * "Software"), to deal in the Software without restriction, including
@@ -168,10 +168,10 @@ namespace giac {
  * distribute, sublicense, and/or sell copies of the Software, and to
  * permit persons to whom the Software is furnished to do so, subject to
  * the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included
  * in all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
  * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
@@ -184,7 +184,7 @@ namespace giac {
 /*
  * This software is a C version of COBYLA2, a contrained optimization by linear
  * approximation package developed by Michael J. D. Powell in Fortran.
- * 
+ *
  * The original source code can be found at :
  * http://plato.la.asu.edu/topics/problems/nlores.html
  */

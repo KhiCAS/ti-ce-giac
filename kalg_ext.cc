@@ -57,7 +57,7 @@ namespace giac {
   }
 
   // symbolic_rootof_list() protected with a mutex in multi-thread environment
-  bool comparegen::operator ()(const gen & a,const gen & b) const { 
+  bool comparegen::operator ()(const gen & a,const gen & b) const {
     if (a.type==_INT_ && b.type==_INT_)
       return a.val<b.val;
     gen A1,A2,B1,B2;
@@ -94,7 +94,7 @@ namespace giac {
   }
 #else
   static int rootof_trylock(){ return 0; }
-  static void rootof_unlock(){ } 
+  static void rootof_unlock(){ }
 
 #endif
   // get Galois conjugates in the same number field from cache
@@ -169,7 +169,7 @@ namespace giac {
 	gen r2=c[i];
 	gen R2=_evalf(makesequence(r2,ndigits),contextptr);
 	if (is_greater(borne*abs(R1,contextptr),abs(R1-R2,contextptr)*pow10,contextptr)){
-	  g=r2; 
+	  g=r2;
 	  return true;
 	}
       }
@@ -236,7 +236,7 @@ namespace giac {
     if (a.type==_FRAC){
       *res._EXTptr = a._FRACptr->num;
       return fraction(res,a._FRACptr->den);
-    }    
+    }
     *res._EXTptr = a;
     return res;
   }
@@ -284,7 +284,7 @@ namespace giac {
       return a1;
     if (b1.type!=_VECT)
       return algebraic_EXTension(a1,b1);
-    gen r(select_root(*b1._VECTptr,contextptr)); 
+    gen r(select_root(*b1._VECTptr,contextptr));
     if (is_undef(r))
       return algebraic_EXTension(a1,b1);
     return horner(*a1._VECTptr,r);
@@ -350,7 +350,7 @@ namespace giac {
     if (va.type==_FRAC)
       return ext_reduce(horner(*a._VECTptr,*va._FRACptr,true),vb);
     if (va.type!=_VECT){
-      if (vb.type!=_VECT)  
+      if (vb.type!=_VECT)
 	return gensizeerr(gettext("alg_ext.cc/ext_reduce"));
       return algebraic_EXTension( (*a._VECTptr) % (*vb._VECTptr),v);
     }
@@ -362,10 +362,10 @@ namespace giac {
     if (e.type!=_EXT){
       gensizeerr(gettext("alg_ext.cc/ext_reduce"));
       CERR << gettext("alg_ext.cc/ext_reduce");
-      return e; 
+      return e;
     }
-#endif    
-    if ( (e._EXTptr->type==_VECT) && ((e._EXTptr+1)->type==_VECT) && 
+#endif
+    if ( (e._EXTptr->type==_VECT) && ((e._EXTptr+1)->type==_VECT) &&
 	 (e._EXTptr->_VECTptr->size()<(e._EXTptr+1)->_VECTptr->size()) )
       return e;
     return ext_reduce(*(e._EXTptr),*(e._EXTptr+1));
@@ -409,7 +409,7 @@ namespace giac {
     if (v.size()==3){
       vecteur w;
       identificateur x(" x");
-      in_solve(symb_horner(v,x),x,w,0,contextptr); 
+      in_solve(symb_horner(v,x),x,w,0,contextptr);
       if (w.empty())
 	return false;
       symroot=w.front();
@@ -501,11 +501,11 @@ namespace giac {
 	// when theta2 depends on theta1, theta1+k*theta2 is not necessarily
 	// the largest root, because the numeric value of v2 depends
 	// on the selected root of v1
-	// 
+	//
 	// we should compute k*theta1+theta2 for a sufficiently large
-	// value of k to insure largest root, e.g. 
+	// value of k to insure largest root, e.g.
 	// this implies computing approx value of theta1 and theta2
-	// 
+	//
 	vecteur rac=real_proot(v1,1e-12,contextptr);
 	if (rac.empty()){
 	  vecteur rac1=proot(v1,1e-12);
@@ -620,7 +620,7 @@ namespace giac {
 	p=p*q;
 	// permutation of indices order before making division by pb
 	p.reorder(transposition(0,1,2));
-	p.TDivRem(pb,tmpq,tmpr,true); p.coord.swap(tmpr.coord); // p=p%pb; // 
+	p.TDivRem(pb,tmpq,tmpr,true); p.coord.swap(tmpr.coord); // p=p%pb; //
 	p.reorder(transposition(0,1,2));
 	// division by a after because b might depend on a
 	p.TDivRem(pa,tmpq,tmpr,true); p.coord.swap(tmpr.coord); // p=p%pa; //
@@ -633,7 +633,7 @@ namespace giac {
       ligne[na*nb-nb-1]=plus_one;
       m.push_back(ligne);
       // Transpose matrix
-      // then we have the na*nb+3 columns 1, theta, ..., theta^(na*nb), b, a 
+      // then we have the na*nb+3 columns 1, theta, ..., theta^(na*nb), b, a
       // in terms of a basis (with na*nb coordinates)
       m=mtran(m);
       // reduce the matrix m to echelon form and test rank=na*nb
@@ -664,7 +664,7 @@ namespace giac {
 	break;
     }
     mdividebypivot(m);
-    // add a -1 at the end of column na*nb (C convention, index starting at 0) 
+    // add a -1 at the end of column na*nb (C convention, index starting at 0)
     // to get the min poly
     vecteur v(na*nb+1);
     for (int i=0;i<na*nb;++i)
@@ -689,7 +689,7 @@ namespace giac {
     vreverse(w.begin(),w.end());
     w=trim(w,0);
     lcmdeno_converted(w,e,contextptr);
-    a=fraction(w,e);    
+    a=fraction(w,e);
     // convert to algebraic extensions
     gen vg(v);
     b=algebraic_EXTension(b,vg);
@@ -717,8 +717,8 @@ namespace giac {
   vecteur min_pol(gen & a){
     if (a.type==_VECT)
       return *a._VECTptr;
-    else {    
-      if ( (a.type!=_EXT) || ((a._EXTptr+1)->type!=_VECT) )  
+    else {
+      if ( (a.type!=_EXT) || ((a._EXTptr+1)->type!=_VECT) )
 	return vecteur(1,gensizeerr(gettext("alg_ext.cc/min_pol")));
       return *((a._EXTptr+1)->_VECTptr);
     }
@@ -756,7 +756,7 @@ namespace giac {
       iterateur it=g._VECTptr->begin(),itend=g._VECTptr->end();
       for (;it!=itend;++it)
 	clean(*it);
-      return;      
+      return;
     }
     if (g.type==_EXT){
       clean(*g._EXTptr);
@@ -790,7 +790,7 @@ namespace giac {
   }
 
   // a and b are supposed to be *(_EXTptr+1) of some algebraic extension
-  // common_EXT will return a new algebraic extension 
+  // common_EXT will return a new algebraic extension
   // (suitable to be an extptr+1)
   // and will modify a and b to be ext of the returned common_EXT
   gen common_EXT(gen & a,gen & b,const vecteur * l,GIAC_CONTEXT){
@@ -806,14 +806,14 @@ namespace giac {
     if (a.type==_VECT)
       a__VECT=a;
     else {
-      if ( (a.type!=_EXT) || ((a._EXTptr+1)->type!=_VECT) )  
+      if ( (a.type!=_EXT) || ((a._EXTptr+1)->type!=_VECT) )
 	return gensizeerr(gettext("alg_ext.cc/common_EXT"));
       a__VECT=*(a._EXTptr+1);
     }
     if (b.type==_VECT)
       b__VECT=b;
     else {
-      if ( (b.type!=_EXT) || ((b._EXTptr+1)->type!=_VECT) )  
+      if ( (b.type!=_EXT) || ((b._EXTptr+1)->type!=_VECT) )
 	return gensizeerr(gettext("alg_ext.cc/common_EXT"));
       b__VECT=*(b._EXTptr+1);
     }
@@ -917,9 +917,9 @@ namespace giac {
 	polynome pb(1),px(unsplitmultivarpoly(p,innerdim));
 	find_good_eval(px,pb,vb); // need to modify find_good_eval for assumptions...
 	if (vb==vb0)
-	  *logptr(contextptr) << gettext("The choice was done assuming ") << params << "=" << vb << endl;       
-	else 
-	  *logptr(contextptr) << gettext("Non regular value ") << vb0 << gettext(" was discarded and replaced randomly by ") << params << "=" << vb << endl;	
+	  *logptr(contextptr) << gettext("The choice was done assuming ") << params << "=" << vb << endl;
+	else
+	  *logptr(contextptr) << gettext("Non regular value ") << vb0 << gettext(" was discarded and replaced randomly by ") << params << "=" << vb << endl;
 	racines=proot(gen2vecteur(evalf(polynome2poly1(pb),1,contextptr)));
       }
       else
@@ -980,7 +980,7 @@ namespace giac {
     clean(p);
     b__VECT=polynome2poly1(p/p.coord.front().value); // p must be monic (?)
     // compute new minimal polynomial
-    int k;    
+    int k;
     gen res1=common_minimal_POLY(a__VECT,b__VECT,a,b,k,contextptr);
     if ((a_orig.type==_EXT) && (b_orig.type==_EXT) && !is_undef(res1))
       return algebraic_EXTension(a_orig+gen(k)*b_orig,res1);
@@ -1049,7 +1049,7 @@ namespace giac {
   }
 
   gen inv_EXT(const gen & aa){
-    if (aa.type!=_EXT) 
+    if (aa.type!=_EXT)
       return inv(aa,context0);
     gen a(ext_reduce(aa));
     if (a.type==_FRAC){
@@ -1070,7 +1070,7 @@ namespace giac {
   }
 
   gen horner_rootof(const vecteur & p,const gen & g,GIAC_CONTEXT){
-    if (g.type==_SYMB && g._SYMBptr->feuille.type==_VECT && 
+    if (g.type==_SYMB && g._SYMBptr->feuille.type==_VECT &&
 	// false
 	int(g._SYMBptr->feuille._VECTptr->size())>max_sum_sqrt(contextptr)
 	)
@@ -1353,9 +1353,9 @@ namespace giac {
     vecteur v(*g_orig._VECTptr);
     int s=int(v.size());
     gen P(v[0]),x(vx_var()),a,b;
-    if (s==3){ a=v[1]; b=v[2]; } 
-    else { 
-      x=v[1]; a=v[2]; b=v[3]; 
+    if (s==3){ a=v[1]; b=v[2]; }
+    else {
+      x=v[1]; a=v[2]; b=v[3];
       if (P.type==_VECT)
 	*logptr(contextptr) << gettext("Warning: variable name ignored: ") << x << endl;
     }
@@ -1486,7 +1486,7 @@ namespace giac {
     var=v[1];
     // avoid inf recursion like g0(x):=ln(abs(ln(x)));
     // g1(x,xp):=x/(ln(x))^(xp);g0(g1(x,.3));
-    gen varev=eval(var,1,contextptr); 
+    gen varev=eval(var,1,contextptr);
     if (varev!=var && contains(varev,var))
       return undef;
     if (expr.type==_SYMB){
@@ -1514,7 +1514,7 @@ namespace giac {
 	if (minmax/3)
 	  return tmp;
 	else
-	  return u(tmp,contextptr); 
+	  return u(tmp,contextptr);
       }
     }
     //dbg_printf("fminmax1 expr=%s var=%s\n",expr.print().c_str(),var.print().c_str());
@@ -1533,7 +1533,7 @@ namespace giac {
     }
     // gensizeerr replaced by undef because otherwise abs(sin(exp(x))) fails on emcc
     if (var.type!=_IDNT)
-      return undef; // gensizeerr(contextptr); 
+      return undef; // gensizeerr(contextptr);
     if (do_find_range){
       find_range(var,range,contextptr);
       //dbg_printf("fminmax after find_range %s\n",gen(range).print().c_str());
@@ -1568,13 +1568,13 @@ namespace giac {
 	    period=0;
 	    break;
 	  }
-	  if (b.type==_FRAC) 
+	  if (b.type==_FRAC)
 	    period=period*b._FRACptr->den;
 	}
       }
       //dbg_printf("fminmax period %s\n",period.print().c_str());
       if (!is_zero(period)){
-	if (w.size()>1) 
+	if (w.size()>1)
 	  expr=simplify(expr,contextptr);
 	if (range[0]==minus_inf){
 	  if (range[1]==plus_inf){
@@ -1584,7 +1584,7 @@ namespace giac {
 	  else
 	    range[0]=range[1]-period;
 	}
-	else 
+	else
 	  range[1]=range[0]+period;
       }
     }
@@ -1641,7 +1641,7 @@ namespace giac {
 	return xmin;
       if (minmax %3 ==2)
 	return xmax;
-      return makeline(xmin,xmax); // gen(makevecteur(xmin,xmax),_LINE__VECT);      
+      return makeline(xmin,xmax); // gen(makevecteur(xmin,xmax),_LINE__VECT);
     }
     else {
       if (minmax %3 ==1)
@@ -1728,7 +1728,7 @@ namespace giac {
       return 0;
     vecteur v(lvar(g));
     // search for a sqrt inside v: sign(a+b*sqrt(c))=
-    // = sign(a) if a^2-c*b^2 > 0, 
+    // = sign(a) if a^2-c*b^2 > 0,
     // = sign(b) if a^2-c*b^2 < 0
     int s=int(v.size());
     if (!s
@@ -1766,7 +1766,7 @@ namespace giac {
     vecteur a;
     if (!find_range(v0,a,contextptr))
       return -2;
-    //dbg_printf("after find_range %s\n",gen(a).print().c_str());    
+    //dbg_printf("after find_range %s\n",gen(a).print().c_str());
     int previous_sign=2,current_sign=0;
 #ifndef NO_STDEXCEPT
     try {
@@ -1779,7 +1779,7 @@ namespace giac {
 	gen gg(g);
 	identificateur idnttmp("t");
 	gen testg(subst(g,v0,idnttmp,false,contextptr));
-        //dbg_printf("testg= %s\n",testg.print().c_str());    
+        //dbg_printf("testg= %s\n",testg.print().c_str());
 	if (is_zero(limit(testg,idnttmp,last,-1,contextptr))){
 	  if (strict && (v0.is_symb_of_sommet(at_sin) || v0.is_symb_of_sommet(at_cos)))
 	    return 0;
@@ -1806,9 +1806,9 @@ namespace giac {
 	  }
 	  gg=_r2e(makesequence(p,v0),contextptr)/den;
 	}
-        //dbg_printf("sturmab gg=%s\n",gg.print().c_str());    
+        //dbg_printf("sturmab gg=%s\n",gg.print().c_str());
 	current_sign=sturmab(gg,v0,ita->_VECTptr->front(),last,true,contextptr);
-        //dbg_printf("sturmab current_sign=%s\n",current_sign);    
+        //dbg_printf("sturmab current_sign=%s\n",current_sign);
 	if (current_sign>0 || current_sign==-2)
 	  return 0;
 	if (previous_sign==2)

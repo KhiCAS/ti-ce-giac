@@ -30,7 +30,7 @@ namespace xcas {
   int eqw_select_up(giac::gen & g);
 
   giac::gen Equation_compute_size(const giac::gen & g,const giac::attributs & a,int windowhsize,const giac::context * contextptr);
-  giac::eqwdata Equation_total_size(const giac::gen & g);  
+  giac::eqwdata Equation_total_size(const giac::gen & g);
   // Equation_translate(giac::gen & g,int deltax,int deltay);
   void Equation_vertical_adjust(int hp,int yp,int & h,int & y);
   bool Equation_find_vector_pos(giac::const_iterateur it,giac::const_iterateur itend,int & i,int &nrows);
@@ -52,7 +52,7 @@ namespace xcas {
   // replace selection in eq by tmp
   void replace_selection(Equation & eq,const giac::gen & tmp,giac::gen * gsel=0,const std::vector<int> * gotoptr=0);
   int eqw_select_leftright(xcas::Equation & g,bool left,int exchange=0);
-  
+
   class Graph2d{
   public:
     double window_xmin,window_xmax,window_ymin,window_ymax,
@@ -108,5 +108,5 @@ namespace xcas {
 } // namespace xcas
 #endif // ndef NO_NAMESPACE_XCAS
 
-  
+
 #endif // EQUATION_H

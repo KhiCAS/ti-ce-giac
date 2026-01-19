@@ -43,7 +43,7 @@ namespace giac {
 
   const char * unary_function_ptr::dbgprint() const {
 #ifndef NSPIRE
-    CERR << ptr()->s << "\n"; 
+    CERR << ptr()->s << "\n";
 #endif
     return ptr()->s;
   }
@@ -85,7 +85,7 @@ namespace giac {
 	setsizeerr(gettext("Unable to register ")+string(myptr->s));
   }
 
-  unary_function_ptr::unary_function_ptr(const alias_unary_function_eval * myptr,int myquoted,int parser_token):_ptr((size_t)myptr) {     
+  unary_function_ptr::unary_function_ptr(const alias_unary_function_eval * myptr,int myquoted,int parser_token):_ptr((size_t)myptr) {
     if (myquoted)
       *((size_t *) &_ptr) |= 0x1;
     if (parser_token)
@@ -99,14 +99,14 @@ namespace giac {
       if (!lexer_functions_register(*this,myptr->s,parser_token))
 	setsizeerr(gettext("Unable to register ")+string(myptr->s));
   }
-  unary_function_ptr::unary_function_ptr(const alias_unary_function_eval * myptr,int parser_token):_ptr((const unary_function_eval *)myptr) {     
+  unary_function_ptr::unary_function_ptr(const alias_unary_function_eval * myptr,int parser_token):_ptr((const unary_function_eval *)myptr) {
     if (parser_token)
       if (!lexer_functions_register(*this,myptr->s,parser_token))
 	setsizeerr(gettext("Unable to register ")+string(myptr->s));
   }
 
   */
-  const char * unary_function_eval::print(GIAC_CONTEXT) const { 
+  const char * unary_function_eval::print(GIAC_CONTEXT) const {
     return s;
   }
 
@@ -119,7 +119,7 @@ namespace giac {
 	setsizeerr(gettext("Unable to register ")+string(myptr->s));
   }
 
-  unary_function_ptr::unary_function_ptr(const alias_unary_function_eval * myptr,int myquoted,int parser_token):_ptr((const unary_function_abstract *)myptr) {     
+  unary_function_ptr::unary_function_ptr(const alias_unary_function_eval * myptr,int myquoted,int parser_token):_ptr((const unary_function_abstract *)myptr) {
     if (myquoted)
       *((size_t *) &_ptr) |= 0x1;
     if (parser_token)
@@ -134,7 +134,7 @@ namespace giac {
 	setsizeerr(gettext("Unable to register ")+string(myptr->s));
   }
 
-  unary_function_ptr::unary_function_ptr(const alias_unary_function_eval * myptr,int parser_token):_ptr((const unary_function_abstract *)myptr) {     
+  unary_function_ptr::unary_function_ptr(const alias_unary_function_eval * myptr,int parser_token):_ptr((const unary_function_abstract *)myptr) {
     if (parser_token)
       if (!lexer_functions_register(*this,myptr->s,parser_token))
 	setsizeerr(gettext("Unable to register ")+string(myptr->s));
@@ -143,7 +143,7 @@ namespace giac {
 
   const char * unary_function_abstract::print(GIAC_CONTEXT) const {
 #if 0
-    if (abs_calc_mode(contextptr)==38){ 
+    if (abs_calc_mode(contextptr)==38){
       if (calc_mode(contextptr)==38){
 	const char * maj = hp38_display_in_maj(s);
 	return maj?maj:s;
@@ -159,7 +159,7 @@ namespace giac {
 	  return it->second.chaine.c_str();
       }
     }
-    return s; 
+    return s;
   }
 #endif //  NO_UNARY_FUNCTION_COMPOSE
 
@@ -469,13 +469,13 @@ namespace giac {
     ptr->D = D;
     return ptr;
   }
-  
+
   unary_function_user * unary_function_user::recopie() const{
     unary_function_user * ptr=new unary_function_user(index_quoted_function,f,s,printsommet,texprint,cprint);
     ptr->D = D;
     return ptr;
   }
-  
+
 
   // unary_function_compose related
   gen unary_function_compose::operator () (const gen & arg,const context * context_ptr) const{
@@ -541,7 +541,7 @@ namespace giac {
     return res;
   }
 
-  ostream & operator << (ostream & os,const unary_function_compose & p){ return os << p.s;} 
+  ostream & operator << (ostream & os,const unary_function_compose & p){ return os << p.s;}
   ostream & operator << (ostream & os,const unary_function_list & p){ return os<< p.s; }
   ostream & operator << (ostream & os,const unary_function_constant & c){ return os<< c.s; }
   ostream & operator << (ostream & os,const unary_function_innerprod & i){ return os<< i.s; }
@@ -619,7 +619,7 @@ namespace giac {
     }
   }
 #endif
-  
+
   string texprintsommetasoperator(const gen & feuille,const char * sommetstr_orig,GIAC_CONTEXT){
     if (feuille.type!=_VECT)
       return feuille.print(contextptr);

@@ -35,8 +35,8 @@ namespace giac {
   std::string printstring(const gen & g,GIAC_CONTEXT);
   std::string print_DOUBLE_(double d);
 
-  struct window_xyz { 
-    double xmin,xmax,ymin,ymax,zmin,zmax; 
+  struct window_xyz {
+    double xmin,xmax,ymin,ymax,zmin,zmax;
     window_xyz():xmin(-5),xmax(5),ymin(-5),ymax(5),zmin(-5),zmax(5) {};
     window_xyz(double x,double X,double y,double Y,double z,double Z):xmin(x),xmax(X),ymin(y),ymax(Y),zmin(z),zmax(Z) {};
   };
@@ -62,7 +62,7 @@ namespace giac {
 
   // translate giac GL constant to open GL constant
   unsigned gl_translate(unsigned i);
-  // utilities for matrix 4x4 represented as a double[16] 
+  // utilities for matrix 4x4 represented as a double[16]
   // written in columns
   void mult4(double * colmat,double * vect,double * res);
   void mult4(double * colmat,float * vect,double * res);
@@ -86,7 +86,7 @@ namespace giac {
     int mode; // 0 pointer, 1 1-arg, 2 2-args, etc.
     // plot_tmp=function_tmp(args_tmp) or function_final(args_tmp)
     // depends whether args.tmp.size()==mode
-    giac::gen function_tmp,function_final,args_push; 
+    giac::gen function_tmp,function_final,args_push;
     giac::vecteur args_tmp; // WARNING should only contain numeric value
     giac::context * contextptr;
     unsigned args_tmp_push_size;
@@ -94,9 +94,9 @@ namespace giac {
     std::vector<std::string> args_help;
     bool no_handle; // disable mouse handling
     bool show_mouse_on_object; // FL_MOVE always handled or not
-    unsigned display_mode ; 
+    unsigned display_mode ;
     // bit0=1 plot_instructions, bit1=1 animations_instruction
-    // bit2=1 glFrustum/glOrtho, bit3=1 GL_LIGHTING, bit4=1 GL_FLAT, 
+    // bit2=1 glFrustum/glOrtho, bit3=1 GL_LIGHTING, bit4=1 GL_FLAT,
     // bit5=GL_BLEND, bit6=trace, bit7=1 move frame disabled
     // bit8=1 framebox, bit9=1 triedre
     // bit10=1 logplot 2d x, bit11=1 logplot 2d y, bit12=1 reserved for logplot 3d z
@@ -193,7 +193,7 @@ namespace giac {
     int draw_mode; // for sphere drawing
     // void * glcontext;
     // save values of the projection and modelview matrices
-    double proj[16],model[16],proj_inv[16],model_inv[16]; 
+    double proj[16],model[16],proj_inv[16],model_inv[16];
     double view[4];
     int dragi,dragj;
     bool push_in_area;
@@ -201,7 +201,7 @@ namespace giac {
     bool below_depth_hidden;
     virtual void draw();
     virtual void orthonormalize();
-    void display(); 
+    void display();
     // internally callled by draw, maybe multiple times when printing
     // virtual int in_handle(int event);
     void indraw(const giac::vecteur & v);

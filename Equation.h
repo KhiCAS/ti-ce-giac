@@ -42,7 +42,7 @@ namespace xcas {
   void Equation_cb_scroll(Fl_Widget*, void*);
 
   // maximum "size" of symbolics displayed in an Equation (pretty print)
-  extern unsigned max_prettyprint_equation; 
+  extern unsigned max_prettyprint_equation;
   class Equation;
 
   class Equation_Scrollbar : public Fl_Scrollbar {
@@ -69,7 +69,7 @@ namespace xcas {
     int xsel,ysel; // begin mouse selection (PUSH event)
     int xcur,ycur; // position of the cursor (RELEASE event)
     int active_pos; // position of the cursor in string (active mode)
-    int begin_sel,end_sel; // -1 do not take care, >=0 position of sel 
+    int begin_sel,end_sel; // -1 do not take care, >=0 position of sel
     int clip_x,clip_y,clip_w,clip_h;
     void (* cb_enter) (Fl_Widget *,void * ); // callback when enter pressed
     void (* cb_escape) (Equation * ); // callback when escape pressed
@@ -120,7 +120,7 @@ namespace xcas {
     void save_data(); // save data to undo history
     void rcl_data(int dpos); // move from dpos in history and rcl data
     // keep undo operations max_history_size times in undo_history
-    giac::vecteur undo_history; 
+    giac::vecteur undo_history;
     bool is_selected(bool inside=false,bool active_search=false);
     void resize(int x, int y, int w, int h);
   };
@@ -134,7 +134,7 @@ namespace xcas {
   // function used internally
   void Equation_select(giac::gen & g,bool select,bool active_search=false);
   giac::gen Equation_compute_size(const giac::gen & g,const giac::attributs & a,int windowhsize,const giac::context * contextptr);
-  giac::eqwdata Equation_total_size(const giac::gen & g);  
+  giac::eqwdata Equation_total_size(const giac::gen & g);
   // Equation_translate(giac::gen & g,int deltax,int deltay);
   void Equation_vertical_adjust(int hp,int yp,int & h,int & y);
   bool Equation_find_vector_pos(giac::const_iterateur it,giac::const_iterateur itend,int & i,int &nrows);

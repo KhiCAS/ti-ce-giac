@@ -56,8 +56,8 @@ namespace giac {
   symbolic symb_normal(const gen & args);
 
   gen simplify3(gen & n,gen & d);
-  gen recursive_normal(const gen & e,GIAC_CONTEXT);  
-  gen _recursive_normal(const gen & e,GIAC_CONTEXT);  
+  gen recursive_normal(const gen & e,GIAC_CONTEXT);
+  gen _recursive_normal(const gen & e,GIAC_CONTEXT);
   gen recursive_normal(const gen & e,bool distribute_div,GIAC_CONTEXT);
   gen _non_recursive_normal(const gen & args);
   extern const unary_function_ptr * const  at_non_recursive_normal ;
@@ -78,8 +78,8 @@ namespace giac {
 
   // partial fraction de_VECT.
   gen partfrac(const gen & e,const vecteur & l,bool withsqrt,GIAC_CONTEXT);
-  gen partfrac(const gen & e,bool withsqrt,GIAC_CONTEXT); 
-  gen partfrac(const gen & e,const identificateur & x,bool withsqrt,GIAC_CONTEXT); 
+  gen partfrac(const gen & e,bool withsqrt,GIAC_CONTEXT);
+  gen partfrac(const gen & e,const identificateur & x,bool withsqrt,GIAC_CONTEXT);
   gen partfrac(const gen & e,const gen & f,bool withsqrt,GIAC_CONTEXT);
   gen _partfrac(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_partfrac ;
@@ -88,9 +88,9 @@ namespace giac {
   gen _resultant(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_resultant ;
   symbolic symb_resultant(const gen & args);
-  
+
   // reading arguments from the command line
-  void readargs(int ARGC, char *ARGV[],vecteur & args,GIAC_CONTEXT); 
+  void readargs(int ARGC, char *ARGV[],vecteur & args,GIAC_CONTEXT);
 #ifdef NSPIRE
   template<class T>
   void readargs_from_stream(nio::ios_base<T> & inf,vecteur & args,GIAC_CONTEXT);
@@ -106,7 +106,7 @@ namespace giac {
   // add expression to list of variables
   void addtolvar(const gen & e, vecteur & l);
   // find list of variables of an expression and set tensor_dim to lvar size
-  vecteur lvar(const gen & e); 
+  vecteur lvar(const gen & e);
   gen symb_lvar(const gen & e);
   gen cklvar(const gen & e,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_lvar;
@@ -141,7 +141,7 @@ namespace giac {
   bool sym2r (const gen &e,const vecteur &l,const vecteur & lv, const vecteur & lvnum,const vecteur & lvden, int l_size, gen & num,gen & den,GIAC_CONTEXT);
   bool sym2r (const gen &e,const vecteur &l, int l_size, gen & num,gen & den,GIAC_CONTEXT);
       // conversion to internal form
-  gen e2r(const gen & e,const vecteur & l,GIAC_CONTEXT); 
+  gen e2r(const gen & e,const vecteur & l,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_e2r ;
   symbolic symb_e2r(const gen & arg1, const gen & arg2);
   void fxnd(const gen & e,gen & num, gen & den);
@@ -160,10 +160,10 @@ namespace giac {
   gen _r2e(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_r2e ;
   symbolic symb_r2e(const gen & arg1,const gen &arg2);
-  
+
   gen r2sym(const fraction & f, const vecteur & l,GIAC_CONTEXT);
   gen r2sym(const std::vector< pf<gen> > & pfde_VECT,const vecteur & l,GIAC_CONTEXT);
-  // convert factorization to symbolic form 
+  // convert factorization to symbolic form
   gen r2sym(const factorization & vnum,const vecteur & l,GIAC_CONTEXT);
 
   void dbgprint(const polynome &p);

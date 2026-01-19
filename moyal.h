@@ -221,7 +221,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_negbinomial_icdf ;
 
   // return 0 if not distrib
-  // 1 normal, 2 binomial, 3 negbinomial, 4 poisson, 5 student, 
+  // 1 normal, 2 binomial, 3 negbinomial, 4 poisson, 5 student,
   // 6 fisher, 7 cauchy, 8 weibull, 9 betad, 10 gammad, 11 chisquare
   int is_distribution(const gen & args);
   bool is_discrete_distribution(int nd);

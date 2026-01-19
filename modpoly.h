@@ -66,7 +66,7 @@ namespace giac {
   modpoly random(int i,environment * env); // random univariate polynomial of degree i
   void shiftmodpoly(modpoly & a,int n);   // multiply by x^n
   // high = high*x^n + low, size of low must be < n
-  void mergemodpoly(modpoly & high,const modpoly & low,int n); 
+  void mergemodpoly(modpoly & high,const modpoly & low,int n);
   modpoly trim(const modpoly & p,environment * env);
   void trim_inplace(modpoly & p);
   bool trim(modpoly & v); // true if v is empty after trimming
@@ -89,7 +89,7 @@ namespace giac {
   void negmodpoly(const modpoly & th, modpoly & new_coord);
   modpoly operator - (const modpoly & th) ;
 
-  // Warning: mulmodpoly assumes that coeff are integers. 
+  // Warning: mulmodpoly assumes that coeff are integers.
   // Use operator_times unless you know what you do
   void mulmodpoly(const modpoly & th, const gen & fact, modpoly & new_coord);
   void mulmodpoly(const modpoly & th, const gen & fact, environment * env, modpoly & new_coord);
@@ -170,16 +170,16 @@ namespace giac {
   // modular gcd
   void modpoly2smallmodpoly(const modpoly & p,std::vector<int> & v,int m);
 
-  bool gcdmodpoly(const modpoly &p,const modpoly & q,environment * env,modpoly &a); 
+  bool gcdmodpoly(const modpoly &p,const modpoly & q,environment * env,modpoly &a);
   // 1-d modular for small modulus<sqrt(RAND_MAX)
-  bool gcdsmallmodpoly(const polynome &p,const polynome & q,int m,polynome & d,polynome & dp,polynome & dq,bool compute_cof); 
+  bool gcdsmallmodpoly(const polynome &p,const polynome & q,int m,polynome & d,polynome & dp,polynome & dq,bool compute_cof);
   void smallmodpoly2modpoly(const std::vector<int> & v,modpoly & p,int m);
   void gcdsmallmodpoly(const std::vector<int> &p,const std::vector<int> & q,int m,std::vector<int> & d);
   void gcdsmallmodpoly(const std::vector<int> &p,const std::vector<int> & q,int m,std::vector<int> & d,std::vector<int> * pcof,std::vector<int> * qcof);
   void gcdsmallmodpoly(const std::vector<int> &p,const std::vector<int> & q,int m,std::vector<int> & d);
   void gcdsmallmodpoly(const modpoly &p,const modpoly & q,int m,modpoly & d);
   void DivRem(const std::vector<int> & th, const std::vector<int> & other,int m,std::vector<int> & quo, std::vector<int> & rem);
-  modpoly gcd(const modpoly & a,const modpoly &b,environment * env); 
+  modpoly gcd(const modpoly & a,const modpoly &b,environment * env);
   // n-var modular gcd
   bool gcd_modular(const polynome &p_orig, const polynome & q_orig, polynome & pgcd,polynome & pcofactor,polynome & qcofactor,bool compute_cofactors);
 
@@ -188,7 +188,7 @@ namespace giac {
   bool modgcd(const polynome &p_orig, const polynome & q_orig, const gen & modulo, polynome & d,polynome & pcofactor,polynome & qcofactor,bool compute_cofactors);
   bool mod_gcd_c(const polynome &p_orig, const polynome & q_orig, const gen & modulo, polynome & d,polynome & pcofactor,polynome & qcofactor,bool compute_cofactors);
   bool mod_gcd(const polynome &p_orig, const polynome & q_orig, const gen & modulo, polynome & pgcd,polynome & pcofactor,polynome & qcofactor,bool compute_cofactors);
-  modpoly lcm(const modpoly & a,const modpoly &b,environment * env); 
+  modpoly lcm(const modpoly & a,const modpoly &b,environment * env);
   bool gcd_modular_algo1(polynome &p,polynome &q,polynome &d,bool compute_cof);
   // p1*u+p2*v=d
   void egcd(const modpoly &p1, const modpoly & p2, environment * env,modpoly & u,modpoly & v,modpoly & d);
@@ -198,14 +198,14 @@ namespace giac {
   void subresultant(const modpoly & P,const modpoly & Q,gen & res);
   int sizeinbase2(const gen & g);
   int sizeinbase2(const vecteur & v);
-  // multinomial power by Miller pure recurrence 
+  // multinomial power by Miller pure recurrence
   bool miller_pow(const modpoly & p_,unsigned m,modpoly & res);
 
-  // Given [v_0 ... v_(2n-1)] (begin of the recurrence sequence) 
+  // Given [v_0 ... v_(2n-1)] (begin of the recurrence sequence)
   // return [b_n...b_0] such that b_n*v_{n+k}+...+b_0*v_k=0
   // Example [1,-1,3,3] -> [1,-3,-6]
   vecteur reverse_rsolve(const vecteur & v,bool psron=true);
-  // given a and c, find u such that 
+  // given a and c, find u such that
   // a[0]*...a[n-1]*u[n]+a[0]*...*a[n-2]*a[n]*u[n-1]+...+a[1]*...*a[n-1]*u[0]=1
   bool egcd(const std::vector<modpoly> & a, environment * env,std::vector<modpoly> & u);
   // same as above
@@ -230,7 +230,7 @@ namespace giac {
   bool poly_pcar_interp(const matrice & a,vecteur & p,bool compute_pmin,GIAC_CONTEXT);
   void polymat2matpoly(const vecteur & R,vecteur & res);
 
-  // Fast Fourier Transform, f the poly sum_{j<n} f_j x^j, 
+  // Fast Fourier Transform, f the poly sum_{j<n} f_j x^j,
   // and w=[1,omega,...,omega^[m-1]] with m a multiple of n
   // return [f(1),f(omega),...,f(omega^[n-1])
   // WARNING f is given in ascending power
@@ -258,7 +258,7 @@ namespace giac {
 #ifdef HAVE_LIBPTHREAD
   extern pthread_mutex_t ntl_mutex;
 #endif
-  typedef gen inttype; 
+  typedef gen inttype;
 
   bool polynome2tab(const polynome & p,int deg,inttype * tab);
   polynome tab2polynome(const inttype * tab,int deg);

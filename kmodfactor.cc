@@ -116,7 +116,7 @@ namespace giac {
     else {
       modpoly xtopn(powmod(xpower1(),env->pn,q,env));
       for (int i=1;i<dim;i++){
-	operator_times(temp,xtopn,env,temp2); 
+	operator_times(temp,xtopn,env,temp2);
 	DivRem(temp2,q,env,temp3,temp); // temp=(temp*xtop) % q;
 	v.push_back(temp);
       }
@@ -182,7 +182,7 @@ namespace giac {
 	*resptr=gen( 0); // init coeff
 	itvptr=itv; // itvptr points to itv[0], after the coeff of x^i in v[0]
 	vit=v.begin();
-	// in the loop we add to *resptr the coeff of x^i in r[j]*v[j] 
+	// in the loop we add to *resptr the coeff of x^i in r[j]*v[j]
 	// for increasing j
 	// therefore the r iterator it starts at itend (for r[0]) and decreases
 	// itvptr starts at &itv[] and increases
@@ -206,7 +206,7 @@ namespace giac {
       for (;resptr!=res-1;--resptr){
 	// COUT << *resptr << " " << env->modulo << "\n";
 	if (!is_zero(smod(*resptr,env->modulo)))
-	  break;   
+	  break;
       }
       for (;resptr!=res-1;--resptr){
 	s.push_back(smod(*resptr,env->modulo));
@@ -219,7 +219,7 @@ namespace giac {
       }
       for (;resptr!=res-1;--resptr){
 	s.push_back(*resptr);
-      }      
+      }
     }
 #if 1 // def VISUALC
     delete [] itv;
@@ -260,7 +260,7 @@ namespace giac {
 	return true;
       }
       // compute x^(pn^i) mod qrem then gcd(x^pn^i-x,qrem)
-      // since X^(pn^i)-X is divisible by 
+      // since X^(pn^i)-X is divisible by
       // any irreductible of degre dividing i
       // COUT << modulo << " " << qmat << "\n";
       if (qmat.empty())
@@ -285,10 +285,10 @@ namespace giac {
 
   bool cantor_zassenhaus(const modpoly & ddfactor,int i,const vector<modpoly> & qmat,environment * env,vector<modpoly> & v){
     if (debuglevel)
-      COUT << "Factoring [" << i << "] " << ddfactor << "\n" 
+      COUT << "Factoring [" << i << "] " << ddfactor << "\n"
 	// << " " << qmat << "\n"
 	;
-    int k=int(ddfactor.size())-1; 
+    int k=int(ddfactor.size())-1;
     //dbg_printf("CZ k=%i i=%i\n",k,i);
     if (k==i){
       v.push_back(ddfactor);
@@ -307,7 +307,7 @@ namespace giac {
     if (qmat.empty())
       qmatrix(ddfactor,env,thisqmat,0);
     else {
-      vector<modpoly>::const_iterator it=qmat.begin(),itend=qmat.end(); 
+      vector<modpoly>::const_iterator it=qmat.begin(),itend=qmat.end();
       for (int j=0;(it!=itend) && (j<k);++it,++j)
 	thisqmat.push_back(operator_mod(*it,ddfactor,env));
     }
@@ -357,7 +357,7 @@ namespace giac {
 	    return false;
           //dbg_printf("CZ 3 \n");
 	  ppp=temp;
-	  operator_times(pp,ppp,env,temp); 
+	  operator_times(pp,ppp,env,temp);
 	  DivRem(temp,ddfactor,env,tmp,pp); // pp=(pp*ppp)% ddfactor;
           //dbg_printf("CZ 4 \n");
 	}
@@ -365,7 +365,7 @@ namespace giac {
 	pp=operator_minus(pp,one(),env);
         //dbg_printf("CZ 5\n");
       }
-      gcdmodpoly(pp,ddfactor,env,fact1); 
+      gcdmodpoly(pp,ddfactor,env,fact1);
       //dbg_printf("CZ 6\n");
       if (is_undef(fact1))
 	return false;
@@ -375,7 +375,7 @@ namespace giac {
     // COUT << "cz:" << i << fact1 << ddfactor/fact1 << "\n";
     // recursive calls
     //dbg_printf("CZ 7\n");
-    if (!cantor_zassenhaus(fact1,i,thisqmat,env,v) || 
+    if (!cantor_zassenhaus(fact1,i,thisqmat,env,v) ||
 	!cantor_zassenhaus(operator_div(ddfactor,fact1,env),i,thisqmat,env,v))
       return false;
     return true;
@@ -428,10 +428,10 @@ namespace giac {
       env->modulo=moduloi;
     }
   }
-  
+
   // number of factors and possible degrees
   int nfact(const vector< facteur<modpoly> > & v, vector<bool> & possible_degrees , int maxdeg){
-    int k=int(v.size()); 
+    int k=int(v.size());
     possible_degrees[0]=true;
     for (int i=1;i<maxdeg;i++)
       possible_degrees[i]=false;
@@ -562,7 +562,7 @@ namespace giac {
     }
     int n=int(v_in.size());
     int d=int(q.size())-1;
-    // at bound/2^d/2, we will look for factors of q1 in v_in, 
+    // at bound/2^d/2, we will look for factors of q1 in v_in,
     // if true add factors to v_out and reduce the bound
     // modulo_orig^tryfactors=bound/2^d/2
     int tryfactors=(bound.bindigits()-d/2)/modulo_orig.bindigits();
@@ -601,7 +601,7 @@ namespace giac {
 	  env->modulo=modulo_orig; // work in Z/p or Z/p^k
 	  modpoly vadd,tmp1,tmp2;
 	  mulmodpoly(Q,*itu,env,tmp1);
-	  DivRem(tmp1,*itorig,env,tmp2,vadd); 
+	  DivRem(tmp1,*itorig,env,tmp2,vadd);
 	  // modpoly vadd(Q*(*itu) % (*itorig));
 	  env->modulo=modulonext; // back in Z/p^(k+1) or Z/p^2k
 	  (*it)=operator_plus(*it,operator_times(moduloi,vadd,env),env);
@@ -614,7 +614,7 @@ namespace giac {
     return true;
   }
 
-  // given a factorization v_in of q in Z/p^kZ find a factorization v_out 
+  // given a factorization v_in of q in Z/p^kZ find a factorization v_out
   // over Z, k is the minimal # of factors of v_in to be combined
   void combine(const dense_POLY1 & q, const vector<modpoly> & v_in,environment * env,vectpoly & v_out,vector<bool> & possible_degrees, int k){
     if (v_in.empty())
@@ -655,7 +655,7 @@ namespace giac {
       // product of cst coeff
       gen lastpi(1);
       vecteur picstcoeff;
-      picstcoeff.push_back(1); 
+      picstcoeff.push_back(1);
       // sum of degrees
       int lastdeg=0;
       index_t totaldeg;
@@ -692,12 +692,12 @@ namespace giac {
       int * d1tabposition=&d1tab[current-itbegin];
       for (;;){
 	// combination of k factors
-	// first test that the degree is admissible, 
+	// first test that the degree is admissible,
 	// then do the d-1 test: coeff multiplied by lcoeff mod modulo < bound
 	// and that the product of cst_coeff divides the polynomial
-	if ( possible_degrees[lastdeg+(*position)] 
+	if ( possible_degrees[lastdeg+(*position)]
 	     && is_greater(dminus1bound,abs(smod((lastdminus1+(*current)[1])*lcoeff,env->modulo)),0)
-	     //&& ( absint(lastd1+(*d1tabposition))< d1 ) 
+	     //&& ( absint(lastd1+(*d1tabposition))< d1 )
 	     ){
 	  gen check=smod(lastpi*cstcoeff(*current)*lcoeff,env->modulo);
 	  check=check/gcd(check,lcoeff);
@@ -717,7 +717,7 @@ namespace giac {
 	    if (notunit)
 	      ppz(pi);
 	    if ( // (gen(2)*abs(pi[2])<dminus1bound*gen((int)q.size()-2)) &&
-		DenseDivRem(q,pi,quo,rem,true) && 
+		DenseDivRem(q,pi,quo,rem,true) &&
 		(rem.empty())
 		 ){
 	      // push factor found
@@ -727,7 +727,7 @@ namespace giac {
 		dbgprint(found);
 	      }
 	      v_out.push_back(found);
-	      // remove factors found from the list 
+	      // remove factors found from the list
 	      vector<modpoly> v_new;
 	      vector<modpoly>::const_iterator itnew=v_in.begin();
 	      for (int j=1;j<=k;j++){
@@ -847,7 +847,7 @@ namespace giac {
       qrem=q;
       return 4;
     }
-    if (q.dim!=1) 
+    if (q.dim!=1)
       return 0; // setsizeerr(gettext("modfactor.cc/linearfind"));
     int qdeg=q.lexsorted_degree();
     if (!qdeg)
@@ -871,7 +871,7 @@ namespace giac {
 	Qtest.coord.push_back(monomial<gen>(1,1,1));
 	if (q.coord.back().index[0]>0){
 	  croots.push_back(0);
-	  v.push_back(Qtest);	  
+	  v.push_back(Qtest);
 	  qrem=q.shift(index_t(1,-1));
 	}
 	else
@@ -889,13 +889,13 @@ namespace giac {
 	      break;
 	    Qtest.coord.front().value=den;
 	    if (gcd(num,den)==1){
-	      Qtest.coord.back().value=-num;	      
+	      Qtest.coord.back().value=-num;
 	      if (qrem.TDivRem(Qtest,Qquo,Qrem,false) && Qrem.coord.empty()){
 		croots.push_back(gen(num)/gen(den));
 		v.push_back(Qtest);
 		swap(qrem.coord,Qquo.coord);
 	      }
-	      Qtest.coord.back().value=num;	      
+	      Qtest.coord.back().value=num;
 	      if (qrem.TDivRem(Qtest,Qquo,Qrem,false) && Qrem.coord.empty()){
 		croots.push_back(gen(-num)/gen(den));
 		v.push_back(Qtest);
@@ -938,7 +938,7 @@ namespace giac {
 	  break;
       }
     }
-    if (i==100) return 0; // setsizeerr(gettext("modfactor.cc/linearfind")); 
+    if (i==100) return 0; // setsizeerr(gettext("modfactor.cc/linearfind"));
     if (debug_infolevel>=20)
       CERR << "linearfind: using prime " << m << "\n";
     vecteur w,xpuipn(xpowerpn(env));
@@ -1062,11 +1062,11 @@ namespace giac {
 	  int ilifta=int(std::ceil(giac_log(logbound_d/giac_log((double) giac_primes[i]))/giac_log(2.0)));
 	  int iliftb=giacmax(1,int(std::ceil(giac_log(2./3.*logbound_d/giac_log((double) giac_primes[i]))/giac_log(2.))));
 	  if (debuglevel)
-	    COUT << "Would use min " << ilifta << "," << iliftb << " steps modulo " << currentprime << "\n"; 
+	    COUT << "Would use min " << ilifta << "," << iliftb << " steps modulo " << currentprime << "\n";
 	  gen qlifta(pow(currentprime,(long unsigned int) pow(gen(2),ilifta).to_int()));
 	  gen qliftb(pow(currentprime,(long unsigned int) 3*pow(gen(2),iliftb-1).to_int()));
 	  if (debuglevel>=2)
-	    COUT << "Would use min " << qlifta << "," << "\n" << qliftb << " modulo " << currentprime << "\n"; 
+	    COUT << "Would use min " << qlifta << "," << "\n" << qliftb << " modulo " << currentprime << "\n";
 	  gen liftsteps;
 	  if (is_strictly_greater(qliftb,qlifta,context0)) // (qlifta<qliftb)
 	    liftsteps=qlifta;
@@ -1087,7 +1087,7 @@ namespace giac {
 	else // non sqff
 	  if (debuglevel)
 	    COUT << "Not square-free modulo " << currentprime <<"\n";
-      } 
+      }
       else // degree non cst
 	if (debuglevel)
 	  COUT << "Non constant degree modulo " << currentprime << "\n";
@@ -1140,7 +1140,7 @@ namespace giac {
   }
 
 #ifdef HAVE_LIBNTL
-  typedef gen inttype; 
+  typedef gen inttype;
 
 
   int ntlfactor(inttype *p, int pdeg,inttype ** result,int * resultdeg,int debug=0){
@@ -1179,7 +1179,7 @@ namespace giac {
 	return false;
       }
       // CERR << "NTL factor begins" << "\n";
-      int size=ntlfactor(tab,n,result,resultdeg,debug); 
+      int size=ntlfactor(tab,n,result,resultdeg,debug);
       // CERR << "NTL factor end" << "\n";
       // size is the number of poly in result
       for (long i = 0 ; i < size; i++){
@@ -1213,7 +1213,7 @@ namespace giac {
 
 #else // HAVE_LIBNTL
 
-  // find linear factor only 
+  // find linear factor only
   int linearfind(const polynome & q,environment * env,polynome & qrem,vectpoly & v,int & i){
     vecteur cr;
     return do_linearfind(q,env,qrem,v,cr,i);

@@ -405,7 +405,7 @@ namespace giac {
     if ( (s==at_cos) || (s==at_sin)){
       v.push_back(1);
       v.push_back(e);
-      return ; 
+      return ;
     }
     if ((s==at_plus) && (e._SYMBptr->feuille.type==_VECT)){
       vecteur::const_iterator it=e._SYMBptr->feuille._VECTptr->begin(),itend=e._SYMBptr->feuille._VECTptr->end();
@@ -547,7 +547,7 @@ namespace giac {
 	vcoeff.push_back(coeff);
 	varg.push_back(arg);
       }
-      else 
+      else
 	vcoeff[pos-1]=vcoeff[pos-1]+coeff;
     }
     it=vcoeff.begin(),itend=vcoeff.end();
@@ -711,7 +711,7 @@ namespace giac {
       v0=v1;
       v1=vtmp;
     }
-    return v1; 
+    return v1;
   }
 
   gen exp_expand(const gen & e,GIAC_CONTEXT){
@@ -867,7 +867,7 @@ namespace giac {
       g=subst(g,v,w,false,contextptr);
       v[0]=at_pow;
       w[0]=(&even_pow_cos2tan);
-      g=subst(recursive_normal(g,false,contextptr),v,w,false,contextptr);      
+      g=subst(recursive_normal(g,false,contextptr),v,w,false,contextptr);
       return recursive_normal(g,false,contextptr);
     }
     else
@@ -927,7 +927,7 @@ namespace giac {
 	  v.push_back(at_exp);
 	  w.push_back(&exp_expand);
 	}
-	if (contains(last,gen(at_sin))){ 
+	if (contains(last,gen(at_sin))){
 	  v.push_back(at_sin);
 	  w.push_back(&sin_expand);
 	}
@@ -939,7 +939,7 @@ namespace giac {
 	  v.push_back(at_tan);
 	  w.push_back(&tan_expand);
 	}
-	return subst(e._VECTptr->front(),v,w,false,contextptr);	
+	return subst(e._VECTptr->front(),v,w,false,contextptr);
       }
     }
     vector<const unary_function_ptr *> v;
@@ -1000,7 +1000,7 @@ namespace giac {
     v.push_back(at_tan);
     w.push_back(&tan_expand);
     v.push_back(at_prod);
-    w.push_back(&prod_expand);    
+    w.push_back(&prod_expand);
     return subst(e,v,w,false,contextptr);
   }
   static const char _trigexpand_s []="trigexpand";

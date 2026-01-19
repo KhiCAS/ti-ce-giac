@@ -26,7 +26,7 @@ namespace giac {
 
 #ifdef STATIC_BUILTIN_LEXER_FUNCTIONS
 #define at_ARG at_arg
-#define at_GF at_galois_field 
+#define at_GF at_galois_field
 #define at_abscissa at_abscisse
 #define at_affix at_affixe
 #define at_altitude at_hauteur

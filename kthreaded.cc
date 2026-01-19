@@ -67,7 +67,7 @@ namespace giac {
 #endif
 
   void wait_1ms(int ms){
-    os_wait_1ms(ms); return; 
+    os_wait_1ms(ms); return;
     // OS_InnerWait_ms(ms);
     int l=0;
     for (int i=0;i<ms;++i){
@@ -76,7 +76,7 @@ namespace giac {
       }
     }
   }
-  
+
 
   bool is_zero(const vector<int> & v){
     vector<int>::const_iterator it=v.begin(),itend=v.end();
@@ -90,7 +90,7 @@ namespace giac {
   inline int make_unit(int ){
     return 1;
   }
-  
+
   inline vector<int> make_unit(const vector<int>){
     vector<int> v(1,1);
     return v;
@@ -115,8 +115,7 @@ namespace giac {
   bool mod_gcd(const std::vector< T_unsigned<int,hashgcd_U> > & p_orig,const std::vector< T_unsigned<int,hashgcd_U> > & q_orig,int modulo,std::vector< T_unsigned<int,hashgcd_U> > & d, std::vector< T_unsigned<int,hashgcd_U> > & pcofactor, std::vector< T_unsigned<int,hashgcd_U> > & qcofactor,const std::vector<hashgcd_U> & vars, bool compute_cofactors,int nthreads){
     return false;
   }
-  
+
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC
-

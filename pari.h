@@ -41,5 +41,5 @@ namespace giac {
 #ifndef NO_NAMESPACE_GIAC
 }
 #endif // ndef NO_NAMESPACE_GIAC
- 
+
 #endif //_GIAC_PARI_H

@@ -22,7 +22,7 @@
 #include "gen.h"
 
 // GIAC_64VARS is currently compatible with GROEBNER_VARS 15 only
-// special code for polynomial up to 11 variables (max deg<32768) 
+// special code for polynomial up to 11 variables (max deg<32768)
 //#define GROEBNER_VARS 11
 #define GROEBNER_VARS 15
 #define GIAC_REDUCEMODULO // reduce initial input only at modular step

@@ -40,8 +40,8 @@ namespace giac {
   void round2(gen & x,int n);
   void in_round2(gen & x,const gen & deuxn, int n);
   // Improve roots by Newton method
-  // P is the polynomial, P1 derivative, v list of approx roots 
-  // (initially should have at least n bits precision), 
+  // P is the polynomial, P1 derivative, v list of approx roots
+  // (initially should have at least n bits precision),
   // epsn is the target number of bits precision int(std::log(eps)/std::log(2.)-.5);
   // epsg2surdeg2 is eps^2/degree(P)^2 as a gen, epsg is the target precision
   // v[i] is set by newton_improve to be at distance at most vradius[i] of a root

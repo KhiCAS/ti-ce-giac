@@ -34,7 +34,7 @@
 #if defined (__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
 
 /* C99 says to define __STDC_LIMIT_MACROS before including stdint.h,
- * if you want the limit (max/min) macros for int types. 
+ * if you want the limit (max/min) macros for int types.
  */
 #ifndef __STDC_LIMIT_MACROS
 #define __STDC_LIMIT_MACROS 1
@@ -51,7 +51,7 @@ typedef uint32_t flex_uint32_t;
 typedef signed char flex_int8_t;
 typedef short int flex_int16_t;
 typedef int flex_int32_t;
-typedef unsigned char flex_uint8_t; 
+typedef unsigned char flex_uint8_t;
 typedef unsigned short int flex_uint16_t;
 typedef unsigned int flex_uint32_t;
 
@@ -178,7 +178,7 @@ typedef size_t yy_size_t;
 
     #define YY_LESS_LINENO(n)
     #define YY_LINENO_REWIND_TO(ptr)
-    
+
 /* Return all but the first "n" matched characters back to the input stream. */
 #define yyless(n) \
 	do \
@@ -998,8 +998,8 @@ static yyconst flex_int16_t yy_chk[1422] =
 #define YY_RESTORE_YY_MORE_OFFSET
 #line 1 "input_lexer.ll"
 /* -*- mode: C++; compile-command: "flex input_lexer.ll && make input_lexer.o " -*- */
-/* Note: for the nspire port, after flex, move from #ifdef HAVE_CONFIG_H 
-   to #include "first.h" before #include<stdio.h> 
+/* Note: for the nspire port, after flex, move from #ifdef HAVE_CONFIG_H
+   to #include "first.h" before #include<stdio.h>
    and map "log" to log10 instead of ln
    // casio: copy lexer.h.bak to lexer.h
   // replace isatty( fileno(...) by isatty(0 in input_lexer.cc, replace getc( yyin ) by fgetc(yyin)
@@ -1076,7 +1076,7 @@ int confirm(const char * msg1,const char * msg2,bool acexit);
 #include "tex.h"
 #include "risch.h"
 #include "permu.h"
-#include "input_parser.h"    
+#include "input_parser.h"
 
 #if defined(RTOS_THREADX) || defined(__MINGW_H) || defined NSPIRE || defined FXCG || defined MS_SMART || defined(FREERTOS) || defined TICE
   int isatty (int ){ return 0; }
@@ -1208,7 +1208,7 @@ static int yy_init_globals (yyscan_t yyscanner );
     /* This must go here because YYSTYPE and YYLTYPE are included
      * from bison output in section 1.*/
     #    define yylval yyg->yylval_r
-    
+
 int giac_yylex_init (yyscan_t* scanner);
 
 int giac_yylex_init_extra (YY_EXTRA_TYPE user_defined,yyscan_t* scanner);
@@ -1263,9 +1263,9 @@ extern int giac_yywrap (yyscan_t yyscanner );
 #endif
 
 #ifndef YY_NO_UNPUT
-    
+
     static void yyunput (int c,char *buf_ptr  ,yyscan_t yyscanner);
-    
+
 #endif
 
 #ifndef yytext_ptr
@@ -1513,8 +1513,8 @@ increment_comment_s('"',yyextra);
 case 5:
 YY_RULE_SETUP
 #line 169 "input_lexer.ll"
-{  index_status(yyextra)=1; BEGIN(INITIAL); 
-                  (*yylval)=string2gen(comment_s(yyextra),false); 
+{  index_status(yyextra)=1; BEGIN(INITIAL);
+                  (*yylval)=string2gen(comment_s(yyextra),false);
                   return T_STRING; }
 	YY_BREAK
 case 6:
@@ -1581,7 +1581,7 @@ increment_comment_s(yytext,yyextra);
 case 16:
 YY_RULE_SETUP
 #line 191 "input_lexer.ll"
-BEGIN(backquote); comment_s("",yyextra); 
+BEGIN(backquote); comment_s("",yyextra);
 	YY_BREAK
 case 17:
 /* rule 17 can match eol */
@@ -1597,7 +1597,7 @@ increment_comment_s(yytext,yyextra);
 case 19:
 YY_RULE_SETUP
 #line 194 "input_lexer.ll"
-{  index_status(yyextra)=1; BEGIN(INITIAL); 
+{  index_status(yyextra)=1; BEGIN(INITIAL);
   return find_or_make_symbol(comment_s(yyextra),(*yylval),yyscanner,true,yyextra); }
 	YY_BREAK
 case 20:
@@ -1674,7 +1674,7 @@ index_status(yyextra)=0; (*yylval)=0; return T_SEMI;
 case 33:
 YY_RULE_SETUP
 #line 213 "input_lexer.ll"
-index_status(yyextra)=0; return T_SEMI; 
+index_status(yyextra)=0; return T_SEMI;
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
@@ -1928,21 +1928,21 @@ index_status(yyextra)=0; (*yylval)=gen(at_superieur_strict,2); return T_TEST_EQU
 case 83:
 YY_RULE_SETUP
 #line 272 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval)=gen("rotate",0); return T_UNION; 
+index_status(yyextra)=0; (*yylval)=gen("rotate",0); return T_UNION;
 	YY_BREAK
 YY_RULE_SETUP
 #line 273 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval)=gen("shift",0); return T_UNION; 
-	YY_BREAK 
+index_status(yyextra)=0; (*yylval)=gen("shift",0); return T_UNION;
+	YY_BREAK
 case 85:
 YY_RULE_SETUP
 #line 274 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval)=gen("rotatesto",0); return T_UNION; 
+index_status(yyextra)=0; (*yylval)=gen("rotatesto",0); return T_UNION;
 	YY_BREAK
 case 86:
 YY_RULE_SETUP
 #line 275 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval)=gen("shiftsto",0); return T_UNION; 
+index_status(yyextra)=0; (*yylval)=gen("shiftsto",0); return T_UNION;
 	YY_BREAK
 case 87:
 YY_RULE_SETUP
@@ -1982,7 +1982,7 @@ index_status(yyextra)=1; return T_VECT_END;
 case 94:
 YY_RULE_SETUP
 #line 283 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval) = _POLY1__VECT; return T_VECT_DISPATCH; 
+index_status(yyextra)=0; (*yylval) = _POLY1__VECT; return T_VECT_DISPATCH;
 	YY_BREAK
 case 95:
 YY_RULE_SETUP
@@ -1992,7 +1992,7 @@ index_status(yyextra)=1; return T_VECT_END;
 case 96:
 YY_RULE_SETUP
 #line 285 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval) = _MATRIX__VECT; return T_VECT_DISPATCH; 
+index_status(yyextra)=0; (*yylval) = _MATRIX__VECT; return T_VECT_DISPATCH;
 	YY_BREAK
 case 97:
 YY_RULE_SETUP
@@ -2002,7 +2002,7 @@ index_status(yyextra)=1; return T_VECT_END;
 case 98:
 YY_RULE_SETUP
 #line 287 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval) = _ASSUME__VECT; return T_VECT_DISPATCH; 
+index_status(yyextra)=0; (*yylval) = _ASSUME__VECT; return T_VECT_DISPATCH;
 	YY_BREAK
 case 99:
 YY_RULE_SETUP
@@ -2023,7 +2023,7 @@ index_status(yyextra)=1; return T_VECT_END;
 case 102:
 YY_RULE_SETUP
 #line 292 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval) = _LINE__VECT; return T_VECT_DISPATCH; 
+index_status(yyextra)=0; (*yylval) = _LINE__VECT; return T_VECT_DISPATCH;
 	YY_BREAK
 case 103:
 YY_RULE_SETUP
@@ -2033,7 +2033,7 @@ index_status(yyextra)=1; return T_VECT_END;
 case 104:
 YY_RULE_SETUP
 #line 294 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval) = _VECTOR__VECT; return T_VECT_DISPATCH; 
+index_status(yyextra)=0; (*yylval) = _VECTOR__VECT; return T_VECT_DISPATCH;
 	YY_BREAK
 case 105:
 YY_RULE_SETUP
@@ -2043,7 +2043,7 @@ index_status(yyextra)=1; return T_VECT_END;
 case 106:
 YY_RULE_SETUP
 #line 296 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval) = _CURVE__VECT; return T_VECT_DISPATCH; 
+index_status(yyextra)=0; (*yylval) = _CURVE__VECT; return T_VECT_DISPATCH;
 	YY_BREAK
 case 107:
 YY_RULE_SETUP
@@ -2054,7 +2054,7 @@ index_status(yyextra)=1; return T_VECT_END;
 case 108:
 YY_RULE_SETUP
 #line 299 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval)=_TABLE__VECT;return T_VECT_DISPATCH; 
+index_status(yyextra)=0; (*yylval)=_TABLE__VECT;return T_VECT_DISPATCH;
 	YY_BREAK
 case 109:
 YY_RULE_SETUP
@@ -2467,13 +2467,13 @@ index_status(yyextra)=0; if (xcas_mode(yyextra)==3 || calc_mode(yyextra)==1) { (
 case 190:
 YY_RULE_SETUP
 #line 386 "input_lexer.ll"
-index_status(yyextra)=0; if (xcas_mode(yyextra)==0){ (*yylval)=gen(at_iquorem,2); return T_MOD;} (*yylval)=symbolic(at_ans,-2); return T_NUMBER; 
+index_status(yyextra)=0; if (xcas_mode(yyextra)==0){ (*yylval)=gen(at_iquorem,2); return T_MOD;} (*yylval)=symbolic(at_ans,-2); return T_NUMBER;
 	YY_BREAK
 /* \xe2\x88\xa1             index_status(yyextra)=0; (*yylval)=gen(at_polar_complex,2); return T_MOD; */
 case 191:
 YY_RULE_SETUP
 #line 388 "input_lexer.ll"
-if (xcas_mode(yyextra)==0){ (*yylval)=gen(at_quorem,2); return T_MOD;} index_status(yyextra)=0; (*yylval)=symbolic(at_ans,-3); return T_NUMBER; 
+if (xcas_mode(yyextra)==0){ (*yylval)=gen(at_quorem,2); return T_MOD;} index_status(yyextra)=0; (*yylval)=symbolic(at_ans,-3); return T_NUMBER;
 	YY_BREAK
 case 192:
 YY_RULE_SETUP
@@ -2624,7 +2624,7 @@ YY_RULE_SETUP
 case 221:
 YY_RULE_SETUP
 #line 420 "input_lexer.ll"
-(*yylval) = gen(at_not,1); return T_IN;  
+(*yylval) = gen(at_not,1); return T_IN;
 	YY_BREAK
 case 222:
 YY_RULE_SETUP
@@ -2704,7 +2704,7 @@ index_status(yyextra)=0; (*yylval)=gen(at_for,4); return T_DO; /* must be here f
 case 237:
 YY_RULE_SETUP
 #line 437 "input_lexer.ll"
-index_status(yyextra)=0;(*yylval)=gen(at_diff); return T_UNARY_OP; 
+index_status(yyextra)=0;(*yylval)=gen(at_diff); return T_UNARY_OP;
 	YY_BREAK
 case 238:
 YY_RULE_SETUP
@@ -2734,7 +2734,7 @@ index_status(yyextra)=0; (*yylval)=gen(at_superieur_egal,2); return T_TEST_EQUAL
 case 243:
 YY_RULE_SETUP
 #line 443 "input_lexer.ll"
-index_status(yyextra)=0;(*yylval)=gen(at_product); return T_UNARY_OP; 
+index_status(yyextra)=0;(*yylval)=gen(at_product); return T_UNARY_OP;
 	YY_BREAK
 /* numbers, also accept DMS e.g 1°15′27″13 */
 case 244:
@@ -2788,7 +2788,7 @@ case 267:
 case 268:
 YY_RULE_SETUP
 #line 469 "input_lexer.ll"
-{ 
+{
   index_status(yyextra)=1;
   int l=strlen(yytext);
   int interv=0; // set to non-zero if ? in the number
@@ -2853,7 +2853,7 @@ YY_RULE_SETUP
       }
     }
   }
-  (*yylval) = chartab2gen(yytext,yyextra); 
+  (*yylval) = chartab2gen(yytext,yyextra);
   if (interv){
     double d=evalf_double(*yylval,1,context0)._DOUBLE_val;
     if (d<0 && interv>1)
@@ -2862,7 +2862,7 @@ YY_RULE_SETUP
     tmp=(std::pow(10.,1+tmp-interv));
     *yylval=eval(gen(makevecteur(d-tmp,d+tmp),_INTERVAL__VECT),1,context0);
   }
-  return T_NUMBER; 
+  return T_NUMBER;
 }
 	YY_BREAK
 /* symbols */
@@ -2877,14 +2877,14 @@ YY_RULE_SETUP
  if (res==T_NUMBER)
    *yylval=(*yylval)(string2gen(unlocalize(yytext),false),yyextra);
  return res;
-} 
+}
 	YY_BREAK
 case 271:
 YY_RULE_SETUP
 #line 555 "input_lexer.ll"
-if (!xcas_mode(yyextra) || xcas_mode(yyextra)==3) { 
+if (!xcas_mode(yyextra) || xcas_mode(yyextra)==3) {
   // CERR << "hash" << endl;
-  (*yylval)=gen(at_hash,1); return TI_HASH; 
+  (*yylval)=gen(at_hash,1); return TI_HASH;
 } else BEGIN(comment_hash);
 	YY_BREAK
 case 272:
@@ -3432,7 +3432,7 @@ static void giac_yy_load_buffer_state  (yyscan_t yyscanner)
     YY_BUFFER_STATE giac_yy_create_buffer  (FILE * file, int  size , yyscan_t yyscanner)
 {
 	YY_BUFFER_STATE b;
-    
+
 	b = (YY_BUFFER_STATE) giac_yyalloc(sizeof( struct yy_buffer_state ) ,yyscanner );
 	if ( ! b )
 		YY_FATAL_ERROR( "out of dynamic memory in giac_yy_create_buffer()" );
@@ -3498,7 +3498,7 @@ static void giac_yy_load_buffer_state  (yyscan_t yyscanner)
     }
 
         b->yy_is_interactive = file ? (isatty( 0 ) > 0) : 0;
-    
+
 	errno = oerrno;
 }
 
@@ -3640,7 +3640,7 @@ static void giac_yyensure_buffer_stack (yyscan_t yyscanner)
 YY_BUFFER_STATE giac_yy_scan_buffer  (char * base, yy_size_t  size , yyscan_t yyscanner)
 {
 	YY_BUFFER_STATE b;
-    
+
 	if ( size < 2 ||
 	     base[size-2] != YY_END_OF_BUFFER_CHAR ||
 	     base[size-1] != YY_END_OF_BUFFER_CHAR )
@@ -3676,7 +3676,7 @@ YY_BUFFER_STATE giac_yy_scan_buffer  (char * base, yy_size_t  size , yyscan_t yy
  */
 YY_BUFFER_STATE giac_yy_scan_string (yyconst char * yystr , yyscan_t yyscanner)
 {
-    
+
 	return giac_yy_scan_bytes(yystr,(int) strlen(yystr) ,yyscanner);
 }
 
@@ -3693,7 +3693,7 @@ YY_BUFFER_STATE giac_yy_scan_bytes  (yyconst char * yybytes, int  _yybytes_len ,
 	char *buf;
 	yy_size_t n;
 	int i;
-    
+
 	/* Get memory for full buffer, including space for trailing EOB's. */
 	n = (yy_size_t) (_yybytes_len + 2);
 	buf = (char *) giac_yyalloc(n ,yyscanner );
@@ -3766,7 +3766,7 @@ int giac_yyget_lineno  (yyscan_t yyscanner)
 
         if (! YY_CURRENT_BUFFER)
             return 0;
-    
+
     return yylineno;
 }
 
@@ -3779,7 +3779,7 @@ int giac_yyget_column  (yyscan_t yyscanner)
 
         if (! YY_CURRENT_BUFFER)
             return 0;
-    
+
     return yycolumn;
 }
 
@@ -3841,7 +3841,7 @@ void giac_yyset_lineno (int  _line_number , yyscan_t yyscanner)
         /* lineno is only valid if an input buffer exists. */
         if (! YY_CURRENT_BUFFER )
            YY_FATAL_ERROR( "giac_yyset_lineno called with no buffer" );
-    
+
     yylineno = _line_number;
 }
 
@@ -3856,7 +3856,7 @@ void giac_yyset_column (int  _column_no , yyscan_t yyscanner)
         /* column is only valid if an input buffer exists. */
         if (! YY_CURRENT_BUFFER )
            YY_FATAL_ERROR( "giac_yyset_column called with no buffer" );
-    
+
     yycolumn = _column_no;
 }
 
@@ -4125,7 +4125,7 @@ int confirm(const char * msg1,const char * msg2,bool acexit=false);
       {
 	string s; s.reserve(s_orig.size()+128);
 	s=s_orig;
-#ifndef WITH_QUAD      
+#ifndef WITH_QUAD
         //#if 1 // defined NSPIRE // || defined FXCG
         for (unsigned i=0;i<s.size()-1;++i){
           if (s[i]==']' && s[i+1]=='['){
@@ -4156,7 +4156,7 @@ int confirm(const char * msg1,const char * msg2,bool acexit=false);
               s[i-4]=s[i-3]=s[i-2]=s[i-1]=' ';
             }
             if (!instring && i && s[i]=='*' && s[i-1]=='/'){
-              // skip comment 
+              // skip comment
               for (;i<l;++i){
                 if (s[i]=='/' && s[i-1]=='*')
                   break;
@@ -4254,15 +4254,15 @@ int confirm(const char * msg1,const char * msg2,bool acexit=false);
           if (0 && i && s[i]=='_' && (s[i-1]=='.' || (s[i-1]>='0' && s[i-1]<='9'))){
             ss += " unit "; // _ does not work
             continue;
-          }       
+          }
           if (0 && i>2 && s[i]=='_' && ((s[i-3]=='=' && s[i-2]=='>' && s[i-1]==' ') || (s[i-2]=='=' && s[i-1]>='>'))){
-            ss += " unit_"; 
+            ss += " unit_";
             continue;
-          }       
+          }
           if (i && (unsigned char)s[i]==0xc2 && (unsigned char)s[i+1]!=0xb0)
             ss += ' ';
           if ( (unsigned char)s[i]==0xef && i<l-3 ){
-            if ((unsigned char)s[i+1]==0x80 && (unsigned char)s[i+2]==0x80 ){  
+            if ((unsigned char)s[i+1]==0x80 && (unsigned char)s[i+2]==0x80 ){
               ss+='e';
               i+=2;
               continue;
@@ -4280,7 +4280,7 @@ int confirm(const char * msg1,const char * msg2,bool acexit=false);
               ss += ' ';
               continue;
             }
-            if ((unsigned char)s[i+1]==0x89){ 
+            if ((unsigned char)s[i+1]==0x89){
               ss += ' ';
               ss += s[i];
               ++i;
@@ -4289,9 +4289,9 @@ int confirm(const char * msg1,const char * msg2,bool acexit=false);
               ss += s[i];
               ss += ' ';
               continue;
-            } // 0xe2 0x89	  
-            if ((unsigned char)s[i+1]==0x88){ 
-              // mathop, add blank before and after except following an e/E 
+            } // 0xe2 0x89
+            if ((unsigned char)s[i+1]==0x88){
+              // mathop, add blank before and after except following an e/E
               if ((unsigned char) s[i+2]==0x91){ // sigma
                 ss += " SIGMA";
                 i +=2;
@@ -4328,8 +4328,8 @@ int confirm(const char * msg1,const char * msg2,bool acexit=false);
               ss += ' ';
               continue;
             } // 0xe2 0x88
-            if ((unsigned char)s[i+1]==0x96 && ((unsigned char)s[i+2]==0xba || (unsigned char)s[i+2]==182 )){  
-              // sto 
+            if ((unsigned char)s[i+1]==0x96 && ((unsigned char)s[i+2]==0xba || (unsigned char)s[i+2]==182 )){
+              // sto
               ss += s[i];
               ++i;
               ss += s[i];
@@ -4338,8 +4338,8 @@ int confirm(const char * msg1,const char * msg2,bool acexit=false);
               ss += ' ';
               continue;
             } // 0xe2 0x96
-            if ((unsigned char)s[i+1]==0x86 && (unsigned char)s[i+2]==0x92){  
-              // sto 
+            if ((unsigned char)s[i+1]==0x86 && (unsigned char)s[i+2]==0x92){
+              // sto
               ss += s[i];
               ++i;
               ss += s[i];
@@ -4378,11 +4378,11 @@ int confirm(const char * msg1,const char * msg2,bool acexit=false);
         lexer_string=ss;
       }
       currently_scanned(contextptr)=lexer_string.c_str();
-#ifndef WITH_QUAD      
+#ifndef WITH_QUAD
       dbg_printf("lex %s\n",lexer_string.c_str());
 #endif
       YY_BUFFER_STATE state=giac_yy_scan_string(lexer_string,scanner);
-#ifndef WITH_QUAD      
+#ifndef WITH_QUAD
       dbg_printf("lex done\n");
 #endif
       return state;
@@ -4395,7 +4395,7 @@ int confirm(const char * msg1,const char * msg2,bool acexit=false);
     }
 
 #if 0 //def STATIC_BUILTIN_LEXER_FUNCTIONS
-    bool CasIsBuildInFunction(char const *s, gen &g){ 
+    bool CasIsBuildInFunction(char const *s, gen &g){
       // binary search in builtin_lexer_functions
       int i=0, j=builtin_lexer_functions_number-1;
       int cmp;
@@ -4407,11 +4407,11 @@ int confirm(const char * msg1,const char * msg2,bool acexit=false);
         if (i+1>=j) return false;
         int mid= (i+j)/2;
         cmp= strcmp(s,builtin_lexer_functions[mid].s);
-        if (cmp==0) { i=mid; goto found; } 
+        if (cmp==0) { i=mid; goto found; }
         if (cmp>0) i= mid; else j=mid;
       }
     found:
-#if defined NSPIRE 
+#if defined NSPIRE
       g= gen(int((*builtin_lexer_functions_())[i]+builtin_lexer_functions[i]._FUNC_));
 #else
       g= gen(int(builtin_lexer_functions_[i]+builtin_lexer_functions[i]._FUNC_));
@@ -4424,5 +4424,3 @@ int confirm(const char * msg1,const char * msg2,bool acexit=false);
 #ifndef NO_NAMESPACE_GIAC
   } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC
-  
-

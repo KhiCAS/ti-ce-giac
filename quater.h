@@ -25,25 +25,25 @@
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
-  
+
   extern const unary_function_ptr * const  at_quaternion; // user-level quaternion constructor
 #ifndef NO_RTTI
   class quaternion : public gen_user {
   public:
     gen r,i,j,k;
-    virtual gen_user * memory_alloc() const { 
+    virtual gen_user * memory_alloc() const {
       quaternion * ptr= new quaternion(*this);
-      return dynamic_cast<gen_user *>(ptr); 
+      return dynamic_cast<gen_user *>(ptr);
     }
     quaternion(const quaternion & q):r(q.r),i(q.i),j(q.j),k(q.k){};
     quaternion(const gen & myr,const gen & myi,const gen & myj,const gen & myk):r(myr),i(myi),j(myj),k(myk) {};
     quaternion():r(zero),i(zero),j(zero),k(zero) {};
     quaternion(const gen & g);
-    virtual gen operator + (const gen & g) const { 
+    virtual gen operator + (const gen & g) const {
       quaternion q(g);
       return quaternion(r+q.r,i+q.i,j+q.j,k+q.k);
     }
-    virtual gen operator - (const gen & g) const { 
+    virtual gen operator - (const gen & g) const {
       quaternion q(g);
       return quaternion(r-q.r,i-q.i,j-q.j,k-q.k);
     }
@@ -57,10 +57,10 @@ namespace giac {
     gen P; // minimal irreducible polynomial of degree m, as vector
     gen x; // the name of the variable for construction
     gen a; // value as a vector polynomial or undef (whole field)
-    virtual gen_user * memory_alloc() const { 
+    virtual gen_user * memory_alloc() const {
       galois_field * ptr= new galois_field(*this,false);
       // if (a != smod(a,p) && smod(a,p))  CERR << "not reduced" << endl;
-      return ptr; 
+      return ptr;
     }
     galois_field(const galois_field & q,bool doreduce=true);
     galois_field(const gen p_,const gen & P_,const gen & x_,const gen & a_,bool doreduce=true);
@@ -84,7 +84,7 @@ namespace giac {
     virtual gen operator < (const gen & g) const;
     virtual gen operator >= (const gen & g) const;
     virtual gen operator <= (const gen & g) const;
-    virtual gen gcd (const gen &) const { return plus_one;}    
+    virtual gen gcd (const gen &) const { return plus_one;}
     virtual gen gcd (const gen_user & a) const { return plus_one; }
     virtual gen polygcd (const polynome &,const polynome &,polynome &) const ;
     virtual gen makegen(int i) const ;
@@ -110,7 +110,7 @@ namespace giac {
   // All Galois field in a map[p^m]=generator of GF(p,m)
   // the generator might be replaced by some polynomial of a GF(p,m*m2)
   // if a binary operation on two elements of different GF(p,.) happens
-  typedef std::map<gen,gen_context_t,comparegen > gfmap; 
+  typedef std::map<gen,gen_context_t,comparegen > gfmap;
   gfmap & gf_list();
   int gfsize(const gen & P);
   bool has_gf_coeff(const gen & e,gen & p, gen & pmin);
