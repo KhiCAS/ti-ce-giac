@@ -4205,7 +4205,7 @@ void displaygraph(const giac::gen & ge){
   }
 
   bool Graph2d::findij(const gen & e0,double x_scale,double y_scale,double & i0,double & j0,GIAC_CONTEXT) const {
-    if (display_mode&0xc00==0 && e0.type==_CPLX && e0.subtype==3){
+    if ( (display_mode&0xc00)==0 && e0.type==_CPLX && e0.subtype==3){
       i0=(e0._CPLXptr->_DOUBLE_val-window_xmin)*x_scale;
       j0=(window_ymax-(e0._CPLXptr+1)->_DOUBLE_val)*y_scale;
       return true;
