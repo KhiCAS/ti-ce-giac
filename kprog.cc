@@ -4945,7 +4945,7 @@ namespace giac {
       else
         evals += " | ";
     }
-    if (!evals.size()==0){
+    if (evals.size()!=0){
       os_draw_string_medium(dispx,dispy,COLOR_BLACK,COLOR_WHITE,evals.c_str(),0);
       dispx=0;
     }
