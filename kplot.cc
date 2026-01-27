@@ -1969,10 +1969,12 @@ namespace giac {
     int j=1;
     gen newx0;
     double x1;
+    gprintf("======== %gen=%gen), %gen=%gen",makevecteur(symb_at(u__IDNT_e,n__IDNT_e+1,contextptr),subst(f,x,symb_at(u__IDNT_e,n__IDNT_e,contextptr),false,contextptr),symb_at(u__IDNT_e,0,contextptr),x0),1,contextptr);
     for (int i=0;i<niter;++i){
       newx0=subst(f,x,x0,false,contextptr).evalf2double(eval_level(contextptr),contextptr);
       if (newx0.type!=_DOUBLE_)
 	return gensizeerr(gettext("Bad iteration"));
+      gprintf("n=%gen u_n=%gen",makevecteur(i+1,newx0),1,contextptr);
       x1=newx0._DOUBLE_val;
       res[j]=gen(x0,x1);
       ++j;
@@ -1999,7 +2001,7 @@ namespace giac {
     if (l<2)
       v.push_back(0);
     expr=v[0];
-    niter=30;
+    niter=10;
     gen x0;
     if (l>3){ // expr,var,x0,niter
       x=v[1];
@@ -2036,6 +2038,25 @@ namespace giac {
       xmax=x0v[2]._DOUBLE_val;
       x0=remove_at_pnt(x0v[0]);
       x0=re(x0,contextptr);
+    }
+    else {
+      double xcur=x0._DOUBLE_val;
+      xmin=xmax=xcur;
+      for (int i=0;i<niter;++i){
+        gen tmp=subst(expr,x,xcur,false,contextptr);
+        if (tmp.type!=_DOUBLE_)
+          break;
+        xcur=tmp._DOUBLE_val;
+        if (xcur<xmin)
+          xmin=xcur;
+        if (xcur>xmax)
+          xmax=xcur;
+      }
+      xcur=(xmax-xmin)/10;
+      if (xcur<1)
+        xcur=1;
+      xmax += xcur;
+      xmin -= xcur;
     }
     if (x0.type!=_DOUBLE_)
       return -4; // 
