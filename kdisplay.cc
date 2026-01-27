@@ -385,7 +385,7 @@ void waitforvblank(){}
 #endif
     }
     else {
-      if (t.cmd_row!=t.cur_row || t.cmd_col!=t.cur_col)
+      if (t.cmd_row!=t.cur_row || t.cmd_col!=t.cur_col){
 #ifdef HP39
         xend=os_draw_string_small(xend,sheety,COLOR_BLACK,COLOR_WHITE,printcell(t.cur_row,t.cur_col).c_str(),false);
 #else
@@ -394,6 +394,7 @@ void waitforvblank(){}
       else
         xend=os_draw_string(xend,sheety,COLOR_BLACK,color_gris,printcell(t.cur_row,t.cur_col).c_str(),false);
 #endif
+	  }
     }
   } // end cmdline active
   else
