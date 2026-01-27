@@ -191,7 +191,7 @@ void save_sheet_to(tableur & t,const char * filename_,GIAC_CONTEXT){
   write_file(filename.c_str(),s.c_str());
 }
 void save_sheet(tableur & t,GIAC_CONTEXT){
-  save_sheet_to(t,t.filename,contextptr);
+  save_sheet_to(t,t.filename.c_str(),contextptr);
 }
 
 void sheet_status(tableur & t,GIAC_CONTEXT){
@@ -385,15 +385,16 @@ void waitforvblank(){}
 #endif
     }
     else {
-      if (t.cmd_row!=t.cur_row || t.cmd_col!=t.cur_col)
+      if (t.cmd_row!=t.cur_row || t.cmd_col!=t.cur_col) {
 #ifdef HP39
         xend=os_draw_string_small(xend,sheety,COLOR_BLACK,COLOR_WHITE,printcell(t.cur_row,t.cur_col).c_str(),false);
 #else
-      if (small)
-        xend=os_draw_string_small(xend,sheety,COLOR_BLACK,color_gris,printcell(t.cur_row,t.cur_col).c_str(),false);
-      else
-        xend=os_draw_string(xend,sheety,COLOR_BLACK,color_gris,printcell(t.cur_row,t.cur_col).c_str(),false);
+        if (small)
+          xend=os_draw_string_small(xend,sheety,COLOR_BLACK,color_gris,printcell(t.cur_row,t.cur_col).c_str(),false);
+        else
+          xend=os_draw_string(xend,sheety,COLOR_BLACK,color_gris,printcell(t.cur_row,t.cur_col).c_str(),false);
 #endif
+      }
     }
   } // end cmdline active
   else

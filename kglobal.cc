@@ -1779,7 +1779,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     }
     string name=s.substr(0,i);
 #if defined FXCG || defined TICE
-    const char ch[]="/";
+    const char * ch = "/";
 #else
     const char * ch=getenv("PATH");
 #endif
