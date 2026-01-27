@@ -72,10 +72,10 @@ namespace giac {
     if (g.type==_VECT && g.subtype==_SEQ__VECT && g._VECTptr->size()==2){
       gen & obj=g._VECTptr->front();
       vecteur & ptr=*obj._VECTptr;
-      return makevecteur((longlong) (unsigned) (&ptr),(int) taille(obj,RAND_MAX),tailles(obj));
+      return makevecteur((longlong) (uintptr_t) (&ptr),(int) taille(obj,RAND_MAX),tailles(obj));
     }
     vecteur & ptr=*g._VECTptr;
-    return (longlong) (unsigned) (&ptr);
+    return (longlong) (uintptr_t) (&ptr);
   }
   static const char _addr_s []="addr";
   static define_unary_function_eval (__addr,&_addr,_addr_s);

@@ -9810,9 +9810,9 @@ double my_tan(double arg){
 #else
   ostream & operator << (ostream & os,const alias_ref_vecteur & v){
 #ifdef IMMEDIATE_VECTOR
-    os << (unsigned long) &v << ":" << *(gen *)v.begin_immediate_vect << "," << *(gen*) (v.begin_immediate_vect+1);
+    os << (uintptr_t) &v << ":" << *(gen *)v.begin_immediate_vect << "," << *(gen*) (v.begin_immediate_vect+1);
 #else
-    os << (unsigned long) &v ;
+    os << (uintptr_t) &v ;
 #endif
     return os;
   }
