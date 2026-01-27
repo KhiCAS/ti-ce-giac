@@ -195,7 +195,7 @@ namespace giac {
   extern gen h__IDNT_e;
   extern identificateur i__IDNT;
   extern gen i__IDNT_e;
-  extern identificateur I__IDNT;
+  extern identificateur j__IDNT;
   extern gen j__IDNT_e;
   extern identificateur k__IDNT;
   extern gen k__IDNT_e;
