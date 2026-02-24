@@ -378,8 +378,7 @@ namespace giac {
 #ifdef TICE
 // format is currently ignored, keep only 6 digits (round) 
   void sprintfdouble(char * ch,const char * format,double d){
-    sprintf(ch, "%f", d);
-    return;
+    // sprintf(ch, "%f", d); return;
     int i=d;
     if (i==d && -1e6<d && d<1e6){
       sprintf(ch,"%i.0",i);
