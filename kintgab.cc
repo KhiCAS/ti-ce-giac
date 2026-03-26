@@ -62,13 +62,13 @@ namespace giac {
   bool intgab(const gen & g0,const gen & x,const gen & a,const gen & b,gen & res,GIAC_CONTEXT){
     return false;
   }
-  
+
   bool sumab(const gen & g,const gen & x,const gen & a_orig,const gen & b_orig,gen & res,bool testi,GIAC_CONTEXT){
     return false;
   }
 #else
 
-  // check whether an expression is meromorphic 
+  // check whether an expression is meromorphic
   // returns -1 if x is not an IDNT
   // return 2 if rational
   // return 3 if rational fraction of x, sin(a*x+b), cos(a*x+b)
@@ -98,7 +98,7 @@ namespace giac {
 	return 0;
       P=v[1]._SYMBptr->feuille;
       if (v.size()==2) {
-	if (v[1].is_symb_of_sommet(at_exp)){ 
+	if (v[1].is_symb_of_sommet(at_exp)){
 	  if (is_linear_wrt(P,x,a,b,contextptr)){
 	    if (is_zero(re(a,contextptr))){
 	      a=a/cst_i;
@@ -204,7 +204,7 @@ namespace giac {
 #ifdef COMPILE_FOR_STABILITY
       control_c();
 #endif
-      if (ctrl_c || interrupted) { 
+      if (ctrl_c || interrupted) {
 	interrupted = true; ctrl_c=false;
 	gen res;
 	gensizeerr(gettext("Stopped by user interruption."),res);
@@ -249,14 +249,14 @@ namespace giac {
 	v.push_back(w[1]);
 	v[1]=w[0];
       }
-      else 
+      else
 	return gensizeerr(gettext("Syntax residue(expr,x=a)"));
       ++s;
     }
     if (s<3)
       return gensizeerr(contextptr);
     return residue(v[0],v[1],v[2],contextptr);
-  } 
+  }
   static const char _residue_s []="residue";
   static define_unary_function_eval (__residue,&_residue,_residue_s);
   define_unary_function_ptr5( at_residue ,alias_at_residue,&__residue,0,true);
@@ -290,7 +290,7 @@ namespace giac {
       return res;
     }
     return singular(v[0],v[1],contextptr);
-  } 
+  }
   static const char _singular_s []="singular";
   static define_unary_function_eval (__singular,&_singular,_singular_s);
   define_unary_function_ptr5( at_singular ,alias_at_singular,&__singular,0,true);
@@ -320,7 +320,7 @@ namespace giac {
       lnpart=0;
       if (r_num.type==_POLY)
 	ratpart=rdiv(r2e(r_num._POLYptr->integrate(),l,contextptr),r2sym(r_den,l,contextptr),contextptr);
-      else 
+      else
 	ratpart=e*x;
       return true;
     }
@@ -406,7 +406,7 @@ namespace giac {
       if (!Q.coord.empty() && Q.coord.back().index.is_zero())
 	Q.coord.back().value=Q.coord.back().value/2;
       // R/Dp is the true fractional part, Q is the true poly. part
-      // now check roots of norm=1 
+      // now check roots of norm=1
       gen dp=r2sym(Dp,vX,contextptr);
       identificateur XXi(" x"),XYi(" y");
       gen XX(XXi),XY(XYi);
@@ -493,7 +493,7 @@ namespace giac {
       return true;
     } // end if separate_variables
     return false;
-  } 
+  }
 
   static int nvars_depend_x(const vecteur & v,const gen & x){
     int res=0;
@@ -526,7 +526,7 @@ namespace giac {
       res=sqrt(-cst_pi/A_,contextptr)*B*exp(ratnormal(C_-B_*B_/4/A_,contextptr),contextptr);
       return true;
     }
-    if (typeint==5){ 
+    if (typeint==5){
       // A*ln(P(x))+B, A/B/P rational fractions
       bool estreel=is_zero(im(A,contextptr))&&is_zero(im(P,contextptr));
       vecteur lv(1,x);
@@ -575,7 +575,7 @@ namespace giac {
 	fxnd(P2,N,D);
 	gen lncst=ln(_lcoeff(gen(makevecteur(r2sym(N,lv,contextptr),x),_SEQ__VECT),contextptr)/_lcoeff(gen(makevecteur(r2sym(D,lv,contextptr),x),_SEQ__VECT),contextptr),contextptr);
 	// roots and poles of P are sorted: for im>0, contour is C-
-	// for im<=0, contour is C+, 
+	// for im<=0, contour is C+,
 	// for roots of P take +residue(ln(x-r)*A)
 	// for poles of P take -residue(ln(x-r)*A)
 	int rAs=int(rA.size()),rPs=int(rP.size());
@@ -615,7 +615,7 @@ namespace giac {
       }
       return true;
     }
-    if (typeint==4){ 
+    if (typeint==4){
       // rational fraction of x and exp(A*x+B)
       // the exp part is periodic if x -> x+2*i*pi/A
       // if the rat frac of x and rat frac of exp are separate
@@ -669,13 +669,13 @@ namespace giac {
 	  somme_residus += residue(tmp,*x._IDNTptr,rac,contextptr);
 	  if (is_undef(somme_residus)) return false;
 	}
-	res=normal(-2*cst_pi*cst_i*somme_residus,contextptr); 
+	res=normal(-2*cst_pi*cst_i*somme_residus,contextptr);
 	// - because the integration on inf+T..-inf+T is done backward
 	return true;
       }
       return false;
     }
-    if (typeint==3){ 
+    if (typeint==3){
       // rational fraction of x and sin(A*x+B)|cos(A*x+B) or exp(i*(A*x+B))
       gen img=im(g,contextptr);
       img=simplify(img,contextptr);
@@ -691,7 +691,7 @@ namespace giac {
       }
       return intgab_sincos(g,x,a,b,A,B,res,contextptr);
     }
-    if (typeint==2){ 
+    if (typeint==2){
       // FIXME replace by if (typeint>0) but should handle transc. func.
       // correctly...
 #ifndef NO_STDEXCEPT
@@ -719,7 +719,7 @@ namespace giac {
 	  if (!assume_t_in_ab(gt,0,cst_pi,true,true,contextptr))
 	    return false;
 	  gl=limit(glim,r,plus_inf,1,contextptr);
-	} 
+	}
 	if (is_zero(gl)){ // use upper half plan
 	  res=0;
 	  vecteur v=singular(geff,x,contextptr);
@@ -906,7 +906,7 @@ namespace giac {
     }
     if (!is_inf(a) && !is_inf(b) && g0_.is_symb_of_sommet(at_prod) && g0_._SYMBptr->feuille.type==_VECT && g0_._SYMBptr->feuille._VECTptr->size()==2){ // Beta?
       // rewrite ^ of powers
-      vecteur v=*g0_._SYMBptr->feuille._VECTptr,v1;  
+      vecteur v=*g0_._SYMBptr->feuille._VECTptr,v1;
       for (unsigned i=0;i<v.size();++i){
 	gen tmp=v[i];
 	if (!is_zero(derive(tmp,x,contextptr))){
@@ -988,10 +988,10 @@ namespace giac {
     bool rational = lvarg==vecteur(1,x);
     if (!rational){
       int s1=nvars_depend_x(loptab(g,sincostan_tab),x);
-      // rewrite cos/sin/tan if more than 1 available, 
+      // rewrite cos/sin/tan if more than 1 available,
       // do not rewrite atan/asin/acos
       if (s1) // check added otherwise int(1/(x-a)^999,x,a-1,a+1) takes forever
-	g=tsimplify_noexpln(g,s1,0,contextptr); 
+	g=tsimplify_noexpln(g,s1,0,contextptr);
     }
     // FIXME should check integrability at -/+inf
     if (a==minus_inf){
@@ -1146,12 +1146,12 @@ namespace giac {
       } // end varx.size()==2
       ga=ga_orig;
       int eo=is_even_odd(ga,x,contextptr);
-      if (eo==1){ 
+      if (eo==1){
 	vecteur singu=find_singularities(g,*x._IDNTptr,0 /* real singularities*/,contextptr);
 	if (singu.empty()){
 	  if ( (rational && intgab_ratfrac(ga,x,res,contextptr)) ||
 	       intgab(ga,x,minus_inf,plus_inf,res,contextptr) ){
-	    if (!is_inf(res)) 
+	    if (!is_inf(res))
 	      res=ratnormal(res/2,contextptr);
 	    return !is_undef(res);
 	  }
@@ -1306,7 +1306,7 @@ namespace giac {
 		if (ctrl_c || interrupted)
 		  return false;
 		gen wabs=normal(w[i]*conj(w[i],contextptr),contextptr);
-		if ((wabs==radius) 
+		if ((wabs==radius)
 		    // && !is_zero(tmpresidue) // commented otherwise int(1/cos(x)^2,x,0,pi) returns 0
 		    ){
 		  res = unsigned_inf;
@@ -1321,7 +1321,7 @@ namespace giac {
 		    return false;
 		}
 	      }
-	      res = ratnormal(normal(periode*cst_two_pi/alpha*cst_i,contextptr)*somme_residues,contextptr); 
+	      res = ratnormal(normal(periode*cst_two_pi/alpha*cst_i,contextptr)*somme_residues,contextptr);
 	      if (changesign)
 		res=-res;
 	      return true;
@@ -1440,11 +1440,11 @@ namespace giac {
       if (is_admissible_poly(s,intstep,lcoeffs,decals,contextptr)){
 	gen lcoeff=r2e(lcoeffs,v,contextptr);
 #ifdef GIAC_HAS_STO_38
-	identificateur idx("sumw_"); // identificateur idx(" x"); // 
+	identificateur idx("sumw_"); // identificateur idx(" x"); //
 #else
-	identificateur idx(" sumw"); // identificateur idx(" x"); // 
+	identificateur idx(" sumw"); // identificateur idx(" x"); //
 #endif
-	gen gx(idx); // ("` sumw`",contextptr); 
+	gen gx(idx); // ("` sumw`",contextptr);
 	// parser instead of temporary otherwise bug with a:=1; ZT(f,z):=sum(f(n)/z^n,n,0,inf); ZT(k->c^k,z);  ZT;
 	// otherwise while purge(gx) happens, the string `sumw` is destroyed
 	// and the global map is not sorted correctly anymore
@@ -1553,7 +1553,7 @@ namespace giac {
 	  // keep terms which are = -R0 mod r = N
 	  // for example if r=2 and R0 even, keep even terms
 	  // that is (f(X)+f(-X))/2
-	  // more generally take 
+	  // more generally take
 	  // 1/r*sum(f(X*exp(2i pi*k/r))*exp(-2i pi*k*N/r),k=0..r-1)
 	  int N= -r0 % r;
 	  gen tmp1=0,tmpadd;
@@ -1573,7 +1573,7 @@ namespace giac {
 	  }
 	}
 	if (!r){
-	  // (g|x=a)*s(a)/p(a)/Q^a*sum(p(n)/s(n)*X^n)|X=Q, will work 
+	  // (g|x=a)*s(a)/p(a)/Q^a*sum(p(n)/s(n)*X^n)|X=Q, will work
 	  // first compute sum(p(n)*X^n)
 	  // then multiply by X^sdecal and integrate intstep times
 	  // then subst X by Q
@@ -1655,7 +1655,7 @@ namespace giac {
       }
     }
     v=loptab(v,sincostan_tab);
-    bool est_reel=testi?!has_i(g):true; 
+    bool est_reel=testi?!has_i(g):true;
     if (!v.empty()){
       gen w=trig2exp(v,contextptr);
       vecteur vexp;
@@ -1692,16 +1692,16 @@ namespace giac {
       return true;
     }
     bool Hyper=is_hypergeometric(g,*x._IDNTptr,v,p,q,r,contextptr);
-    // g(x+1)/g(x) as p(x+1)/p(x)*q(x)/r(x+1) 
+    // g(x+1)/g(x) as p(x+1)/p(x)*q(x)/r(x+1)
     if (Hyper){
       // Newton binomial: sum_{x=a}^{b} comb(b-a,x-a)*p^x = (p+1)^(b-a)*p^a
       // n=b-a
-      // comb(n,x+1-a)*p^(x+1)/comb(n,x-a)/p^x 
+      // comb(n,x+1-a)*p^(x+1)/comb(n,x-a)/p^x
       //   = p*(x-a)!*(n-x+a)!/(x+1-a)!/(n-x-1+a)!=p*(n-x+a)/(x+1-a)
       // q=(-qa)*(n-x+a)=(-qa)*(b-x), r=ra*(x-a) -> -q/qa+r/ra=n
       // can be generallized with j-unitroots to
       // sum_{x=a}^{b} comb(b-a,j*x-j*a)*p^x
-      // 
+      //
       gen Q=r2sym(q,v,contextptr),R=r2sym(r,v,contextptr),Qa,Qb,Ra,Rb;
       if (a.type==_INT_ && b==plus_inf && p.lexsorted_degree()==0 && r.coord.size()==1 && q+r==0 ){
 	// gen coeff=inv(r.coord.front().value,contextptr);
@@ -1740,7 +1740,7 @@ namespace giac {
 	    res = P*(-Qa/Ra)+1;
 	    if (!is_zero(res))
 	      res=simplify(pow(res,truen,contextptr)*limit(g,*x._IDNTptr,truea,0,contextptr),contextptr);
-	    if (absint(diffb.val)>100 || absint(diffa.val)>100) 
+	    if (absint(diffb.val)>100 || absint(diffa.val)>100)
 	      return false;
 	    if (diffb.val>0){ // b>trueb: add sum(g,x,trueb+1,b-1)
 	      for (int i=0;i<diffb.val;++i)
@@ -1748,7 +1748,7 @@ namespace giac {
 	    }
 	    else { // b<=trueb substract sum(g,x,b+1,trueb)
 	      for (int i=0;i<-diffb.val;++i)
-		res -= simplify(limit(g,*x._IDNTptr,b+1+i,0,contextptr),contextptr); 
+		res -= simplify(limit(g,*x._IDNTptr,b+1+i,0,contextptr),contextptr);
 	    }
 	    if (diffa.val>0){ // a>truea : substract sum(g,x,truea,a-1)
 	      for (int i=0;i<diffa.val;++i)
@@ -1795,7 +1795,7 @@ namespace giac {
 	res=_limit(gen(makevecteur(g,x,plus_inf),_SEQ__VECT),contextptr);
 	return true;
       }
-      r=taylor(r,1); 
+      r=taylor(r,1);
       // r(x)/q(x)=s(x+1)/s(x)*R(x)/Q(x+1)
       AB2PQR(r,q,s,R,Q);
       R=taylor(R,-1);
@@ -1911,7 +1911,7 @@ namespace giac {
 	*logptr(contextptr) << gettext("Warning, Dirac function outside summation interval") << "\n";
       return true;
     }
-    // detect Heaviside 
+    // detect Heaviside
     v=lop(g,at_Heaviside);
     if (v.empty())
       return in_sumab(g,x,a_orig,b_orig,res,testi,true /* do partfrac */,contextptr);

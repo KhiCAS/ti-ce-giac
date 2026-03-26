@@ -139,21 +139,21 @@ namespace giac {
     }
     feuille = gen(tmp,_SEQ__VECT);
   };
-  
+
   symbolic::symbolic(const gen & a,const unary_function_ptr & o,const gen & b):sommet(o) {
     if (b.type==_VECT)
       feuille=gen(mergevecteur(vecteur(1,a),*b._VECTptr),b.subtype);
     else
       feuille=makesequence(a,b);
   };
-  
+
   symbolic::symbolic(const gen & a,const unary_function_ptr * o,const gen & b):sommet(*o) {
     if (b.type==_VECT)
       feuille=gen(mergevecteur(vecteur(1,a),*b._VECTptr),b.subtype);
     else
       feuille=makesequence(a,b);
   };
-  
+
   int symbolic::size() const {
     if (feuille.type==_SYMB)
       return 1+feuille._SYMBptr->size();
@@ -175,7 +175,7 @@ namespace giac {
   static string & add_print_plus(string & s,const symbolic & g,GIAC_CONTEXT){
     //dbg_printf("addprint+%s\n",s.c_str());
 #if 0
-    if (is_inf(g.feuille) 
+    if (is_inf(g.feuille)
 	// && calc_mode(contextptr)!=1
 	&& abs_calc_mode(contextptr)==38
 	){
@@ -220,13 +220,13 @@ namespace giac {
       else
 	s += calc_mode(contextptr)==38?"−":"-";
     }
-    if (feuille.type!=_CPLX){ 
+    if (feuille.type!=_CPLX){
       if(feuille.type!=_SYMB || (feuille._SYMBptr->sommet==at_inv || feuille._SYMBptr->sommet==at_prod) || !need_parenthesis(feuille)){
 	return add_print(s,feuille,contextptr);
       }
     }
     s += "(";
-    add_print(s,feuille,contextptr); 
+    add_print(s,feuille,contextptr);
     s += ")";
     return s;
   }
@@ -245,7 +245,7 @@ namespace giac {
     }
     int l=int(s.size());
     if (isneg && l && s[l-1]=='-'){
-      if (l==1) 
+      if (l==1)
 	s.clear();
       else
 	s[l-1]='+';
@@ -285,7 +285,7 @@ namespace giac {
       if (d0.type<_CPLX || d0.type==_IDNT)
 	add_print(s,d0,contextptr); // s += d0.print(contextptr);
       else {
-	s += "("; 
+	s += "(";
 	add_print(s,d0,contextptr); s += ")"; // s += "("+d0.print(contextptr)+")";
       }
       return s;
@@ -299,14 +299,14 @@ namespace giac {
       if (e.type!=_SYMB){
 	if (i)
 	  s += '*';
-	if ( (e.type==_CPLX 
-	      && need_parenthesis(e) 
+	if ( (e.type==_CPLX
+	      && need_parenthesis(e)
 	      ) || e.type==_MOD ){
 	  s += "(";
 	  s +=e.print(contextptr);
 	  s +=")";
 	}
-	else 
+	else
 	  add_print(s,e,contextptr); // s +=e.print(contextptr);
       }
       else {
@@ -314,7 +314,7 @@ namespace giac {
 	  gen f(e._SYMBptr->feuille);
 	  if (i){
 	    if ( (f.type==_CPLX) || (f.type==_MOD) ||
-		 ((f.type==_SYMB) && 
+		 ((f.type==_SYMB) &&
 		  ( (f._SYMBptr->sommet==at_plus) || (f._SYMBptr->sommet==at_prod) || need_parenthesis(f._SYMBptr->sommet) || f._SYMBptr->sommet==at_inv || (f._SYMBptr->sommet==at_pow && f._SYMBptr->feuille[0].is_inv())))
 		 ){
 	      s += "/(";
@@ -409,7 +409,7 @@ namespace giac {
     if (pui.type>_REAL && pui==plus_one_half){
       s += "sqrt(";
       add_print(s,arg,contextptr);
-      s += ')'; 
+      s += ')';
       return s;
     }
     if ( pui.type>_REAL && (pui==minus_one_half  || pui==fraction(minus_one,plus_two) )){
@@ -461,7 +461,7 @@ namespace giac {
     add_print(s,pui,contextptr);
     if (puipar)
       s += ')';
-    return s ;      
+    return s ;
   }
 
   static string & add_print_int(string & s,int i,GIAC_CONTEXT){
@@ -472,7 +472,7 @@ namespace giac {
 	s[l-1]='-';
       else {
 	if (l && s[l-1]=='-'){
-	  if (l==1) 
+	  if (l==1)
 	    s.clear();
 	  else
 	    s[l-1]='+';
@@ -525,7 +525,7 @@ namespace giac {
       return add_print_neg(s,g.feuille,contextptr);
     if (g.sommet==at_inv)
       return add_print_inv(s,g.feuille,contextptr);
-    if (g.sommet==at_exp 
+    if (g.sommet==at_exp
 #ifndef EMCC
 	&& (calc_mode(contextptr)==1 || abs_calc_mode(contextptr)==38)
 #endif
@@ -748,9 +748,9 @@ namespace giac {
     const gen * save_lastarg=lastarg;
     lastarg=&feuille;
     gen ans;
-    if (sommet.quoted()){ 
+    if (sommet.quoted()){
 #ifndef RTOS_THREADX
-      if (feuille.type==_SYMB){ 
+      if (feuille.type==_SYMB){
 	unary_function_ptr & u=feuille._SYMBptr->sommet;
 	if (u==at_unquote){
 	  ans=sommet(feuille.eval(level,contextptr),contextptr);
@@ -844,7 +844,7 @@ namespace giac {
       if (!num.empty()){
 	if (num.size()==1)
 	  n=num.front();
-	else 
+	else
 	  n=(symb_prod(num));
       }
       return true;
@@ -865,7 +865,7 @@ namespace giac {
 	 if (den.size()==1)
 	 d=den.front();
 	 else
-	 d=ref_symbolic(symb_prod(den);) 
+	 d=ref_symbolic(symb_prod(den);)
       */
       if (den.size()==1 && den.front().type<_IDNT){
 	d=den.front();
@@ -874,7 +874,7 @@ namespace giac {
     }
     return false;
   }
-    
+
   gen symbolic::evalf(int level,const context * contextptr) const {
     if (level==0)
       return *this;
@@ -933,7 +933,7 @@ namespace giac {
       lastarg=save_lastarg;
       return ans;
     }
-    if (sommet.quoted() && sommet!=at_and && !equalposcomp(plot_sommets,sommet) ){ 
+    if (sommet.quoted() && sommet!=at_and && !equalposcomp(plot_sommets,sommet) ){
       ans=sommet(feuille,contextptr);
       last=save_last;
       lastarg=save_lastarg;
@@ -1046,7 +1046,7 @@ namespace giac {
     tailles(g,v);
     return v[8];
   }
-  
+
   vecteur tailles(const gen & g){
     vector<int> v(9); // atomic, idnt, frac, vector, symb, string, other, all
     tailles(g,v);
@@ -1059,7 +1059,7 @@ namespace giac {
 				   string2gen("total",false))
 		       ,w);
   }
-  
+
   int print_max_depth=100;
   unsigned depth(const gen & g,unsigned add,unsigned max){
     gen g_(g);

@@ -141,7 +141,7 @@ namespace giac {
     return res;
     */
   }
-    
+
   static gen _laplace_(const gen & args,GIAC_CONTEXT){
     if (args.type!=_VECT)
       return laplace(args,vx_var(),vx_var(),contextptr);
@@ -151,7 +151,7 @@ namespace giac {
       return laplace( v[0],v[1],v[1],contextptr);
     if (s!=3)
       return gensizeerr(contextptr);
-    return laplace( v[0],v[1],v[2],contextptr);    
+    return laplace( v[0],v[1],v[2],contextptr);
   }
   // "unary" version
   gen _laplace(const gen & args,GIAC_CONTEXT){
@@ -252,7 +252,7 @@ namespace giac {
 	remains += e;
 	continue;
       }
-      if (r_den.type!=_POLY){ 
+      if (r_den.type!=_POLY){
 	remains += e;
 	continue;
       }
@@ -289,9 +289,9 @@ namespace giac {
 	int deg=it->fact.lexsorted_degree();
 	switch (deg) {
 	case 1: // 1st order
-	  findde(it->den,a,b);	
+	  findde(it->den,a,b);
 	  lnpart=lnpart+rdiv(r2e(it->num,l,contextptr),r2e(firstcoeff(a),lprime,contextptr),contextptr)*exp(r2e(rdiv(-b,a,contextptr),lprime,contextptr)*laplace_var,contextptr);
-	  break; 
+	  break;
 	case 2: // 2nd order
 	  findabcdelta(it->fact,a,b,c,delta);
 	  exppart=exp(r2e(rdiv(-b,gen(2)*a,contextptr),lprime,contextptr)*laplace_var,contextptr);
@@ -316,7 +316,7 @@ namespace giac {
 	    gen aa=ratnormal(r2e(atannum,lprime,contextptr)/r2e(alpha,lprime,contextptr)/sqrtdelta,contextptr);
 	    lnpart=lnpart+aa*sin(racine*laplace_var,contextptr)*exppart;
 	  }
-	  break; 
+	  break;
 	default:
 	  rest.push_back(pf<gen>(it->num,it->den,it->fact,1));
 	  break ;
@@ -411,7 +411,7 @@ namespace giac {
 	      nder=gg.val;
 	  }
 	}
-	else 
+	else
 	  m=diffeq_order(g,y);
 	if (m>=0)
 	  n=giacmax(n,m+nder);
@@ -585,7 +585,7 @@ namespace giac {
       if (ok)
 	res.push_back(solgen);
     }
-    if (res.size()==1) 
+    if (res.size()==1)
       return res.front();
     return res;
   }
@@ -596,7 +596,7 @@ namespace giac {
     int ordre;
     vecteur parameters;
     gen solution_generale(desolve_f(v.front(),x,y,ordre,parameters,f,step_info,contextptr));
-    if (solution_generale.type!=_VECT) 
+    if (solution_generale.type!=_VECT)
       return in_desolve_with_conditions(v,x,y,solution_generale,parameters,f,step_info,contextptr);
     solution_generale.subtype=0; // otherwise desolve([y'=[[1,2],[2,1]]*y+[x,x+1],y(0)=[1,2]]) fails on the Prime (?)
     if (parameters.empty())
@@ -717,7 +717,7 @@ namespace giac {
 	cl=vecteur(n);
       }
       if (cl.type!=_VECT || int(cl._VECTptr->size())!=n)
-	return gensizeerr("Invalid second member");	    
+	return gensizeerr("Invalid second member");
       for (int i=0;i<n;++i){
 	parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));
 	(*cl._VECTptr)[i] = parameters.back()- (*cl._VECTptr)[i];
@@ -854,19 +854,19 @@ namespace giac {
 	k=simplify(u*u/4-derive(u,x,contextptr)/2+V,contextptr);
       // y''=u*y'+V*y+w  (with u,V,w functions of x)
       // Pseudo-code from fhub on HP Museum Forum
-      /* 
-	 k:=u^2/4-u'/2+V 
-	 if k==const or k*x^2=const then 
-	 if k=const 
-	 then s:=x; t:=e^(int(u,x)/2); 
-	 else u:=u*x+1; k:=u^2/4+V*x^2; s:=ln(x); t:=x^(u/2); 
+      /*
+	 k:=u^2/4-u'/2+V
+	 if k==const or k*x^2=const then
+	 if k=const
+	 then s:=x; t:=e^(int(u,x)/2);
+	 else u:=u*x+1; k:=u^2/4+V*x^2; s:=ln(x); t:=x^(u/2);
 	 endif;
-	 if k=0 then u:=t*s; V:=t; 
-	 elseif k>0 then u:=t*e^(sqrt(k)*s); V:=t*e^(-sqrt(k)*s); 
-	 else u:=t*cos(sqrt(-k)*s); V:=t*sin(sqrt(-k)*s); 
+	 if k=0 then u:=t*s; V:=t;
+	 elseif k>0 then u:=t*e^(sqrt(k)*s); V:=t*e^(-sqrt(k)*s);
+	 else u:=t*cos(sqrt(-k)*s); V:=t*sin(sqrt(-k)*s);
 	 endif;
 	 w:=w/(u*V'-V*u'); w:=V*int(u*w,x)-u*int(V*w,x);
-	 solution: y=c1*u+c2*V+w 
+	 solution: y=c1*u+c2*V+w
 	 endif
       */
       bool cst=is_zero(derive(k,x,contextptr));
@@ -874,13 +874,13 @@ namespace giac {
       if (cst || x2){
 	gen s,t;
 	if (cst){
-	  s=x; 
+	  s=x;
 	  t=simplify(exp(integrate_without_lnabs(u,x,contextptr)/2,contextptr),contextptr);
 	}
 	else {
-	  u=u*x+1; 
+	  u=u*x+1;
 	  u=simplify(u,contextptr);
-	  k=simplify(u*u/4+V*x*x,contextptr); 
+	  k=simplify(u*u/4+V*x*x,contextptr);
 	  s=ln(x,contextptr); t=pow(x,u/2,contextptr);
 	}
 	if (is_zero(k)){
@@ -889,7 +889,7 @@ namespace giac {
 	else {
 	  if (is_strictly_positive(-k,contextptr)){
 	    gen tmp=sqrt(-k,contextptr)*s;
-	    u=t*cos(tmp,contextptr); 
+	    u=t*cos(tmp,contextptr);
 	    V=t*sin(tmp,contextptr);
 	  }
 	  else {
@@ -900,16 +900,16 @@ namespace giac {
 	    }
 	    else {
 	      gen tmp=sqrt(k,contextptr)*s;
-	      u=t*exp(tmp,contextptr); 
-	      V=t*exp(-tmp,contextptr); 
+	      u=t*exp(tmp,contextptr);
+	      V=t*exp(-tmp,contextptr);
 	    }
 	  }
 	}
-	w=simplify(w/(u*derive(V,x,contextptr)-V*derive(u,x,contextptr)),contextptr); 
+	w=simplify(w/(u*derive(V,x,contextptr)-V*derive(u,x,contextptr)),contextptr);
 	w=V*integrate_without_lnabs(u*w,x,contextptr)-
 	  u*integrate_without_lnabs(V*w,x,contextptr);
 	parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));
-	parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));	
+	parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));
 	result=w+parameters[parameters.size()-2]*u+parameters[parameters.size()-1]*V;
 	return true;
       }
@@ -1036,7 +1036,7 @@ namespace giac {
       f=quotesubst(f,yof,y,contextptr);
       f=quotesubst(f,y,yof,contextptr);
     }
-    else 
+    else
       y=function_of(y_orig,x);
     if (is_undef(y))
       return y;
@@ -1124,7 +1124,7 @@ namespace giac {
       sol=integrate_without_lnabs(sol,x,contextptr)+p;
       return sol;
     }
-    if (n==1) { // 1st order 
+    if (n==1) { // 1st order
       vecteur sol;
       parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));
       f=quotesubst(f,symb_derive(y,x),t,contextptr);
@@ -1136,7 +1136,7 @@ namespace giac {
 	// Clairault: fa must be cst*t and fc must be cst (must simplify fa and fc)
 	// f=y*fc+(fa*x+fb)
 	fd=gcd(fc,fa);
-	fa=normal(fa/fd,contextptr); fb=normal(fb/fd,contextptr); fc=normal(fc/fd,contextptr); 	
+	fa=normal(fa/fd,contextptr); fb=normal(fb/fd,contextptr); fc=normal(fc/fd,contextptr);
 	if (is_linear_wrt(fa,t,faa,fab,contextptr) && is_zero(fab) && derive(faa,makevecteur(x,y,t),contextptr)==vecteur(3,0) && derive(fc,makevecteur(x,y,t),contextptr)==vecteur(3,0) && derive(fb,makevecteur(x,y),contextptr)==vecteur(2,0)){
 	  // 0=f=fc*y+fd = fc*y+fa*x+fb = fc*y+faa*x*y'+fb
 	  // -> y=-faa/fc*x*y' -fb/fc
@@ -1162,7 +1162,7 @@ namespace giac {
 	    sing[i]=subst(-fa*x-fb,t,sing[i],false,contextptr);
 	  }
 	  // should deparametrize like for homogeneous if possible
-#ifdef NO_STDEXCEPT	  
+#ifdef NO_STDEXCEPT
 	  vecteur newsol=solve(res-x,*t._IDNTptr,3,contextptr);
 	  if (is_undef(newsol)){
 	    newsol.clear();
@@ -1205,7 +1205,7 @@ namespace giac {
 	  }
 	  else
 	    pr=parameters.back()+pr;
-#else	  
+#else
 	  if (has_op(pr,*at_ln))
 	    pr=_lncollect(pr,contextptr); // hack to solve y'=y*(1-y)
 	  if (pr.is_symb_of_sommet(at_ln))
@@ -1214,7 +1214,7 @@ namespace giac {
 	    pr=parameters.back()+pr;
 #endif
 	  gen implicitsol=pr-integrate_without_lnabs(xfact,x,contextptr);
-#ifdef NO_STDEXCEPT	  
+#ifdef NO_STDEXCEPT
 	  vecteur newsol=solve(implicitsol,*y._IDNTptr,3,contextptr);
 	  if (is_undef(newsol)){
 	    newsol.clear();
@@ -1300,7 +1300,7 @@ namespace giac {
 	M=-f[0];
 	N=f[1];
 	// find an integrating factor P such that d_x(P*N)=d_y(P*M)
-	// If P depends on x then N*d_x(P)+Pd_x(N)=Pd_y(M) -> 
+	// If P depends on x then N*d_x(P)+Pd_x(N)=Pd_y(M) ->
 	// d_x(P)/P=(d_y(M)-d_x(N))/N should depend on x only
 	// If P depends on y then P d_x(N)=Pd_y(M)+Md_y(P)
 	// d_y(P)/P=(d_x(N)-d_y(M))/M
@@ -1396,7 +1396,7 @@ namespace giac {
 	  gen soly2c=soly2v[i];
 	  gen a,b,c;
 	  if (is_quadratic_wrt(soly2c,der1,a,b,c,contextptr)
-	      && is_zero(c) && is_zero(derive(a,x,contextptr)) 
+	      && is_zero(c) && is_zero(derive(a,x,contextptr))
 	      && is_zero(derive(b,y,contextptr)) ){
 	    parameters=paramsave;
 	    parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));
@@ -1429,7 +1429,7 @@ namespace giac {
 	  gen res(string2gen(gettext("Unable to solve differential equation"),false));
 	  res.subtype=1;
 	  sol.push_back(res);
-	} 
+	}
 	ordre=2;
 	return sol;
       }
@@ -1513,7 +1513,7 @@ namespace giac {
       return ggbputinlist(desolve_with_conditions(makevecteur(v[0],v[3],v[4]),v[1],v[2],f,contextptr),contextptr);
     if (s!=3)
       return gensizeerr(contextptr);
-    return ggbputinlist(desolve( v[0],v[1],v[2],ordre,parameters,contextptr),contextptr);    
+    return ggbputinlist(desolve( v[0],v[1],v[2],ordre,parameters,contextptr),contextptr);
   }
   static const char _desolve_s []="desolve";
   static define_unary_function_eval (__desolve,&_desolve,_desolve_s);
@@ -1566,7 +1566,7 @@ namespace giac {
       return ztrans( v[0],v[1],v[1],contextptr);
     if (s!=3)
       return gensizeerr(contextptr);
-    return ztrans( v[0],v[1],v[2],contextptr);    
+    return ztrans( v[0],v[1],v[2],contextptr);
   }
   static const char _ztrans_s []="ztrans";
   static define_unary_function_eval (__ztrans,&_ztrans,_ztrans_s);
@@ -1693,7 +1693,7 @@ namespace giac {
     }
     return res;
   }
-  
+
   gen _invztrans(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type!=_VECT)
@@ -1704,7 +1704,7 @@ namespace giac {
       return invztrans( v[0],v[1],v[1],contextptr);
     if (s!=3)
       return gensizeerr(contextptr);
-    return invztrans( v[0],v[1],v[2],contextptr);        
+    return invztrans( v[0],v[1],v[2],contextptr);
   }
   static const char _invztrans_s []="invztrans";
   static define_unary_function_eval (__invztrans,&_invztrans,_invztrans_s);
@@ -1712,7 +1712,7 @@ namespace giac {
 
   gen _Kronecker(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return args;
-    if (args.type==_VECT) 
+    if (args.type==_VECT)
       return apply(args,_Kronecker,contextptr);
     if (!is_integer(args))
       return symbolic(at_Kronecker,args);

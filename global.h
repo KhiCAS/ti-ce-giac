@@ -159,11 +159,11 @@ extern "C" {
 #endif
 
 unsigned int ConvertUTF8toUTF16 (
-        const UTF8* sourceStart, const UTF8* sourceEnd, 
+        const UTF8* sourceStart, const UTF8* sourceEnd,
         UTF16* targetStart, UTF16* targetEnd, ConversionFlags flags);
 
 unsigned int ConvertUTF16toUTF8 (
-        const UTF16* sourceStart, const UTF16* sourceEnd, 
+        const UTF16* sourceStart, const UTF16* sourceEnd,
         UTF8* targetStart, UTF8* targetEnd, ConversionFlags flags);
 
 Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
@@ -207,7 +207,7 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
   extern bool center_history,in_texmacs,block_signal,synchronize_history;
   extern bool threads_allowed;
   extern bool mpzclass_allowed;
-  enum { 
+  enum {
     smallint=256, // max small int to make modular oply operations with int
     max_series_expansion_order=64, // max auto order for series expansion
     max_texpand_expansion_order=64,
@@ -252,12 +252,12 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
   extern int GCDHEU_MAXTRY; // maximal number of retry for heuristic algorithms
   extern int GCDHEU_DEGREE; // max degree allowed inside gcdheu
   extern int MODFACTOR_PRIMES; // number of primes used for factorization
-  extern int NTL_MODGCD; // lowest degree for NTL univariate modular GCD 
+  extern int NTL_MODGCD; // lowest degree for NTL univariate modular GCD
   extern int HENSEL_QUADRATIC_POWER; // above #steps do quadratic Hensel lift
   extern int KARAMUL_SIZE; // Use Karatsuba multiplication if degree is >
   extern int INT_KARAMUL_SIZE; // Use Karatsuba multiplication if degree is >
   extern int FFTMUL_SIZE; // minimal size for fft mult of poly
-  extern int FFTMUL_INT_MAXBITS; // max number of bits for fft mult of int poly 
+  extern int FFTMUL_INT_MAXBITS; // max number of bits for fft mult of int poly
   // Should be lower for larger coeff
   extern int MAX_ALG_EXT_ORDER_SIZE; // x^1/d extension not algebraic if d>
   extern int MAX_COMMON_ALG_EXT_ORDER_SIZE;
@@ -285,7 +285,7 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
   extern volatile bool ctrl_c,interrupted;
   void set_abort();
   void clear_abort();
-  
+
   // void control_c();
   // note that ctrl_c=false was removed, should be done before calling eval
 #if defined (NSPIRE) || defined(FXCG) || defined TICE
@@ -346,7 +346,7 @@ throw(std::runtime_error("Stopped by user interruption.")); \
     }
   };
 #endif // IMMEDIATE_VECTOR
-  
+
   template <class T> class std_matrix: public std::vector< dbgprint_vector<T> > {
   public:
     // inherited constructors
@@ -401,7 +401,7 @@ throw(std::runtime_error("Stopped by user interruption.")); \
   vecteur * keywords_vecteur_ptr(); // idnt assigned to a commandname for localization, like mediatrice for perpen_bissector
 
   class context;
-  
+
   struct debug_struct {
     int indent_spaces;
     vecteur args_stack;
@@ -409,12 +409,12 @@ throw(std::runtime_error("Stopped by user interruption.")); \
     // count 1 for a normal instruction, 3 for ifte, 4 for a for loop
     // breakpoint(_IDNT,int) to set a breakpoint at _IDNT, instruction int
     // rmbreakpoint(int) removes breakpoint number int
-    vecteur debug_watch; 
+    vecteur debug_watch;
     // the value of each element of debug_watch is signaled
     // to the parent process each time the execution stops
     // watch(_IDNT) to add _IDNT to the watch
     // rmwatch(int) or rmwatch(_IDNT) removes _IDNT
-    // halt inside a prog starts debug mode, debug(instruction) 
+    // halt inside a prog starts debug mode, debug(instruction)
     // starts prog in SST mode
     // kill reset the protection level, instruction_stack and debug_mode to false
     bool debug_mode;
@@ -471,7 +471,7 @@ throw(std::runtime_error("Stopped by user interruption.")); \
       return strcmp(s1, s2) < 0;
     }
   };
-  
+
   typedef std::map<const char *, gen,ltstr> map_charptr_gen;
   typedef map_charptr_gen sym_tab;
 
@@ -500,8 +500,8 @@ throw(std::runtime_error("Stopped by user interruption.")); \
     bool direct; // true if rond/disque is done in the trigonometric direction
     char color;
     char turtle_length;
-    int radius; // 0 nothing, >0 -> draw a plain disk 
-    // bit 0-8=radius, bit9-17 angle1, bit 18-26 angle2, bit 27=1 filled  or 0 
+    int radius; // 0 nothing, >0 -> draw a plain disk
+    // bit 0-8=radius, bit9-17 angle1, bit 18-26 angle2, bit 27=1 filled  or 0
     // <0 fill a polygon from previous turtle positions
     logo_turtle(): x(35),y(35),theta(0),visible(true),mark(true),direct(true),color(1),turtle_length(5),radius(0) {}
   };
@@ -548,7 +548,7 @@ throw(std::runtime_error("Stopped by user interruption.")); \
     int _angle_mode_;
     int _bounded_function_no_;
     int _series_flags_; // 1= full simplify, 2=1 for truncation, bit3=atan does not rewrite sin/cos to tan, bit4=no back conversion, bit5=write<<1,1>> with series_variable_name, bit 6=write O() instead of order_size, bit7= 1 diff in subst does not variable substitution
-    int _step_infolevel_; 
+    int _step_infolevel_;
     double _epsilon_;
     double _proba_epsilon_; // if not 0, probabilistic algo may be used
     // the proba should be less than proba_epsilon for giac to return an answer
@@ -593,13 +593,13 @@ throw(std::runtime_error("Stopped by user interruption.")); \
     void * _extra_ptr_;
     char _series_variable_name_;
     unsigned short _series_default_order_;
-    global();  
+    global();
     ~global();
     global & operator = (const global & g);
   };
 
   // Context type to be used for evaluation without global variables
-  // tabptr is the current evaluation context, 
+  // tabptr is the current evaluation context,
   // it is a global context if globalcontextptr=0, local otherwise
   // previous is the upper local or global evaluation context
   // globalcontextptr points to the current global evaluation context
@@ -610,7 +610,7 @@ throw(std::runtime_error("Stopped by user interruption.")); \
     sym_tab * tabptr ;
     context * globalcontextptr ;
     context * previous ;
-    global * globalptr; 
+    global * globalptr;
     const context * parent;
     vecteur * quoted_global_vars, * rootofs;
     vecteur * history_in_ptr, * history_out_ptr,*history_plot_ptr;
@@ -633,7 +633,7 @@ throw(std::runtime_error("Stopped by user interruption.")); \
 #ifdef HAVE_LIBPTHREAD
   extern pthread_mutex_t context_list_mutex;
 #endif
-  
+
 #if !defined(RTOS_THREADX) && !defined(BESTA_OS) && !defined(NSPIRE) && !defined(FXCG) && !defined TICE
   extern std::map<std::string,context *> * context_names ;
 #endif
@@ -826,11 +826,11 @@ throw(std::runtime_error("Stopped by user interruption.")); \
 #if defined FXCG || defined TICE
   stdostream * logptr(GIAC_CONTEXT);
   void logptr(stdostream *,GIAC_CONTEXT);
-#else  
+#else
   my_ostream * logptr(GIAC_CONTEXT);
   void logptr(my_ostream *,GIAC_CONTEXT);
 #endif
-#endif  
+#endif
 
   int & eval_level(GIAC_CONTEXT);
   // void eval_level(int b,GIAC_CONTEXT);
@@ -901,9 +901,9 @@ throw(std::runtime_error("Stopped by user interruption.")); \
 
   debug_struct * debug_ptr(GIAC_CONTEXT);
 
-  // gen_op is the type of all functions taking 1 or more gen args 
+  // gen_op is the type of all functions taking 1 or more gen args
   // and returning 1 arg of type gen
-  // gen argument has atomic type for an unary op, 
+  // gen argument has atomic type for an unary op,
   // and vecteur type (compttr) otherwise
   typedef gen ( * gen_op ) (const gen & arg);
   typedef gen ( * gen_op_context ) (const gen & arg,const context * context_ptr);
@@ -928,9 +928,9 @@ throw(std::runtime_error("Stopped by user interruption.")); \
   extern volatile bool child_busy;
   extern volatile bool data_ready;
   extern volatile bool signal_plot_child;
-  extern volatile bool signal_plot_parent; 
+  extern volatile bool signal_plot_parent;
   extern int run_modif_pos;
-  // end of obsolete section 
+  // end of obsolete section
 #endif
 
   void read_config(const std::string & name,GIAC_CONTEXT,bool verbose=true);
@@ -990,7 +990,7 @@ throw(std::runtime_error("Stopped by user interruption.")); \
   // be blocked by a call to thread_eval inside wait_001
   pthread_mutex_t * mutexptr(GIAC_CONTEXT);
   extern pthread_mutex_t interactive_mutex,turtle_mutex;
-  
+
 #endif
   // Check if a thread_eval is active
   bool is_context_busy(GIAC_CONTEXT);
@@ -1028,7 +1028,7 @@ throw(std::runtime_error("Stopped by user interruption.")); \
   // optional, call it just before exiting
   int release_globals();
   int find_or_make_symbol(const std::string & s,gen & res,void * scanner,bool check38,GIAC_CONTEXT);
-  
+
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC

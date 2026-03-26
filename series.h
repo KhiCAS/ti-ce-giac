@@ -32,7 +32,7 @@
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
-  
+
   bool is_analytic(const gen & g);
   bool taylor(const gen & f_x,const gen & x,const gen & lim_point,int ordre,vecteur & v,GIAC_CONTEXT);
   // The remainder term in sparse_poly1 is the term defined with coeff==undef
@@ -64,8 +64,8 @@ namespace giac {
   bool pshift(const sparse_poly1 & a,const gen & b, sparse_poly1 & res,GIAC_CONTEXT);
   bool pdiv(const sparse_poly1 & a,const sparse_poly1 &b, sparse_poly1 & res,int ordre,GIAC_CONTEXT);
   bool pdiv(const sparse_poly1 & a,const gen & b, sparse_poly1 & res,GIAC_CONTEXT);
-  sparse_poly1 spdiv(const sparse_poly1 & a,const sparse_poly1 &b,GIAC_CONTEXT);  
-  sparse_poly1 spdiv(const sparse_poly1 & a,const gen &b,GIAC_CONTEXT);  
+  sparse_poly1 spdiv(const sparse_poly1 & a,const sparse_poly1 &b,GIAC_CONTEXT);
+  sparse_poly1 spdiv(const sparse_poly1 & a,const gen &b,GIAC_CONTEXT);
   bool ppow(const sparse_poly1 & base,int m,int ordre,sparse_poly1 & res,GIAC_CONTEXT); // m>=0
   bool ppow(const sparse_poly1 & base,const gen & e,int ordre,int direction,sparse_poly1 & res,GIAC_CONTEXT);
   sparse_poly1 sppow(const sparse_poly1 & a,const gen &b,GIAC_CONTEXT);

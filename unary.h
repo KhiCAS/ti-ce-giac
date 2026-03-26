@@ -41,7 +41,7 @@ namespace giac {
   class partial_derivative;
 
   // declaration of taylor for taylor series expansion and of 0
-  // Note that direction is always ignored for taylor, but might not 
+  // Note that direction is always ignored for taylor, but might not
   // for generic series_expansion
   // shift_coeff is used for semi-regular Taylor expansion, e.g.
   // it will be 1/2 for asin(x) near x=1
@@ -70,7 +70,7 @@ namespace giac {
     // how to print: gen is the argument of the unary function, string should
     // normally be s
     printfunction printsommet;
-    // how to print as a latex formula, 
+    // how to print as a latex formula,
     //printfunction texprint;
     // how to print if translated to C++
     //printfunction cprint;
@@ -78,7 +78,7 @@ namespace giac {
     gen_op_context op;
     unsigned index_quoted_function; // bit 0= quoted, bit1-> index of function
     // members functions
-    gen operator () (const gen & arg,const context * context_ptr) const { return op(arg,context_ptr); };    
+    gen operator () (const gen & arg,const context * context_ptr) const { return op(arg,context_ptr); };
     // constructor
     unary_function_eval(unsigned u,const gen_op_context & myop,const std::string & mys) : s(mys.c_str()),D(0),series_expansion(taylor),printsommet(0),op(myop),index_quoted_function(u) {};
     unary_function_eval(unsigned u,const gen_op_context & myop,const char * mys) : s(mys),D(0),series_expansion(taylor),printsommet(0),op(myop),index_quoted_function(u) {};
@@ -104,7 +104,7 @@ namespace giac {
     // how to print: gen is the argument of the unary function, string should
     // normally be s
     printfunction printsommet;
-    // how to print as a latex formula, 
+    // how to print as a latex formula,
     // printfunction texprint;
     // how to print if translated to C++
     //printfunction cprint;
@@ -120,7 +120,7 @@ namespace giac {
     unary_function_ptr operator () (int i) const { return df ; }
     partial_derivative(const unary_function_ptr & mydf ) : df(mydf) {}
     partial_derivative(const unary_function_ptr * mydf ) : df(*mydf) {}
-    partial_derivative(gen (* mydf) (const gen & args,const context * contextptr) ) ; 
+    partial_derivative(gen (* mydf) (const gen & args,const context * contextptr) ) ;
   };
 
   typedef partial_derivative partial_derivative_onearg;
@@ -134,7 +134,7 @@ namespace giac {
     // how to print: gen is the argument of the unary function, string should
     // normally be s
     printfunction printsommet;
-    // how to print as a latex formula, 
+    // how to print as a latex formula,
     //printfunction texprint;
     // how to print if translated to C++
     //printfunction cprint;
@@ -152,7 +152,7 @@ namespace giac {
     unary_function_abstract(unsigned u,const char * mys,const partial_derivative * myD): s(mys),D(myD),series_expansion(taylor),printsommet(0),index_quoted_function(u) {};
     unary_function_abstract(unsigned u,const std::string & mys,const partial_derivative * myD,printfunction myprintsommet, printfunction mytexprint,printfunction mycprint): s(mys.c_str()),D(myD),series_expansion(taylor),printsommet(myprintsommet),index_quoted_function(u) {};
     unary_function_abstract(unsigned u,const char * mys,const partial_derivative * myD,printfunction myprintsommet, printfunction mytexprint,printfunction mycprint): s(mys),D(myD),series_expansion(taylor),printsommet(myprintsommet),index_quoted_function(u) {};
-    // if preprocessing is needed for f,mytaylor for ordre==-1 should 
+    // if preprocessing is needed for f,mytaylor for ordre==-1 should
     // push back in a global std::vector f and it's substitution
     unary_function_abstract(unsigned u,const std::string & mys,const partial_derivative * myD,taylortype mytaylor): s(mys.c_str()),D(myD),series_expansion(mytaylor),printsommet(0),index_quoted_function(u) { gen temp; mytaylor(0,-1,this,0,temp,0); };
     unary_function_abstract(unsigned u,const char * mys,const partial_derivative * myD,taylortype mytaylor): s(mys),D(myD),series_expansion(mytaylor),printsommet(0),index_quoted_function(u) { gen temp; mytaylor(0,-1,this,0,temp,0); };
@@ -173,7 +173,7 @@ namespace giac {
   public:
     gen_op op;
     // members
-    gen operator () (const gen & arg,const context * context_ptr) const { return op(arg); };    
+    gen operator () (const gen & arg,const context * context_ptr) const { return op(arg); };
     // constructor
     unary_function_unary(unsigned u,const gen_op & myop,const std::string & mys) : unary_function_abstract(u,mys),op(myop) {};
     unary_function_unary(unsigned u,const gen_op & myop,const char * mys) : unary_function_abstract(u,mys),op(myop) {};
@@ -197,7 +197,7 @@ namespace giac {
   public:
     gen_op_context op;
     // members
-    gen operator () (const gen & arg,const context * context_ptr) const { return op(arg,context_ptr); };    
+    gen operator () (const gen & arg,const context * context_ptr) const { return op(arg,context_ptr); };
     // constructor
     unary_function_eval(unsigned u,const gen_op_context & myop,const std::string & mys) : unary_function_abstract(u,mys),op(myop) {};
     unary_function_eval(unsigned u,const gen_op_context & myop,const char * mys) : unary_function_abstract(u,mys),op(myop) {};
@@ -217,34 +217,34 @@ namespace giac {
   // Aliases to construct unary_function_eval or unary_function_unary
   // at compile-time
   struct alias_unary_function_eval {
-    const void * vtabptr; 
+    const void * vtabptr;
     const char * s;
     const partial_derivative * D; // By convention D==0 means there is no derivative
     taylortype series_expansion;
     // how to print: gen is the argument of the unary function, string should
     // normally be s
     printfunction printsommet;
-    // how to print as a latex formula, 
+    // how to print as a latex formula,
     //printfunction texprint;
     // how to print if translated to C++
     //printfunction cprint;
-    gen_op_context op;    
+    gen_op_context op;
     unsigned index_quoted_function; // bit 0= quoted, bit1-> index of function
   };
 
   struct alias_unary_function_unary {
-    void * vtabptr; 
+    void * vtabptr;
     const char * s;
     const partial_derivative * D; // By convention D==0 means there is no derivative
     taylortype series_expansion;
     // how to print: gen is the argument of the unary function, string should
     // normally be s
     printfunction printsommet;
-    // how to print as a latex formula, 
+    // how to print as a latex formula,
     //printfunction texprint;
     // how to print if translated to C++
     //printfunction cprint;
-    gen_op_context op;    
+    gen_op_context op;
     unsigned index_quoted_function; // bit 0= quoted, bit1-> index of function
   };
 
@@ -311,7 +311,7 @@ namespace giac {
   };
 
   std::ostream & operator << (std::ostream & os,const unary_function_innerprod & i);
-  
+
   // d(i) returns the partial derivatives with respect to the i-th arg
   // df(x_1(t),...,x_n(t))/dt= Sigma(df/dx_i * dx_i/dt)
   // Example: for the sum +, df/dx_i=1 for all i
@@ -325,7 +325,7 @@ namespace giac {
 
   class partial_derivative_multiargs : public partial_derivative {
   public:
-    unary_function_ptr (* d )(int i) ; 
+    unary_function_ptr (* d )(int i) ;
     virtual unary_function_ptr operator () (int i) const { return d(i); }
     partial_derivative_multiargs(unary_function_ptr ( * myd) (int i)) : d(myd) {}
     virtual ~partial_derivative_multiargs() { }
@@ -338,9 +338,9 @@ namespace giac {
     partial_derivative_onearg(const unary_function_ptr & mydf ) : df(mydf) {}
     partial_derivative_onearg(const unary_function_ptr * mydf ) : df(*mydf) {}
 #ifndef NO_UNARY_FUNCTION_COMPOSE
-    partial_derivative_onearg(gen (* mydf) (const gen & args) ) ; 
+    partial_derivative_onearg(gen (* mydf) (const gen & args) ) ;
 #endif
-    partial_derivative_onearg(gen (* mydf) (const gen & args,const context * contextptr) ) ; 
+    partial_derivative_onearg(gen (* mydf) (const gen & args,const context * contextptr) ) ;
     virtual ~partial_derivative_onearg() {};
   };
 #endif // NO_UNARY_FUNCTION_COMPOSE

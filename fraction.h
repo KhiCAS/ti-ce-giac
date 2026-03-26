@@ -3,7 +3,7 @@
 /* Class for fractions. The base class <T> must provide
    arithmetic operations +,-,*, pow for positive powers
    void simplify( T & a, T & b) to simplify a and b
-   bool is_one(const T & a) returns true if a==1 
+   bool is_one(const T & a) returns true if a==1
    T(1) returns the 1 polynomial */
 /*
  *  Copyright (C) 2000, 2014 B. Parisse, Institut Fourier, 38402 St Martin d'Heres
@@ -150,9 +150,9 @@ template <class T>  Tfraction<T> operator * (const T & a,const Tfraction<T> & b)
 template <class T>  Tfraction<T> operator / (const Tfraction<T> & a,const Tfraction<T> & b){
   if (is_one(a.den))
     return(Tfraction<T> (a.num/b));
-  if (is_one(b.den)){ 
-    // std::cerr << "fraction code change"<<std::endl; 
-    return(Tfraction<T> (a/b.num)); 
+  if (is_one(b.den)){
+    // std::cerr << "fraction code change"<<std::endl;
+    return(Tfraction<T> (a/b.num));
   }
   Tfraction<T> f1(a.num,b.num);
   simplify(f1.num,f1.den);
@@ -192,20 +192,20 @@ template <class T> Tfraction<T> pow (const Tfraction<T> & p,int n){
     return os;
   }
 #else
-  template <class T> 
+  template <class T>
   std::ostream & operator << (std::ostream & os, const Tfraction<T> & f ){
     os << f.num << "/" << f.den << " " ;
     return os;
   }
 #endif
 
-template <class T> 
+template <class T>
 void Tfraction<T>::dbgprint() {
   COUT << num << "/" << den << " " ;
 }
 
 
-  // factorization will be a std::vector of facteur, 
+  // factorization will be a std::vector of facteur,
   // each facteur being a polynomial
   // and it's multiplicity
   template<class T>

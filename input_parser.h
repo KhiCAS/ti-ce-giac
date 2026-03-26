@@ -127,7 +127,7 @@ extern int giac_yydebug;
     TI_STO = 337,
     T_PIPE = 338,
     TI_HASH = 339,
-    T_INTERROGATION = 340, 
+    T_INTERROGATION = 340,
     T_UNIT = 341,
     T_SQ = 342,
     T_IFERR = 343,

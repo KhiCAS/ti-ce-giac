@@ -68,7 +68,7 @@ namespace giac {
 	  if (&F==&G)
 	    gb=fb;
 	  else
-	    peval_x2_xn(g,bi,vars,gb,modulo);	  
+	    peval_x2_xn(g,bi,vars,gb,modulo);
 	  if (!fb.empty() && !gb.empty() && int(fb.front().u/vars.front())==Fdeg && int(gb.front().u/vars.front())==Gdeg){
 	    // convert back fb and gb and return true
 	    convert_from_truncate(fb,vars.front(),Fb);
@@ -166,7 +166,7 @@ namespace giac {
   bool try_sparse_factor_bi(polynome & pcur,int mult,factorization & f){
     return false;
   }
-  
+
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC

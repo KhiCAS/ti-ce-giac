@@ -273,14 +273,14 @@ namespace giac {
   // assignation_by_equal: warning for probable misuse of = instead of :=
   // undeclared_global_vars: regular 38 global variables used but not declared
   // declared_global_vars: regular 38 global variables that were declared
-  // exported_function_names: list of exported function 
-  //                          may contain description strings 
+  // exported_function_names: list of exported function
+  //                          may contain description strings
   // exported_variable_names: same as above but variables
   // unknown_exported: function or variable exported but not used
   // unexported: function local to source, re-qualified with progname namespace
   // unexported_declared_global_vars: non regular 38 global variables,
   //                                  re-qualified with progname namespace
-  // views: is a matrix: column1 is the function name (no param) or integer, 
+  // views: is a matrix: column1 is the function name (no param) or integer,
   //                     column2 is a comment string
   // errors: exported names that are regular 38 home variables,
   //         and undeclared global variables that are not regular 38 variables

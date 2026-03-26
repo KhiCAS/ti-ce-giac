@@ -41,7 +41,7 @@ static char* strdup(char* str)
     {
         return str;
     }
-    
+
     int len = strlen(str) + 2;
     char* p = new char[len];
     strcpy(p, str);
@@ -76,7 +76,7 @@ namespace giac {
   }
   // identificateur _IDNT_pi(string_pi,(double) M_PI);
   alias_ref_identificateur ref_pi={-1,0,0,string_pi,0,0};
-  
+
   gen cst_pi(_IDNT_pi());
 
   const char string_infinity[]="infinity";
@@ -87,7 +87,7 @@ namespace giac {
   gen unsigned_inf(_IDNT_infinity());
   alias_gen & alias_unsigned_inf = *(alias_gen *) & unsigned_inf;
   alias_ref_identificateur ref_infinity={-1,0,0,string_infinity,0,0};
-  
+
   const char string_undef[]="undef";
   identificateur & _IDNT_undef(){
     static identificateur * ans=new identificateur("undef");
@@ -295,7 +295,7 @@ namespace giac {
 //  const gen & z__IDNT_e = * (gen *) & alias_z38;
 
 #else // 38 mode
-  
+
   static const alias_identificateur alias_identificateur_a38={0,0,"a",0,0};
   const identificateur & a__IDNT=* (const identificateur *) &alias_identificateur_a38;
   const alias_ref_identificateur ref_a38={-1,0,0,"a",0,0};
@@ -898,7 +898,7 @@ namespace giac {
 	break;
       case 'V':
 	res=makevecteur(0);
-	break;	
+	break;
       case 'Z':
 	res=0.0;
 	break;
@@ -930,7 +930,7 @@ namespace giac {
     gen g;
     for (size_t i=0;i<ss;++i){
       ch=s[i];
-      if (ch=='C' || (ch>='E' && ch<='H') || ch=='L' || ch=='M' || ch=='R' 
+      if (ch=='C' || (ch>='E' && ch<='H') || ch=='L' || ch=='M' || ch=='R'
 	  /* || ch=='S' */
 	  || ch=='U' || ch=='V' || (ch>='X' && ch<='Z')){
 	string name;
@@ -988,7 +988,7 @@ namespace giac {
     gen evaled;
     // cerr << "idnt::eval " << *this << " " << level << endl;
     if (level<=0){
-      if (level==0) 
+      if (level==0)
 	return orig;
       // If 38 is there, let it look at the current state and decide if it needs to evaluate the name or if it needs to let the CAS do it
       // This will depend on the order of priorities and the status of the requested variable (local/global...)
@@ -1048,7 +1048,7 @@ namespace giac {
       if (!i.localvalue->empty())
 	res=i.localvalue->back();
     }
-    return globalize?global_eval(res,level):res; 
+    return globalize?global_eval(res,level):res;
   }
 
   void printsymtab(sym_tab * ptr){
@@ -1073,7 +1073,7 @@ namespace giac {
 	if (pythoncompat){
 	  --pythoncompat;
 	  if (!pythoncompat){
-	    while (cur->previous) 
+	    while (cur->previous)
 	      cur=cur->previous;
 	    break;
 	  }
@@ -1081,7 +1081,7 @@ namespace giac {
       }
       // now at global level
       // check for quoted
-      if (cur->quoted_global_vars && !cur->quoted_global_vars->empty() && equalposcomp(*cur->quoted_global_vars,orig)) 
+      if (cur->quoted_global_vars && !cur->quoted_global_vars->empty() && equalposcomp(*cur->quoted_global_vars,orig))
 	return false;
       // If 38 is there, look again, but now it is allowed to look at local and globals!
       // printsymtab(cur->tabptr);
@@ -1126,7 +1126,7 @@ namespace giac {
       return true;
     }
     // look in current directory for a value
-    if ( secure_run || (!variables_are_files(contextptr)) 
+    if ( secure_run || (!variables_are_files(contextptr))
 #if !defined __MINGW_H && !defined NSPIRE_NEWLIB && !defined FXCG && !defined TICE
 	 || (access((name()+string(cas_suffixe)).c_str(),R_OK))
 #endif
@@ -1147,7 +1147,7 @@ namespace giac {
 #endif
     return true;
   }
-  
+
   void identificateur::push(int protection,const gen & e){
     if (!localvalue)
       localvalue=new vecteur;
@@ -1170,7 +1170,7 @@ namespace giac {
     }
     if (
 	//calc_mode(contextptr)!=1 &&
-	abs_calc_mode(contextptr)==38 && 
+	abs_calc_mode(contextptr)==38 &&
 	!strcmp(id_name,string_infinity))
       return "±∞";
     // index != sqrt(-1) wich has different notations
@@ -1184,7 +1184,7 @@ namespace giac {
     }
     /*
     if (!localvalue->empty())
-      return string("_") + *name ;        
+      return string("_") + *name ;
     if (value)
       return string("~") + *name ;
     else

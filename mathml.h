@@ -21,8 +21,8 @@
 #include "first.h"
 #include <string>
 
-#ifndef NO_NAMESPACE_GIAC 
-namespace giac { 
+#ifndef NO_NAMESPACE_GIAC
+namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC */
 
 #ifndef GIAC_HAS_STO_38
@@ -31,7 +31,7 @@ namespace giac {
 
   extern const char mathml_preamble[];
   extern const char mathml_end[];
-  class gen;  
+  class gen;
   extern const unary_function_ptr * const  at_mathml;
   gen _mathml(const gen & g,GIAC_CONTEXT);
   gen _svg(const gen & g,GIAC_CONTEXT);
@@ -52,14 +52,14 @@ namespace giac {
   std::string svg_grid(double xmin,double xmax,double ymin,double ymax,const plot_attr & p);
   extern const char svg_end[];
   std::string ingen2mathml(const gen & g,bool html5,GIAC_CONTEXT);
-  // greek letter support 
+  // greek letter support
   std::string idnt2mathml(const std::string & s0);
   std::string idnt2mathml_(const std::string & s0);
 
 #endif // RTOS_THREADX
 
-#ifndef NO_NAMESPACE_GIAC 
-} 
-#endif // ndef NO_NAMESPACE_GIAC 
+#ifndef NO_NAMESPACE_GIAC
+}
+#endif // ndef NO_NAMESPACE_GIAC
 
 #endif // _GIAC_MATHML_H

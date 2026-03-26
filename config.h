@@ -2,7 +2,7 @@
 /* config.h.in.  Generated from configure.in by autoheader.  */
 
 /* Set if debugging is enabled */
-#define DEBUG_SUPPORT 
+#define DEBUG_SUPPORT
 
 /* Name of package */
 #define PACKAGE "giac"
@@ -42,7 +42,7 @@
 #define HAVE_NO_CWD
 
 #define HAVE_SYSCONF
-#define HAVE_NO_SYS_TIMES_H 
+#define HAVE_NO_SYS_TIMES_H
 #define HAVE_LIBTOMMATH
 #define USE_GMP_REPLACEMENTS
 #ifndef HAVE_CONFIG_H

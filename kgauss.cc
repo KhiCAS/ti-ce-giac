@@ -1,4 +1,4 @@
-// -*- mode:C++ ; compile-command: "g++-3.4 -I.. -g -c gauss.cc -Wall" -*- 
+// -*- mode:C++ ; compile-command: "g++-3.4 -I.. -g -c gauss.cc -Wall" -*-
 #include "giacPCH.h"
 
 /*
@@ -47,7 +47,7 @@ namespace giac {
     gen dqs;
     gen qdd;
     int n=int(x.size());
-    
+
     vecteur A;
     //creation d'une matrice carree A d'ordre n
     for (int i=0;i<n;i++){
@@ -55,15 +55,15 @@ namespace giac {
       A.push_back(li);
     }
     //A est un vecteur de vecteur=une matrice!
-    //on met ds A :(la jacobienne de q)/2 
+    //on met ds A :(la jacobienne de q)/2
     for (int i=0;i<n;i++){
       for (int j=i;j<n;j++){
 	qdd=derive(derive(q,x[i],contextptr),x[j],contextptr);
-	qdd=recursive_normal(qdd,contextptr); 
+	qdd=recursive_normal(qdd,contextptr);
 	//cout<<i<<","<<j<<qdd<<endl;
 	if (i==j){
 	  (*A[i]._VECTptr)[i]=rdiv(qdd,2,contextptr);
-	} 
+	}
 	else {
 	  (*A[i]._VECTptr)[j]=rdiv(qdd,2,contextptr);
 	  (*A[j]._VECTptr)[i]=rdiv(qdd,2,contextptr);
@@ -72,7 +72,7 @@ namespace giac {
     }
     //2*A=jacobienne de q
     //on calcule qs=q en zero
-    //cout<<A<<endl;  
+    //cout<<A<<endl;
     qs=q;
     for (int i=0;i<n;i++){
       qs=subst(qs,x[i],0,false,contextptr);
@@ -108,8 +108,8 @@ namespace giac {
     b=2;
     //(*(A[1]._VECTptr))[0]=21;
     return(A);
-  } 
-  
+  }
+
   vecteur qxa(const gen &q,const vecteur & x,GIAC_CONTEXT){
     //transforme une forme quadratique en une matrice symetrique A
     //(les variables sont dans x)
@@ -120,7 +120,7 @@ namespace giac {
     //il faut verifier que q est quadratique
     vecteur A;
     int b;
-    A=quad(b,q,x,contextptr);  
+    A=quad(b,q,x,contextptr);
     if (b==2) {
       return(A);
     }
@@ -161,11 +161,11 @@ namespace giac {
     for (int i=0;i<n;i++){
       vecteur li(n);
       PP.push_back(li);
-    } 
+    }
     vecteur I;
     if (n) I=midn(n);
     vecteur L;
-  
+
     //si q n'est pas quadratique b<>2 et on retourne q
     vecteur A(quad(b,q,x,contextptr));
     if (b!=2){
@@ -175,11 +175,11 @@ namespace giac {
       return R;
     }
     //la forme q est quadratique de matrice A
-    if (q==0) { 
-      //R[0]=q;    
+    if (q==0) {
+      //R[0]=q;
       vecteur vide(n);
-      D=vide; 
-      U=vide;    
+      D=vide;
+      U=vide;
       P=I;
       return vide;
     }
@@ -203,9 +203,9 @@ namespace giac {
     if (r!=n) {
       //il y a des termes carres
       u1=recursive_normal(rdiv(derive(q,x[r],contextptr),plus_two,contextptr),contextptr);
-      q1=recursive_normal(q-rdiv(u1*u1,A[r][r],contextptr),contextptr);     
+      q1=recursive_normal(q-rdiv(u1*u1,A[r][r],contextptr),contextptr);
       vecteur y;
-      //y contient les variables qui restent (on enleve x[r])	   
+      //y contient les variables qui restent (on enleve x[r])
       for (int j=0;j<n;j++){
 	if (j!=r){
 	  y.push_back(x[j]);
@@ -216,13 +216,13 @@ namespace giac {
       R[0]=rdiv(1,A[r][r],contextptr);
       D=mergevecteur(R,D);
       //on rajoute u1 aux vecteurs constitue des formes lineaires
-      //q= 1/a_r_r*(u1)^2+... 
-      R[0]=u1; 
-      U=mergevecteur(R,U);      
+      //q= 1/a_r_r*(u1)^2+...
+      R[0]=u1;
+      U=mergevecteur(R,U);
       //on complete la matrice PR de dim n-1 en la matrice PP de dim n
       //1iere ligne les coeff de u1 et rieme colonne doit avoir des 0
       for (int i=0;i<n;i++){
-	(*PP[0]._VECTptr)[i]=recursive_normal(derive(u1,x[i],contextptr),contextptr); 
+	(*PP[0]._VECTptr)[i]=recursive_normal(derive(u1,x[i],contextptr),contextptr);
       }
       for (int i=1;i<n;i++){
 	for (int j=0;j<r;j++){
@@ -264,14 +264,14 @@ namespace giac {
     //on rajoute 1/a_r1_r2 et -1/a_r1_r2 sur la diagonale D
     R[0]=rdiv(1,plus_two*A[r1][r2],contextptr);
     R.push_back(rdiv(-1,plus_two*A[r1][r2],contextptr));
-    D=mergevecteur(R,D); 
+    D=mergevecteur(R,D);
     //on rajoute u1 et u2 au vecteur U constitue des formes lineaires
-    //q= 1/a_r1_r2*(u1)^2 - 1/a_r1_r2*(u2)^2 + ... 
+    //q= 1/a_r1_r2*(u1)^2 - 1/a_r1_r2*(u2)^2 + ...
     R[0]=u1;
     R[1]=u2;
     U=mergevecteur(R,U);
     //on complete la matrice PR de dim n-2 en la matrice PP de dim n
-    //1iere et 2ieme ligne les coeff de u1 et de u2 
+    //1iere et 2ieme ligne les coeff de u1 et de u2
     //r1ieme et r2ieme colonne doit avoir des 0
     for (int i=0;i<n;i++){
       (*PP[0]._VECTptr)[i]=recursive_normal(derive(u1,x[i],contextptr),contextptr);
@@ -287,12 +287,12 @@ namespace giac {
       for (int j=r2+1;j<n;j++){
 	(*PP[i]._VECTptr)[j]=PR[i-2][j-2];
       }
-    }	
+    }
     P=PP;
     R[0]=rdiv(pow(u1,2),plus_two*A[r1][r2],contextptr);
     R[1]=rdiv(-pow(u2,2),plus_two*A[r1][r2],contextptr);
-    return(mergevecteur(R,L)); 
-  } 
+    return(mergevecteur(R,L));
+  }
   gen _gauss(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type!=_VECT)
@@ -321,7 +321,7 @@ namespace giac {
     //(les variables sont dans x)
     //d nbre de variables
     //il faut verifier que A est carree
-    //A n'est pas forcement symetrique  
+    //A n'est pas forcement symetrique
     int d=int(x.size());
     int da=int(A.size());
     if (!(is_squarematrix(A)) || (da!=d) )
@@ -352,8 +352,7 @@ namespace giac {
   static define_unary_function_eval (__a2q,&_a2q,_a2q_s);
   define_unary_function_ptr5( at_a2q ,alias_at_a2q,&__a2q,0,true);
 
-  
+
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC
-

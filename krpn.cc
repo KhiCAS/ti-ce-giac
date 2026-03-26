@@ -151,7 +151,7 @@ namespace giac {
       return res;
     }
     if (!variables_are_files(contextptr)){
-      lock_syms_mutex();  
+      lock_syms_mutex();
       sym_string_tab::const_iterator it=syms().begin(),itend=syms().end();
       for (;it!=itend;++it){
 	gen id=it->second;
@@ -159,7 +159,7 @@ namespace giac {
 	  res.push_back(id);
 	}
       }
-      unlock_syms_mutex();  
+      unlock_syms_mutex();
       return res;
     }
     return undef;
@@ -255,9 +255,9 @@ namespace giac {
     }
     if (args.type!=_IDNT)
       return symbolic(at_purge,args);
-    // REMOVED! args.eval(eval_level(contextptr),contextptr); 
+    // REMOVED! args.eval(eval_level(contextptr),contextptr);
     if (contextptr){
-      if (contextptr->globalcontextptr!=contextptr){ 
+      if (contextptr->globalcontextptr!=contextptr){
 	// purge a local variable = set it to assume(DOM_SYMBOLIC)
 	gen a2(_SYMB);
 	a2.subtype=1;
@@ -386,7 +386,7 @@ namespace giac {
     return abs(g0._VECTptr->front(),contextptr)*sign(g0._VECTptr->back(),contextptr);
   }
   static const char _copysign_s[]="copysign";
-  static define_unary_function_eval (__copysign,&_copysign,_copysign_s); 
+  static define_unary_function_eval (__copysign,&_copysign,_copysign_s);
   define_unary_function_ptr5( at_copysign ,alias_at_copysign,&__copysign,0,T_UNARY_OP);
 
   char * hp38_display_in_maj(const char * s){
@@ -404,7 +404,7 @@ namespace giac {
   static const char _binary_minus_s[]="-";
   static define_unary_function_eval4_index (6,__binary_minus,&_binary_minus,_binary_minus_s,&printsommetasoperator,&texprintsommetasoperator);
   define_unary_function_ptr( at_binary_minus ,alias_at_binary_minus ,&__binary_minus);
-  
+
   static string printasNTHROOT(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
     if (feuille.type==_VECT && feuille._VECTptr->size()==2 && abs_calc_mode(contextptr)!=38)
       return "surd("+feuille[1].print(contextptr)+","+feuille[0].print(contextptr)+")";
@@ -420,7 +420,7 @@ namespace giac {
   static const char _NTHROOT_s[]="NTHROOT";
   static define_unary_function_eval4 (__NTHROOT,&_NTHROOT,_NTHROOT_s,&printasNTHROOT,&texprintsommetasoperator);
   define_unary_function_ptr5( at_NTHROOT ,alias_at_NTHROOT,&__NTHROOT,0,T_POW);
-  
+
   gen _SVL(const gen & args0,GIAC_CONTEXT){
     if ( args0.type==_STRNG && args0.subtype==-1) return  args0;
     if (!ckmatrix(args0))
@@ -429,14 +429,14 @@ namespace giac {
     return _svd(makesequence(args,-2),contextptr);
   }
   static const char _SVL_s[]="SVL";
-  static define_unary_function_eval (__SVL,&_SVL,_SVL_s); 
+  static define_unary_function_eval (__SVL,&_SVL,_SVL_s);
   define_unary_function_ptr5( at_SVL ,alias_at_SVL,&__SVL,0,T_UNARY_OP_38);
 
   gen _COND(const gen & args0,GIAC_CONTEXT){
     if ( args0.type==_STRNG && args0.subtype==-1) return  args0;
     // COND(matrix,2) L2norm condition number
     // otherwise COLNORM(args0)*COLNORM(inv(args0))
-    if (args0.type==_VECT && args0._VECTptr->size()==2){ 
+    if (args0.type==_VECT && args0._VECTptr->size()==2){
       if (args0._VECTptr->back()==1)
 	return _COND(args0._VECTptr->front(),contextptr);
       if (args0._VECTptr->back()==2){
@@ -519,14 +519,13 @@ namespace giac {
 #else
   static const char _polar_complex_s[]="polar_complex";//"\xE6\xBC";//"∡"; // " polar_complex ";
 #endif
-  static define_unary_function_eval (__polar_complex,&_polar_complex,_polar_complex_s);//,&printsommetasoperator,&texprintsommetasoperator); 
+  static define_unary_function_eval (__polar_complex,&_polar_complex,_polar_complex_s);//,&printsommetasoperator,&texprintsommetasoperator);
   define_unary_function_ptr5( at_polar_complex ,alias_at_polar_complex,&__polar_complex,0,T_UNARY_OP);   // T_MOD
   static const char _ggb_ang_s []="ggb_ang"; // prefixed version of polar complex
   static define_unary_function_eval (__ggb_ang,&_polar_complex,_ggb_ang_s);
   define_unary_function_ptr5( at_ggb_ang ,alias_at_ggb_ang,&__ggb_ang,0,true);
-  
+
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC
-

@@ -55,7 +55,7 @@ using namespace std;
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
-  
+
   const int HELP_LANGUAGES=5;
 
   struct static_help_t {
@@ -155,7 +155,7 @@ namespace giac {
     return res;
   }
 
-  bool operator < (const indexed_string & is1,const indexed_string & is2){ 
+  bool operator < (const indexed_string & is1,const indexed_string & is2){
     if (is1.index!=is2.index) return is1.index<is2.index;
     return (is1.chaine<is2.chaine);
   }
@@ -169,13 +169,13 @@ namespace giac {
     boot_sprintf(s, "%d", i);
     return s;
   }
-  
+
 #else
   string printint(int i){
     if (!i)
       return string("0");
     if (i<0)
-      return string("-")+printint(-i);      
+      return string("-")+printint(-i);
     int length = (int) std::floor(std::log10((double) i));
 #if defined VISUALC || defined BESTA_OS
     char * s =new char[length+2];
@@ -228,7 +228,7 @@ namespace giac {
     return "";
   }
 
-  // static char otherchars[]="_.~ ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ";
+  // static char otherchars[]="_.~ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
 
   bool isalphan(char ch){
     if (ch>='0' && ch<='9')

@@ -36,7 +36,7 @@ namespace giac {
 #endif
 
 
-  // declare here pointers to rational operators 
+  // declare here pointers to rational operators
   // These are global variables but that's normal for functional obj
 
   class gen;
@@ -240,17 +240,17 @@ namespace giac {
   gen _jacobi_symbol(const gen & args,GIAC_CONTEXT);
   gen _legendre_symbol(const gen & args,GIAC_CONTEXT);
 
-  gen _floor(const gen & args,GIAC_CONTEXT);  
+  gen _floor(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_floor;
 
-  gen _ceil(const gen & args,GIAC_CONTEXT);  
+  gen _ceil(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_ceil;
   gen ceil2floor(const gen & g,GIAC_CONTEXT,bool quotesubst=false);
 
-  gen _round(const gen & args,GIAC_CONTEXT);  
+  gen _round(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_round;
 
-  gen _print(const gen & args,GIAC_CONTEXT);  
+  gen _print(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_print;
 #if !defined RTOS_THREADX && !defined NSPIRE && !defined FXCG && !defined TICE
   extern const unary_function_eval __print;
@@ -331,7 +331,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_rotatesto;
   gen _rotatesto(const gen & a,const context * contextptr);
   gen sto(const gen & a,const gen & b,GIAC_CONTEXT);
-  gen sto(const gen & a,const gen & b,bool in_place,GIAC_CONTEXT);  
+  gen sto(const gen & a,const gen & b,bool in_place,GIAC_CONTEXT);
   gen _sto(const gen & g,const context * contextptr);
   gen _array_sto(const gen & a,const context * contextptr);
 
@@ -368,7 +368,7 @@ namespace giac {
   gen assumesymbolic(const gen & a,gen idnt_must_be,GIAC_CONTEXT);
   // v = previous assumptions, a=the real value, direction
   // is positive for [a,+inf[, negative for ]-inf,a]
-  // |direction| = 1 (large) or 2 (strict) 
+  // |direction| = 1 (large) or 2 (strict)
   gen doubleassume_and(const vecteur & v,const gen & a,int direction,bool or_assumption,GIAC_CONTEXT);
 
   gen _equal(const gen & args,GIAC_CONTEXT);
@@ -415,10 +415,10 @@ namespace giac {
   gen symb_at(const gen & a,const gen & b,GIAC_CONTEXT);
   gen _at(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_at;
-  
+
   gen _table(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_table;
-  
+
   // usual multiargs
   // for multiargs we use _name for the corresponding "unary" function
   // to avoid confusion of pointers since name is used
@@ -480,7 +480,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_evalm;
   gen symb_eval(const gen & a);
   gen symb_evalf(const gen & a);
-  
+
   gen symb_subst(const gen & e);
   gen _subst(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_subst;
@@ -495,7 +495,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_version;
   std::string version();
   gen _version(const gen & a,GIAC_CONTEXT);
-  
+
   gen Gamma(const gen & x,GIAC_CONTEXT);
   gen _Gamma(const gen & args,GIAC_CONTEXT);
   gen _lower_incomplete_gamma(const gen & args,GIAC_CONTEXT);
@@ -533,7 +533,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_Psi_minus_ln;
   gen Psi(const gen & x,int n,GIAC_CONTEXT);
   gen _Psi(const gen & args,GIAC_CONTEXT) ;
-  // a=expression, x variable, n=number of terms, 
+  // a=expression, x variable, n=number of terms,
   // compute an approx value of sum((-1)^k*a(k),k,0,+infinity)
   // using Chebychev polynomials
   gen alternate_series(const gen & a,const gen & x,int n,GIAC_CONTEXT);
@@ -551,7 +551,7 @@ namespace giac {
 #endif
   gen _normalmod(const gen & g,GIAC_CONTEXT);
   gen Psi(const gen & x,GIAC_CONTEXT);
-  
+
 
   extern const unary_function_ptr * const  at_Si;
   extern const unary_function_ptr * const  at_Ci;
@@ -644,7 +644,7 @@ namespace giac {
 
   extern const alias_gen alias_cst_pi_over_2_tab[];
   extern const gen & cst_pi_over_2;
-  
+
 
   extern const alias_ref_symbolic inv_2_symb;
   extern const alias_gen alias_inv_2;
@@ -671,14 +671,14 @@ namespace giac {
   extern const alias_ref_fraction plus_one_half_ref;
   extern const alias_gen alias_plus_one_half1;
   extern const alias_gen alias_plus_one_half2;
-  
+
   // extern const alias_ref_fraction plus_one_half_ref;
   extern const alias_gen alias_plus_one_half;
   extern const gen & plus_one_half ;
   extern const alias_ref_symbolic minus_one_half_symb ;
   extern const alias_gen alias_minus_one_half;
   extern const gen & minus_one_half ;
-  
+
   extern const alias_gen alias_plus_sqrt3_tab[];
   extern const alias_ref_vecteur plus_sqrt3_refv;
   extern const alias_ref_symbolic plus_sqrt3_symb ;
@@ -933,7 +933,7 @@ namespace giac {
   std::string printassto(const gen & feuille,const char * sommetstr,GIAC_CONTEXT);
   gen fast_icontent(const gen & g); // fast compute integer content of g
   gen fast_divide_by_icontent(const gen & g,const gen & z);
-  
+
 #ifdef NO_UNARY_FUNCTION_COMPOSE // STATIC_BUILTIN_LEXER_FUNCTIONS
   extern const alias_unary_function_eval __sto;
 #else

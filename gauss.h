@@ -54,7 +54,7 @@ namespace giac {
   // the eigenvectors in V1 and V2
   // a parameter `propre'
   // and the reduced equation in equation_reduite
-  // param_curves is a vecteur containing vecteurs of size 2 (lines) 
+  // param_curves is a vecteur containing vecteurs of size 2 (lines)
   // or 5 (parametric curves with equation,identificateur,tmin,tmax,tstep)
   bool conique_reduite(const gen & equation_conique,const gen & pointsurconique,const vecteur & nom_des_variables,gen & x0, gen & y0, vecteur & V1, vecteur &V2, gen & propre,gen & equation_reduite, vecteur & param_curves,gen & ratparam,bool numeric,GIAC_CONTEXT);
   bool quadrique_reduite(const gen & q,const gen & pointsurquadrique,const vecteur & vxyz,gen & x,gen & y,gen & z,vecteur & u,vecteur & v,vecteur & w,vecteur & propre,gen & equation_reduite,vecteur & param_surface,vecteur & centre,bool numeric,GIAC_CONTEXT);

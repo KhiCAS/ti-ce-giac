@@ -119,7 +119,7 @@ namespace giac {
 #endif
     }
     else
-      a+=b*c;      
+      a+=b*c;
   }
 
   inline void type_operator_plus_times_reduce_nock(const int & b,const int & c,int & a,int reduce){
@@ -146,7 +146,7 @@ namespace giac {
 
   // a<-b*c mod m
   inline void type_operator_times_reduce(const int & b,const int & c,int & a,int reduce){
-#ifdef _I386_   
+#ifdef _I386_
       asm volatile("imull %%ecx; \n\t" /* b*c in edx:eax */
 		   "idivl %%edi; \n\t"
 		   :"=d"(a)
@@ -157,7 +157,7 @@ namespace giac {
       a=tmp%reduce;
 #endif
   }
-  
+
   inline void type_operator_reduce(const int & b,const int & c,int & a,int reduce){
     if (reduce){
 #ifdef _I386_   // a<-b*c mod m
@@ -172,7 +172,7 @@ namespace giac {
 #endif
     }
     else
-      a=b*c;      
+      a=b*c;
   }
 
   inline bool has_denominator(int a){ return false; }
@@ -255,7 +255,7 @@ namespace giac {
     monomial<T> untrunc1 (int j=0) const {
       index_t::const_iterator it=index.begin(),itend=index.end();
       index_m new_i(itend-it+1);
-      index_t::iterator newit=new_i.begin();    
+      index_t::iterator newit=new_i.begin();
       *newit=j;
       for (++newit;it!=itend;++newit,++it)
 	*newit=*it;
@@ -287,7 +287,7 @@ namespace giac {
       return s;
     }
   };
-  
+
   // ordering monomials using index ordering
   template <class T>
   bool m_total_lex_is_strictly_greater(const monomial<T> & m1, const monomial<T> & m2){
@@ -512,7 +512,7 @@ namespace giac {
     new_coord.reserve( (a_end - a) + (b_end - b));
     // bool log=false;
     /* if (a!=a_end)
-       log=a->index.size()>=12; 
+       log=a->index.size()>=12;
        if (log)
        CERR << "+ begin" << CLOCK() << endl; */
     for (;;) {
@@ -522,7 +522,7 @@ namespace giac {
 	  ++b;
 	}
 	break;
-      } 
+      }
       const index_m & pow_a = a->index;
       // If b is empty, fill up with elements from a and stop
       if (b == b_end) {
@@ -531,7 +531,7 @@ namespace giac {
 	  ++a;
 	}
 	break;
-      } 
+      }
       const index_m & pow_b = b->index;
       // a and b are non-empty, compare powers
       if (pow_a!=pow_b){
@@ -539,12 +539,12 @@ namespace giac {
 	  // a has lesser power, get coefficient from a
 	  new_coord.push_back(*a);
 	  ++a;
-	} 
+	}
 	else  {
 	  // b has lesser power, get coefficient from b
 	  new_coord.push_back(*b);
 	  ++b;
-	} 
+	}
       }
       else {
 	T sum = (*a).value + (*b).value;
@@ -590,7 +590,7 @@ namespace giac {
 	  ++b;
 	}
 	break;
-      } 
+      }
       const index_m & pow_a = a->index;
       // If b is empty, fill up with elements from a and stop
       if (b == b_end) {
@@ -599,7 +599,7 @@ namespace giac {
 	  ++a;
 	}
 	break;
-      } 
+      }
       const index_m & pow_b = b->index;
       // a and b are non-empty, compare powers
       if (pow_a!=pow_b){
@@ -607,12 +607,12 @@ namespace giac {
 	  // a has lesser power, get coefficient from a
 	  new_coord.push_back(*a);
 	  ++a;
-	} 
+	}
 	else  {
 	  // b has lesser power, get coefficient from b
 	  new_coord.push_back(-(*b));
 	  ++b;
-	} 
+	}
       }
       else {
 	T diff = (*a).value - (*b).value;
@@ -621,7 +621,7 @@ namespace giac {
 	++a;
 	++b;
       }
-    }  
+    }
   }
 
   template <class T>
@@ -673,7 +673,7 @@ namespace giac {
       new_coord.clear();
       return;
     }
-    // another algorithm using a hash_map 
+    // another algorithm using a hash_map
 #ifdef HASH_MAP_NAMESPACE
     typedef HASH_MAP_NAMESPACE::hash_map< index_t,T,hash_function_object > hash_prod ;
     hash_prod produit_;
@@ -695,7 +695,7 @@ namespace giac {
 	prod_it_=produit_.find(sum_);
 	if (prod_it_==produit_.end())
 	  produit_[sum_]=it_a_cur->value*it_b_cur->value;
-	else 	
+	else
 	  prod_it_->second += it_a_cur->value*it_b_cur->value;
       }
     }
@@ -708,7 +708,7 @@ namespace giac {
     // CERR << new_coord <<endl;
 #if 1
     sort_helper<T> M(m_is_strictly_greater);
-    sort(new_coord.begin(),new_coord.end(),M);    
+    sort(new_coord.begin(),new_coord.end(),M);
 #else
     sort(new_coord.begin(),new_coord.end(),m_is_strictly_greater);
 #endif
@@ -737,7 +737,7 @@ namespace giac {
 	prod_it=produit.find(somme);
 	if (prod_it==produit.end())
 	  produit[somme]=ita_cur->value*itb_cur->value;
-	else 	
+	else
 	  prod_it->second += ita_cur->value*itb_cur->value;
       }
     }
@@ -771,7 +771,7 @@ namespace giac {
 	  old_pow=cur_pow;
 	}
 	else
-	  res=res+((*ita_cur).value) * ((*itb_cur).value);      
+	  res=res+((*ita_cur).value) * ((*itb_cur).value);
 	if (ita_cur==ita_begin)
 	  break;
       }
@@ -791,7 +791,7 @@ namespace giac {
 	}
 	else
 	  res=res+((*ita_cur).value) * ((*itb_cur).value);
-	
+
 	if (ita_cur==ita_begin)
 	  break;
       }
@@ -801,19 +801,19 @@ namespace giac {
       multcoord.push_back( monomial<T>(res ,old_pow ));
     // sort by asc. power
 #if 1 // def NSPIRE
-    sort_helper<T> M(m_is_strictly_greater);  
+    sort_helper<T> M(m_is_strictly_greater);
     sort(multcoord.begin(),multcoord.end(),M);
 #else
     sort( multcoord.begin(),multcoord.end(),m_is_strictly_greater);
 #endif
     typename std::vector< monomial<T> >::const_iterator it=multcoord.begin();
     typename std::vector< monomial<T> >::const_iterator itend=multcoord.end();
-    // adjust result size 
+    // adjust result size
     // statistics about polynomial density
     // a dense poly of deg. aa and d variables has binomial(aa+d,d) monomials
     // we need to reserve at most asize*bsize
-    // but less for dense polynomials since 
-    // binomial(aa+d,d)*binomial(bb+d,d) > binomial(aa+bb+d,d)
+    // but less for dense polynomials since
+    //ï¿½binomial(aa+d,d)*binomial(bb+d,d) > binomial(aa+bb+d,d)
     int aa=total_degree(ita_begin->index),bb=total_degree(itb_begin->index);
     double r;
     double factoriald=std::lgamma(d+1);
@@ -985,7 +985,7 @@ namespace giac {
       // set found to true as soon as one is non 0
       typename std::vector< monomial<T> >::const_iterator it=v.begin();
       for (;it!=itend;++it){
-	if ((it->index)[1]==pivotc){	
+	if ((it->index)[1]==pivotc){
 	  int r=it->index.front();
 	  T val=it->value;
 	  pivotcol[r]=val;
@@ -995,7 +995,7 @@ namespace giac {
 	      pivotcoeff=val;
 	      pivotr=r;
 	      pivotrrefnorm=rrefnorm(pivotcoeff);
-	    } 
+	    }
 	  }
 	}
       }

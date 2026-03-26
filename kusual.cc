@@ -165,7 +165,7 @@ namespace giac {
     else if(angle_degree(contextptr))
       k=rdiv(a,15,context0);
     //grad
-    else 
+    else
       k=rdiv(a,rdiv(50,3),context0); //50/3 grads,  due to 200/12
     return is_multiple_of_12(k,l);
   }
@@ -202,7 +202,7 @@ namespace giac {
   static const char _constant_one_s []="1";
   static define_unary_function_eval (__constant_one,&_constant_one,_constant_one_s);
   define_unary_function_ptr( at_one ,alias_at_one ,&__constant_one);
-  
+
   gen _constant_zero(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     return 0;
@@ -210,7 +210,7 @@ namespace giac {
   static const char _constant_zero_s []="0";
   static define_unary_function_eval (__constant_zero,&_constant_zero,_constant_zero_s);
   define_unary_function_ptr( at_zero ,alias_at_zero ,&__constant_zero);
-  
+
   gen _rm_a_z(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
 #if !defined RTOS_THREADX && !defined BESTA_OS && !defined FREERTOS && !defined FXCG && !defined TICE && !defined NSPIRE_NEWLIB
@@ -351,7 +351,7 @@ namespace giac {
 #define	sqrto2	0.707106781186548
     float x,z, z2, temp;
     int exp;
-    
+
     if (arg<=0.0) {
       errno = EDOM;
       return -HUGE_VALF;
@@ -426,7 +426,7 @@ namespace giac {
       }
     }
 #endif
-    if (e.type==_CPLX){ 
+    if (e.type==_CPLX){
       if (e.subtype){
 #ifdef _SOFTMATH_H
 	return std::giac_gnuwince_log(gen2complex_d(e));
@@ -440,7 +440,7 @@ namespace giac {
 	int mode=get_mode_set_radian(contextptr);
 	gen res(ln(abs(e,contextptr),contextptr),arg(e,contextptr));
 	angle_mode(mode,contextptr);
-	
+
 	return res;
       }
 #endif
@@ -479,8 +479,8 @@ namespace giac {
     if (e.type==_SYMB){
       if (e._SYMBptr->sommet==at_inv && e._SYMBptr->feuille.type!=_VECT)
 	return -ln(e._SYMBptr->feuille,contextptr);
-      if (e._SYMBptr->sommet==at_exp){ 
-	if (is_real(e._SYMBptr->feuille,contextptr) ) 
+      if (e._SYMBptr->sommet==at_exp){
+	if (is_real(e._SYMBptr->feuille,contextptr) )
 	  return e._SYMBptr->feuille;
       }
     }
@@ -598,7 +598,7 @@ namespace giac {
       return symb_prog3(a,0,alog10(b,contextptr));
     return pow(gen(10),e,contextptr);
   }
-  static const char _alog10_s []="alog10"; 
+  static const char _alog10_s []="alog10";
   static define_unary_function_eval (__alog10,&alog10,_alog10_s);
   define_unary_function_ptr5( at_alog10 ,alias_at_alog10,&__alog10,0,true);
 
@@ -641,7 +641,7 @@ double my_atan(double arg) {
 #endif
 }
 
-  
+
   gen atan(const gen & e0,GIAC_CONTEXT){
 #if 0
     if (e0.type==_FLOAT_){
@@ -656,7 +656,7 @@ double my_atan(double arg) {
     if (e0.type==_DOUBLE_){
       double res=my_atan(e0._DOUBLE_val);
       //dbg_printf("atan %f\n",res);
-      if (angle_radian(contextptr)) 
+      if (angle_radian(contextptr))
 	return res;
       else if(angle_degree(contextptr))
         return res*rad2deg_d;
@@ -671,7 +671,7 @@ double my_atan(double arg) {
     }
 #if 0
     if (e.type==_REAL){
-      if (angle_radian(contextptr)) 
+      if (angle_radian(contextptr))
 	return e._REALptr->atan();
       else if(angle_degree(contextptr))
 	return 180*e._REALptr->atan()/cst_pi;
@@ -681,7 +681,7 @@ double my_atan(double arg) {
     }
 #endif
     if ( (e.type==_CPLX) && (e.subtype )){
-      if (angle_radian(contextptr)) 
+      if (angle_radian(contextptr))
 	return no_context_evalf(atanasln(e,contextptr));
       else if(angle_degree(contextptr))
 	      return no_context_evalf(atanasln(e,contextptr))*gen(rad2deg_d);
@@ -696,7 +696,7 @@ double my_atan(double arg) {
     if (is_zero(e,contextptr))
       return e;
     if (is_one(e)){
-      if (angle_radian(contextptr)) 
+      if (angle_radian(contextptr))
 	return rdiv(cst_pi,4,contextptr);
       else if(angle_degree(contextptr))
       return 45;
@@ -705,7 +705,7 @@ double my_atan(double arg) {
         return 50;
     }
     if (is_minus_one(e)){
-      if (angle_radian(contextptr)) 
+      if (angle_radian(contextptr))
 	return rdiv(-cst_pi,4,contextptr);
       else if(angle_degree(contextptr))
       return -45;
@@ -714,7 +714,7 @@ double my_atan(double arg) {
         return -50;
     }
     if (e==plus_sqrt3_3){
-      if (angle_radian(contextptr)) 
+      if (angle_radian(contextptr))
 	return rdiv(cst_pi,6,contextptr);
       else if(angle_degree(contextptr))
       return 30;
@@ -723,7 +723,7 @@ double my_atan(double arg) {
         return rdiv(100,3); //100/3 grads
     }
     if (e==plus_sqrt3){
-      if (angle_radian(contextptr)) 
+      if (angle_radian(contextptr))
 	return rdiv(cst_pi,3,contextptr);
       else if(angle_degree(contextptr))
       return 60;
@@ -732,7 +732,7 @@ double my_atan(double arg) {
         return rdiv(200,3); //200/3 grads
     }
     if (e==plus_inf){
-      if (angle_radian(contextptr)) 
+      if (angle_radian(contextptr))
 	return cst_pi_over_2;
       else if(angle_degree(contextptr))
       return 90;
@@ -741,7 +741,7 @@ double my_atan(double arg) {
         return 100;
     }
     if (e==minus_inf){
-      if (angle_radian(contextptr)) 
+      if (angle_radian(contextptr))
 	return -cst_pi_over_2;
       else if(angle_degree(contextptr))
       return -90;
@@ -770,7 +770,7 @@ double my_atan(double arg) {
 	  return (ed>0?res/2:-res/2)*(angle_radian(contextptr)?cst_pi/5:(angle_degree(contextptr)?gen(36):gen(40))); //grad
       }
       edh=horner(makevecteur(-3,55,-198,198,-55,3),tmp*tmp);
-      if (absdouble(edh._DOUBLE_val)<1e-7){      
+      if (absdouble(edh._DOUBLE_val)<1e-7){
 	int res=int(std::floor(std::atan(absdouble(ed))*12/M_PI+.5));
 	int den=12;
 	int g=gcd(res,den);
@@ -781,7 +781,7 @@ double my_atan(double arg) {
       if (absdouble(edh._DOUBLE_val)<1e-7 &&
 	  normal(horner(makevecteur(1,-6,1),e*e),contextptr)==0){
 	int res=int(std::floor(std::atan(absdouble(ed))*8/M_PI+.5));
-	return (ed>0?res:-res)*(angle_radian(contextptr)?cst_pi/8:(angle_degree(contextptr)?gen(45)/2:gen(25))); //grad 
+	return (ed>0?res:-res)*(angle_radian(contextptr)?cst_pi/8:(angle_degree(contextptr)?gen(45)/2:gen(25))); //grad
       }
     }
     if ((e.type==_SYMB) && (e._SYMBptr->sommet==at_neg))
@@ -879,7 +879,7 @@ double my_atan(double arg) {
     gen eee(e);
     for (double j=2;j<max_numexp && linfnorm(eee,contextptr)._DOUBLE_val>eps;++j){
       res = res + eee;
-      eee = gen(1/j) * eee * e ; 
+      eee = gen(1/j) * eee * e ;
     }
     return res;
   }
@@ -923,8 +923,8 @@ double my_atan(double arg) {
     return std::exp(arg);
 #endif
 #endif
-  }    
-  
+  }
+
   gen exp(const gen & e0,GIAC_CONTEXT){
 #if 0
     if (e0.type==_FLOAT_){
@@ -947,7 +947,7 @@ double my_atan(double arg) {
 	return series(*e._SPOL1ptr,*at_exp,0,contextptr);
     }
     //if (e.type==_REAL) return e._REALptr->exp();
-    if (e.type==_CPLX){ 
+    if (e.type==_CPLX){
       if (e.subtype){
 #ifdef _SOFTMATH_H
 	return std::giac_gnuwince_exp(gen2complex_d(e));
@@ -961,13 +961,13 @@ double my_atan(double arg) {
 	int mode=get_mode_set_radian(contextptr);
 	gen res=exp(*e._CPLXptr,contextptr)*gen(cos(*(e._CPLXptr+1),contextptr),sin(*(e._CPLXptr+1),contextptr));
 	angle_mode(mode,contextptr);
-	
+
 	return res;
       }
 #endif
     }
     if (e.type==_VECT){
-      if (is_squarematrix(e)){ 
+      if (is_squarematrix(e)){
 	// check for numeric entries -> numeric exp
 	if (is_fully_numeric(e))
 	  return numeric_matrix_exp(e,epsilon(contextptr),contextptr);
@@ -991,15 +991,15 @@ double my_atan(double arg) {
     if (is_algebraic_program(e,a,b))
       return symb_prog3(a,0,exp(b,contextptr));
     int k;
-    if (simplify_sincosexp_pi && contains(e,cst_pi)){ // if (!approx_mode(contextptr)) 
+    if (simplify_sincosexp_pi && contains(e,cst_pi)){ // if (!approx_mode(contextptr))
       gen a,b;
-      if (is_linear_wrt(e,cst_pi,a,b,contextptr) && !is_zero(a)){ 
+      if (is_linear_wrt(e,cst_pi,a,b,contextptr) && !is_zero(a)){
 	if (is_multiple_of_12(a*cst_i*gen(trig_deno/2),k))
 	  return gen(*table_cos[k],(*table_cos[(k+6)%24]))*exp(b,contextptr);
 	else {
 	  gen kk;
 	  kk=normal(a*cst_i,contextptr);
-	  if (is_assumed_integer(kk,contextptr)){ 
+	  if (is_assumed_integer(kk,contextptr)){
 	    if (is_assumed_integer(normal(rdiv(kk,plus_two,contextptr),contextptr),contextptr))
 	      return exp(b,contextptr);
 	    else
@@ -1009,7 +1009,7 @@ double my_atan(double arg) {
 	  if (is_rational(kk,n,d)){
 	    if (b==0 && (d==5 || d==10) && calc_mode(contextptr)!=1)
 	      return gen(cos(kk*cst_pi,contextptr),-sin(kk*cst_pi,contextptr));
-	    if (d<7){ 
+	    if (d<7){
 	      q=-n/d;
 	      r=-n%d;
 	      if (q%2)
@@ -1121,7 +1121,7 @@ double my_atan(double arg) {
 	*logptr(contextptr) << gettext("Unable to factor ") << e << endl;
 	simpl=e;
 	pos=true;
-	return;      
+	return;
       }
 #endif // no_stdexcept
     }
@@ -1155,7 +1155,7 @@ double my_atan(double arg) {
   // simplified sqrt without taking care of sign
   gen sqrt_noabs(const gen & e,GIAC_CONTEXT){
     identificateur tmpx(" x");
-    vecteur w=solve(tmpx*tmpx-e,tmpx,1,contextptr); 
+    vecteur w=solve(tmpx*tmpx-e,tmpx,1,contextptr);
     if (lidnt(w).empty())
       w=protect_sort(w,contextptr);
     if (w.empty())
@@ -1222,7 +1222,7 @@ double my_atan(double arg) {
 	env.moduloon=true;
 	env.modulo=p;
 	modpoly A(3),B(2,1),C,D;
-	A[0]=1; A[2]=-a; 
+	A[0]=1; A[2]=-a;
 	while (true){
 	  gen r=smod(gen(giac_rand(contextptr)),p);
 	  B[1]=r;
@@ -1386,8 +1386,8 @@ double my_atan(double arg) {
       return e;
     if (is_perfect_square(e))
       return isqrt(e);
-    if (e.type==_INT_ || e.type==_ZINT){ 
-      // factorization 
+    if (e.type==_INT_ || e.type==_ZINT){
+      // factorization
       if (e.type==_INT_ && e.val>0){
 	switch (e.val){
 	case 2:
@@ -1497,7 +1497,7 @@ double my_atan(double arg) {
     float x2=d*d;
     return 1.0+x2*(-.5+x2*(0.0416666666667+x2*(-0.00138888888889+x2*2.48015873016e-05))); // 5* 4+
   }
-  
+
   gen symb_cos(const gen & e){
     return symbolic(at_cos,e);
   }
@@ -1538,7 +1538,7 @@ double my_atan(double arg) {
 #endif
     if (e0.type==_DOUBLE_){
       double d;
-      if (angle_radian(contextptr)) 
+      if (angle_radian(contextptr))
 	d=e0._DOUBLE_val;
       else if(angle_degree(contextptr))
         d=e0._DOUBLE_val*deg2rad_d;
@@ -1555,7 +1555,7 @@ double my_atan(double arg) {
     }
 #if 0
     if (e.type==_REAL){
-      if (angle_radian(contextptr)) 
+      if (angle_radian(contextptr))
 	return e._REALptr->cos();
       else if(angle_degree(contextptr))
         return ((e*cst_pi)/180)._REALptr->cos();
@@ -1564,10 +1564,10 @@ double my_atan(double arg) {
 	return ((e*cst_pi)/200)._REALptr->cos();
     }
 #endif
-    if (e.type==_CPLX){ 
+    if (e.type==_CPLX){
       if (e.subtype){
 	complex_double d;
-	if (angle_radian(contextptr)) 
+	if (angle_radian(contextptr))
 	  d=gen2complex_d(e);
   else if(angle_degree(contextptr))
 	  d=gen2complex_d(e)*deg2rad_d;
@@ -1621,7 +1621,7 @@ double my_atan(double arg) {
     if (angle_radian(contextptr)){
       if (simplify_sincosexp_pi && contains(e,cst_pi) && is_linear_wrt(e,cst_pi,a,b,contextptr)){
 	if (is_zero(a)){
-	  if (is_zero(b)) 
+	  if (is_zero(b))
 	    return 1;
 	} else {
 	  if (b==0 && a.type==_FRAC && a._FRACptr->den==10 && a._FRACptr->num.type==_INT_)
@@ -1664,7 +1664,7 @@ double my_atan(double arg) {
       est_multiple=is_multiple_of_pi_over_12(e,k,contextptr);
       doit=est_multiple;
     }
-    if (doit){ 
+    if (doit){
       if (est_multiple){
 	if (is_zero(b))
 	  return *table_cos[k];
@@ -1712,17 +1712,17 @@ double my_atan(double arg) {
 	    q=1;
 	  if (r<0)
 	    r=-r;
-	  if (!(d%2) && d%4){ 
+	  if (!(d%2) && d%4){
 	    d=d/2; // cos(r/(2*d)*pi) = sin(pi/2(1-r/d))
-	    if (angle_radian(contextptr)) 
+	    if (angle_radian(contextptr))
 	      return -q*sin((r-d)/2*cst_pi/d,contextptr);
       else if(angle_degree(contextptr))
 	      return -q*sin(rdiv((r-d)*90,d,contextptr),contextptr);
       //grad
-	    else 
+	    else
         return -q*sin(rdiv((r - d) * 100, d, contextptr), contextptr);
 	  }
-	  if (angle_radian(contextptr)) 
+	  if (angle_radian(contextptr))
 	    return q*symb_cos(r*cst_pi/d);
     else if(angle_degree(contextptr))
 	    return q*symb_cos(rdiv(r*180,d,contextptr));
@@ -1749,7 +1749,7 @@ double my_atan(double arg) {
     return symb_cos(e);
   }
   static gen d_cos(const gen & e ,GIAC_CONTEXT){
-    if (angle_radian(contextptr)) 
+    if (angle_radian(contextptr))
       return -(sin(e,contextptr));
     else if(angle_degree(contextptr))
       return -deg2rad_e*sin(e,contextptr);
@@ -1791,7 +1791,7 @@ double my_atan(double arg) {
 #endif
 #endif
   }
-    
+
   gen symb_sin(const gen & e){
     return symbolic(at_sin,e);
   }
@@ -1807,7 +1807,7 @@ double my_atan(double arg) {
 #endif
     if (e0.type==_DOUBLE_){
       double d;
-      if (angle_radian(contextptr)) 
+      if (angle_radian(contextptr))
 	d=e0._DOUBLE_val;
       else if(angle_degree(contextptr))
 	d=e0._DOUBLE_val*deg2rad_d;
@@ -1824,7 +1824,7 @@ double my_atan(double arg) {
     }
 #if 0
     if (e.type==_REAL){
-      if (angle_radian(contextptr)) 
+      if (angle_radian(contextptr))
 	return e._REALptr->sin();
       else if(angle_degree(contextptr))
 	return ((e*cst_pi)/180)._REALptr->sin();
@@ -1833,10 +1833,10 @@ double my_atan(double arg) {
         return ((e*cst_pi)/200)._REALptr->sin();
     }
 #endif
-    if (e.type==_CPLX){ 
+    if (e.type==_CPLX){
       if (e.subtype){
 	complex_double d;
-	if (angle_radian(contextptr)) 
+	if (angle_radian(contextptr))
 	  d=gen2complex_d(e);
 	else if(angle_degree(contextptr))
 	  d=gen2complex_d(e)*deg2rad_d;
@@ -1853,7 +1853,7 @@ double my_atan(double arg) {
       if (e._CPLXptr->type==_REAL || e._CPLXptr->type==_FLOAT_){
 	gen e1=e;
 	if(!angle_radian(contextptr)){
-	  if(angle_degree(contextptr)) 
+	  if(angle_degree(contextptr))
 	    e1=e*deg2rad_g;
 	  //grad
 	  else
@@ -1889,7 +1889,7 @@ double my_atan(double arg) {
     if (angle_radian(contextptr)){
       if (simplify_sincosexp_pi && contains(e,cst_pi) && is_linear_wrt(e,cst_pi,a,b,contextptr)){
 	if (is_zero(a)){
-	  if (is_zero(b)) 
+	  if (is_zero(b))
 	    return 0;
 	} else {
 	  if (b==0 && a.type==_FRAC && a._FRACptr->den==10 && a._FRACptr->num.type==_INT_)
@@ -1919,14 +1919,14 @@ double my_atan(double arg) {
 	  }
 	  est_multiple=is_multiple_of_12(a*gen(trig_deno/2),k);
 	  doit=true;
-	} 
+	}
       } // if (simplify_sincospexp...)
     }
     else {
       est_multiple=is_multiple_of_pi_over_12(e,k,contextptr);
       doit=est_multiple;
     }
-    if (doit){ 
+    if (doit){
       if (est_multiple){
 	if (is_zero(b))
 	  return *table_cos[(k+18)%24];
@@ -1957,7 +1957,7 @@ double my_atan(double arg) {
 	      return (neg%2?-1:1)*sin(b,contextptr);
 	    if (av1.size()==1)
 	      return (neg%2?-1:1)*sin(av1.front()*cst_pi+b,contextptr);
-	    return (neg%2?-1:1)*sin(symb_plus(av1)*cst_pi+b,contextptr); 
+	    return (neg%2?-1:1)*sin(symb_plus(av1)*cst_pi+b,contextptr);
 	  }
 	}
 	int n,d,q,r;
@@ -1976,7 +1976,7 @@ double my_atan(double arg) {
 	    r=-r;
 	    q=-q;
 	  }
-	  if (!(d%2) && d%4){ 
+	  if (!(d%2) && d%4){
 	    d=d/2; // sin(r/(2*d)*pi) = cos(pi/2(1-r/d))
 	    if (angle_radian(contextptr))
 	      return q*cos((r-d)/2*cst_pi/d,contextptr);
@@ -1986,7 +1986,7 @@ double my_atan(double arg) {
 	    else
         return q*cos(rdiv((r-d)*100,d,contextptr),contextptr);
 	  }
-	  if (angle_radian(contextptr)) 
+	  if (angle_radian(contextptr))
 	    return q*symb_sin(r*cst_pi/d);
     else if(angle_degree(contextptr))
 	    return q*symb_sin(rdiv(r*180,d,contextptr));
@@ -2013,7 +2013,7 @@ double my_atan(double arg) {
     return symb_sin(e);
   }
   static gen d_sin(const gen & g,GIAC_CONTEXT){
-    if (angle_radian(contextptr)) 
+    if (angle_radian(contextptr))
       return cos(g,contextptr);
     else if(angle_degree(contextptr))
       return deg2rad_e*cos(g,contextptr);
@@ -2035,7 +2035,7 @@ double my_tan(double arg){
 #define invpi 	1.27323954473516   // 4/pi
   float temp, e, argsq;
   int i,sign;
-  
+
   sign = 1;
   if (arg<0.){
     arg = -arg;
@@ -2086,7 +2086,7 @@ double my_tan(double arg){
 #endif
     if (e0.type==_DOUBLE_){
       double d;
-      if (angle_radian(contextptr)) 
+      if (angle_radian(contextptr))
 	d=e0._DOUBLE_val;
       else if(angle_degree(contextptr))
         d=e0._DOUBLE_val*deg2rad_d;
@@ -2103,7 +2103,7 @@ double my_tan(double arg){
     }
 #if 0
     if (e.type==_REAL){
-      if (angle_radian(contextptr)) 
+      if (angle_radian(contextptr))
 	return e._REALptr->tan();
       else if(angle_degree(contextptr))
 	      return ((e*cst_pi)/180)._REALptr->tan();
@@ -2112,7 +2112,7 @@ double my_tan(double arg){
         return ((e*cst_pi)/200)._REALptr->tan();
     }
 #endif
-    if (e.type==_CPLX){ 
+    if (e.type==_CPLX){
       if (e.subtype){
 	complex_double c(gen2complex_d(e));
   if(!angle_radian(contextptr))
@@ -2132,7 +2132,7 @@ double my_tan(double arg){
 #if 0
       if (e._CPLXptr->type==_REAL || e._CPLXptr->type==_FLOAT_){
 	gen e1=e;
-	if (!angle_radian(contextptr)) 
+	if (!angle_radian(contextptr))
 	  {
 	    //grad
 	    if(angle_degree(contextptr))
@@ -2140,14 +2140,14 @@ double my_tan(double arg){
 	    else
 	      e1 = e*grad2rad_g;
 	  }
-	
+
 	gen e2=im(e1,contextptr);
 	e1=re(e1,contextptr);
 	//grad
 	int mode=get_mode_set_radian(contextptr);
 	e1=tan(e1,contextptr);
 	angle_mode(mode,contextptr);
-	
+
 	e2=cst_i*tanh(e2,contextptr);
 	return (e1+e2)/(1-e1*e2);
       }
@@ -2169,14 +2169,14 @@ double my_tan(double arg){
     if (is_algebraic_program(e,a,b))
       return symb_prog3(a,0,tan(b,contextptr));
     int k;
-    if (!approx_mode(contextptr)){ 
+    if (!approx_mode(contextptr)){
       if (is_multiple_of_pi_over_12(e,k,contextptr)) //grad
 	return *table_tan[(k%12)];
       if (is_multiple_of_pi_over_12(2*e,k,contextptr)) //grad
-	return normal(sin(2*e,contextptr)/(1+cos(2*e,contextptr)),contextptr); 
+	return normal(sin(2*e,contextptr)/(1+cos(2*e,contextptr)),contextptr);
       else {
 	gen kk;
-	if (angle_radian(contextptr)) 
+	if (angle_radian(contextptr))
 	  kk=normal(rdiv(e,cst_pi,contextptr),contextptr);
 	else if(angle_degree(contextptr))
 	  kk=normal(rdiv(e,180,contextptr),contextptr);
@@ -2203,7 +2203,7 @@ double my_tan(double arg){
 	  }
 	  if (d%2==0 && n<d/2 && n>d/4){
 	    n = d/2-n; gen res;
-	    if (angle_radian(contextptr)) 
+	    if (angle_radian(contextptr))
 	      res=symb_tan((n%d)*inv(d,contextptr)*cst_pi);
 	    else if(angle_degree(contextptr))
 	      res= symb_tan(rdiv((n%d)*180,d,contextptr));
@@ -2211,7 +2211,7 @@ double my_tan(double arg){
 	      res= symb_tan(rdiv((n%d)*200,d,contextptr));
 	    return inv(res,contextptr);
 	  }
-	  if (angle_radian(contextptr)) 
+	  if (angle_radian(contextptr))
 	    return symb_tan((n%d)*inv(d,contextptr)*cst_pi);
 	  else if(angle_degree(contextptr))
 	    return symb_tan(rdiv((n%d)*180,d,contextptr));
@@ -2237,7 +2237,7 @@ double my_tan(double arg){
     return symb_tan(e);
   }
   static gen d_tan(const gen & e,GIAC_CONTEXT){
-    if (angle_radian(contextptr)) 
+    if (angle_radian(contextptr))
       return 1+pow(tan(e,contextptr),2);
     else if(angle_degree(contextptr))
       return deg2rad_e*(1+pow(tan(e,contextptr),2));
@@ -2302,7 +2302,7 @@ double my_tan(double arg){
 #else
 	double d=std::asin(e._DOUBLE_val);
 #endif
-	if (angle_radian(contextptr)) 
+	if (angle_radian(contextptr))
 	  return d;
 	else if(angle_degree(contextptr))
 	  return d*rad2deg_d;
@@ -2313,7 +2313,7 @@ double my_tan(double arg){
     }
 #if 0
     if (e.type==_REAL){
-      if (angle_radian(contextptr)) 
+      if (angle_radian(contextptr))
 	return e._REALptr->asin();
       else if(angle_degree(contextptr))
 	return 180*e._REALptr->asin()/cst_pi;
@@ -2323,7 +2323,7 @@ double my_tan(double arg){
     }
 #endif
     if ( e.type==_DOUBLE_ || (e.type==_CPLX && (e.subtype) )){
-      if (angle_radian(contextptr)) 
+      if (angle_radian(contextptr))
 	return no_context_evalf(asinasln(e,contextptr));
       else if(angle_degree(contextptr))
 	return no_context_evalf(asinasln(e,contextptr))*gen(rad2deg_d);
@@ -2347,7 +2347,7 @@ double my_tan(double arg){
       else
         return 100;
     }
-    if (e==sin_pi_12 
+    if (e==sin_pi_12
 #ifndef VISUALC
 	|| e==*normal_sin_pi_12_ptr
 #endif
@@ -2360,7 +2360,7 @@ double my_tan(double arg){
       else
         return rdiv(50, 3); //50/3 grads
     }
-    if (e==cos_pi_12 
+    if (e==cos_pi_12
 #ifndef VISUALC
 	|| e==*normal_cos_pi_12_ptr
 #endif
@@ -2383,7 +2383,7 @@ double my_tan(double arg){
         return rdiv(200,3); //200/3 grads
     }
     if (e==plus_sqrt2_2){
-      if (angle_radian(contextptr)) 
+      if (angle_radian(contextptr))
 	return rdiv(cst_pi,4,contextptr);
       else if(angle_degree(contextptr))
       return 45;
@@ -2392,7 +2392,7 @@ double my_tan(double arg){
         return 50;
     }
     if (e==plus_one_half){
-      if (angle_radian(contextptr)) 
+      if (angle_radian(contextptr))
 	return rdiv(cst_pi,6,contextptr);
       else if(angle_degree(contextptr))
       return 30;
@@ -2480,7 +2480,7 @@ double my_tan(double arg){
       shift_coeff=plus_one_half;
       identificateur x(" "); vecteur v;
       taylor(pow(2+x,minus_one_half,contextptr),x,0,ordre,v,contextptr);
-      // integration with shift 
+      // integration with shift
       v=integrate(v,shift_coeff);
       if (!direction)
 	direction=1;
@@ -2490,7 +2490,7 @@ double my_tan(double arg){
       shift_coeff=plus_one_half;
       identificateur x(" "); vecteur v;
       taylor(pow(2-x,minus_one_half,contextptr),x,0,ordre,v,contextptr);
-      // integration with shift 
+      // integration with shift
       v=integrate(v,shift_coeff);
       return v;
     }
@@ -2528,7 +2528,7 @@ double my_tan(double arg){
 #else
 	double d=std::acos(e._DOUBLE_val);
 #endif
-	if (angle_radian(contextptr)) 
+	if (angle_radian(contextptr))
 	  return d;
 	else if(angle_degree(contextptr))
 	  return d*rad2deg_d;
@@ -2544,7 +2544,7 @@ double my_tan(double arg){
     }
 #if 0
     if (e.type==_REAL){
-      if (angle_radian(contextptr)) 
+      if (angle_radian(contextptr))
 	return e._REALptr->acos();
       else if(angle_degree(contextptr))
 	return 180*e._REALptr->acos()/cst_pi;
@@ -2555,7 +2555,7 @@ double my_tan(double arg){
 #endif
     if ( e.type==_DOUBLE_ || (e.type==_CPLX && (e.subtype)) ){
       gen res=cst_pi/2-asinasln(e,contextptr); // -cst_i*no_context_evalf(ln(sqrt(e*e-1,contextptr)+e,contextptr));
-      if (angle_radian(contextptr)) 
+      if (angle_radian(contextptr))
 	return res;
       else if(angle_degree(contextptr))
 	return res*gen(rad2deg_d);
@@ -2575,7 +2575,7 @@ double my_tan(double arg){
     gen g=asin(e,contextptr);
     if ( (g.type==_SYMB) && (g._SYMBptr->sommet==at_asin) )
       return symb_acos(e);
-    if (angle_radian(contextptr)) 
+    if (angle_radian(contextptr))
       return normal(cst_pi_over_2-asin(e,contextptr),contextptr);
     else if(angle_degree(contextptr))
       return 90-asin(e,contextptr);
@@ -2601,7 +2601,7 @@ double my_tan(double arg){
       shift_coeff=plus_one_half;
       identificateur x(" "); vecteur v;
       taylor(pow(2+x,minus_one_half,contextptr),x,0,ordre,v,contextptr);
-      // integration with shift 
+      // integration with shift
       v=integrate(v,shift_coeff);
       if (!direction)
 	direction=1;
@@ -2611,7 +2611,7 @@ double my_tan(double arg){
       shift_coeff=plus_one_half;
       identificateur x(" "); vecteur v;
       taylor(pow(2-x,minus_one_half,contextptr),x,0,ordre,v,contextptr);
-      // integration with shift 
+      // integration with shift
       v=integrate(v,shift_coeff);
       return -v;
     }
@@ -2817,7 +2817,7 @@ double my_tan(double arg){
       return analytic_apply(at_tanh,*e._VECTptr,contextptr);
     if (e.type==_VECT)
       return apply(e,tanh,contextptr);
-    if (is_zero(e,contextptr)) 
+    if (is_zero(e,contextptr))
       return e;
     if (is_undef(e) || (e==unsigned_inf))
       return undef;
@@ -2877,7 +2877,7 @@ double my_tan(double arg){
       return no_context_evalf(asinhasln(e,contextptr));
     if (is_squarematrix(e)){
       context tmp;
-      return analytic_apply(at_asinh,*e._VECTptr,&tmp); 
+      return analytic_apply(at_asinh,*e._VECTptr,&tmp);
     }
     if (e.type==_VECT)
       return apply(e,asinh,contextptr);
@@ -3034,7 +3034,7 @@ double my_tan(double arg){
       return "QUOTE("+g.print(contextptr)+")";
     else
 #endif
-      return "'"+g.print(contextptr)+"'"; 
+      return "'"+g.print(contextptr)+"'";
   }
   gen symb_quote(const gen & arg){
     return symbolic(at_quote,arg);
@@ -3139,7 +3139,7 @@ double my_tan(double arg){
       return makevecteur(1);
     if (is_strictly_positive(-lim_point,contextptr) || (is_zero(lim_point,contextptr) && direction==-1))
       return makevecteur(-1);
-    // FIXME? maybe add 
+    // FIXME? maybe add
     if (!is_zero(lim_point)) return makevecteur(symbolic(at_sign,lim_point));
     return gensizeerr(gettext("Taylor sign with unsigned limit"));
   }
@@ -3251,7 +3251,7 @@ double my_tan(double arg){
 	    return tmpv[2].print(contextptr)+" => "+v.back().print(contextptr)+"("+tmpv[0].print(contextptr)+")";
 	}
       }
-      else 
+      else
 	return v.front().print(contextptr)+" => "+v.back().print(contextptr);
     }
 #endif
@@ -3286,8 +3286,8 @@ double my_tan(double arg){
   }
   static const char _calc_mode_s []="calc_mode";
   static define_unary_function_eval (__calc_mode,&_calc_mode,_calc_mode_s);
-  define_unary_function_ptr5( at_calc_mode ,alias_at_calc_mode,&__calc_mode,0,true); 
-  
+  define_unary_function_ptr5( at_calc_mode ,alias_at_calc_mode,&__calc_mode,0,true);
+
   bool is_numericv(const vecteur & v, int withfracint){
     const_iterateur it=v.begin(),itend=v.end();
     for (;it!=itend;++it){
@@ -3352,7 +3352,7 @@ double my_tan(double arg){
 	if (a._VECTptr->size()!=fin.val-deb.val+1)
 	  return false;
 	for (int i=deb.val;i<=fin.val;++i)
-	  m[i]=(*a._VECTptr)[i-deb.val];	  
+	  m[i]=(*a._VECTptr)[i-deb.val];
 	return true;
       }
       for (int i=deb.val;i<=fin.val;++i)
@@ -3410,7 +3410,7 @@ double my_tan(double arg){
 	if (a._VECTptr->size()!=fin.val-deb.val+1)
 	  return false;
 	for (int i=deb.val;i<=fin.val;++i)
-	  m[makesequence(ligne,i)]=(*a._VECTptr)[i-deb.val];	  
+	  m[makesequence(ligne,i)]=(*a._VECTptr)[i-deb.val];
 	return true;
       }
       for (int i=deb.val;i<=fin.val;++i)
@@ -3445,7 +3445,7 @@ double my_tan(double arg){
      ti/tokens.h
      tokens are 1 or 2 bytes, if two 1st token is a marker like OS_TOK_EQU
    */
-  
+
   gen sto(const gen & a,const gen & b,const context * contextptr){
     return sto(a,b,false,contextptr);
   }
@@ -3483,7 +3483,7 @@ double my_tan(double arg){
 #endif
       if (b._SYMBptr->sommet==at_hash && b._SYMBptr->feuille.type==_STRNG)
 	return sto(a,gen(*b._SYMBptr->feuille._STRNGptr,contextptr),in_place,contextptr);
-      if (b._SYMBptr->sommet==at_double_deux_points){ 
+      if (b._SYMBptr->sommet==at_double_deux_points){
 	// variable of another named context?
 	gen a1,bb,error;
 	if (!check_binary(b._SYMBptr->feuille,a1,bb))
@@ -3586,19 +3586,19 @@ double my_tan(double arg){
       if (!contextptr){
 	// Remove stale local assignements
 #ifdef NO_STDEXCEPT
-	b._IDNTptr->eval(1,b,contextptr); 
+	b._IDNTptr->eval(1,b,contextptr);
 #else
 	try {
-	  b._IDNTptr->eval(1,b,contextptr); 
-	} catch (std::runtime_error & ) { 
+	  b._IDNTptr->eval(1,b,contextptr);
+	} catch (std::runtime_error & ) {
 	  last_evaled_argptr(contextptr)=NULL;
 	}
 #endif
       }
       gen aa(a);
-      if (strcmp(name,string_pi)==0 || strcmp(name,string_infinity)==0 || strcmp(name,string_undef)==0 
+      if (strcmp(name,string_pi)==0 || strcmp(name,string_infinity)==0 || strcmp(name,string_undef)==0
 #ifdef GIAC_HAS_STO_38
-	  || name[0]=='_' 
+	  || name[0]=='_'
 #endif
 	  )
 	return gensizeerr(b.print(contextptr)+": reserved word (in sto)");
@@ -3664,7 +3664,7 @@ double my_tan(double arg){
 	  }
 	  sym_tab * symtabptr=contextptr->globalcontextptr?contextptr->globalcontextptr->tabptr:contextptr->tabptr;
 	  sym_tab::iterator it=symtabptr->find(name),itend=symtabptr->end();
-	  if (it!=itend){ 
+	  if (it!=itend){
 	    // check that the current value is a thread pointer
 	    it->second=aa;
 	  }
@@ -3691,7 +3691,7 @@ double my_tan(double arg){
 	else {
 	  if (b._IDNTptr->value)
 	    delete b._IDNTptr->value;
-	  if (b._IDNTptr->ref_count) 
+	  if (b._IDNTptr->ref_count)
 	    b._IDNTptr->value = new gen(aa);
 #ifdef HAVE_SIGNAL_H_OLD
 	  if (!child_id && signal_store)
@@ -3719,7 +3719,7 @@ double my_tan(double arg){
 	destination=symbolic(at_at,makesequence(destination._SYMBptr->feuille[0],makesequence(destination._SYMBptr->feuille[1],b._SYMBptr->feuille._VECTptr->back())));
 	return sto(a,destination,in_place,contextptr);
       }
-      // if (sto_38 && destination.is_symb_of_sommet(at_double_deux_points) && destination._SYMBptr->feuille.type==_VECT && destination._SYMBptr->feuille._VECTptr->size()==2 &&destination._SYMBptr->feuille._VECTptr->front().type==_IDNT && destination._SYMBptr->feuille._VECTptr->back().type==_IDNT && sto_38(a,destination._SYMBptr->feuille._VECTptr->front()._IDNTptr->id_name,destination._SYMBptr->feuille._VECTptr->back()._IDNTptr->id_name,b,error,contextptr))	
+      // if (sto_38 && destination.is_symb_of_sommet(at_double_deux_points) && destination._SYMBptr->feuille.type==_VECT && destination._SYMBptr->feuille._VECTptr->size()==2 &&destination._SYMBptr->feuille._VECTptr->front().type==_IDNT && destination._SYMBptr->feuille._VECTptr->back().type==_IDNT && sto_38(a,destination._SYMBptr->feuille._VECTptr->front()._IDNTptr->id_name,destination._SYMBptr->feuille._VECTptr->back()._IDNTptr->id_name,b,error,contextptr))
       // return is_undef(error)?error:a;
       gen ret;
       if (storcl_38 && destination.type==_IDNT && storcl_38(ret,0,destination._IDNTptr->id_name,b,true,contextptr,&a,false))
@@ -3749,8 +3749,8 @@ double my_tan(double arg){
 	  endstring += " Run purge if you want to create a sparse matrix in "+b[1].print(contextptr)+".";
 	return gentypeerr(gettext("sto ")+b.print(contextptr)+ ":="+valeur.print(contextptr)+endstring);
       }
-      if (valeur.type==_IDNT){ 
-	// no previous vector at destination, 
+      if (valeur.type==_IDNT){
+	// no previous vector at destination,
 	// create one in TI mode or create a map
 	gen g;
 	if (xcas_mode(contextptr)==3 && indice.type==_INT_ && indice.val>=0 ){
@@ -3945,7 +3945,7 @@ double my_tan(double arg){
 	}
 	if (a.type==_VECT){
 	  for (int i=deb.val;i<=fin.val;++i)
-	    (*vptr)[i]=(*a._VECTptr)[i-deb.val];	    
+	    (*vptr)[i]=(*a._VECTptr)[i-deb.val];
 	}
 	else {
 	  for (int i=deb.val;i<=fin.val;++i)
@@ -4004,7 +4004,7 @@ double my_tan(double arg){
 	  if ( (i2.is_interval() || i2deuxpoints) && i2._SYMBptr->feuille.type==_VECT && i2._SYMBptr->feuille._VECTptr->size()==2){
 	    gen deb2=i2._SYMBptr->feuille._VECTptr->front();
 	    gen fin2=i2._SYMBptr->feuille._VECTptr->back()+(i2deuxpoints?minus_one:zero);
-	    if (!is_integral(deb2) || !is_integral(fin2) || deb2.type!=_INT_ || fin2.type!=_INT_) 
+	    if (!is_integral(deb2) || !is_integral(fin2) || deb2.type!=_INT_ || fin2.type!=_INT_)
 	      return gendimerr(contextptr);
 	    if (deb2.val<0) deb2.val+=cols;
 	    if (fin2.val<0) fin2.val+=cols;
@@ -4012,7 +4012,7 @@ double my_tan(double arg){
 	      return gendimerr(contextptr);
 	    if (ckmatrix(a)){
 	      if (fin2.val-deb2.val+1!=a._VECTptr->front()._VECTptr->size())
-		return gendimerr(contextptr);	      
+		return gendimerr(contextptr);
 	      for (int i=deb.val;i<=fin.val;++i){
 		vecteur & target=*(*vptr)[i]._VECTptr;
 		const vecteur & source=*(*a._VECTptr)[i-deb.val]._VECTptr;
@@ -4027,11 +4027,11 @@ double my_tan(double arg){
 	      return sto(gen(v,valeur.subtype),destination,in_place,contextptr);
 	    }
 	    if (fin2.val-deb2.val!=fin.val-deb.val)
-	      return gendimerr(contextptr);	      
+	      return gendimerr(contextptr);
 	    int shift=deb2.val-deb.val;
 	    if (a.type==_VECT){
 	      for (int i=deb.val;i<=fin.val;++i)
-		(*(*vptr)[i]._VECTptr)[i+shift]=(*a._VECTptr)[i-deb.val];	     
+		(*(*vptr)[i]._VECTptr)[i+shift]=(*a._VECTptr)[i-deb.val];
 	    }
 	    else {
 	      for (int i=deb.val;i<=fin.val;++i)
@@ -4075,7 +4075,7 @@ double my_tan(double arg){
 	    return gendimerr(contextptr);
 	  if (a.type==_VECT){
 	    for (int i=deb2.val;i<=fin2.val;++i)
-	      (*(*vptr)[i1]._VECTptr)[i]=(*a._VECTptr)[i-deb2.val];	     
+	      (*(*vptr)[i1]._VECTptr)[i]=(*a._VECTptr)[i-deb2.val];
 	  }
 	  else {
 	    for (int i=deb2.val;i<=fin2.val;++i)
@@ -4083,7 +4083,7 @@ double my_tan(double arg){
 	  }
 	  if (in_place)
 	    return valeur; // string2gen("Done",false);
-	  return sto(gen(v,valeur.subtype),destination,in_place,contextptr);	  
+	  return sto(gen(v,valeur.subtype),destination,in_place,contextptr);
 	}
       } // end itend-it==2
       for (;;){
@@ -4102,7 +4102,7 @@ double my_tan(double arg){
 	  if (it->val<0) it->val += (int)(v.size());
 	  if ( it->val<0 || it->val>= (int)(v.size()) )
 	    return gendimerr(contextptr);
-	  tmp=v[it->val];	  
+	  tmp=v[it->val];
 	}
 	++it;
 	if (it==itend)
@@ -4181,7 +4181,7 @@ double my_tan(double arg){
   }
   static const char _sto_s []="sto";
   define_unary_function_eval4_index (30,__sto,&_sto,_sto_s,&printassto,&texprintsommetasoperator);
-  define_unary_function_ptr5( at_sto ,alias_at_sto,&__sto,0,true); 
+  define_unary_function_ptr5( at_sto ,alias_at_sto,&__sto,0,true);
   // NB argument quoting for sto is done in eval in symbolic.cc
 
   gen _array_sto(const gen & a,const context * contextptr){
@@ -4325,7 +4325,7 @@ double my_tan(double arg){
   }
   static const char _increment_s []="increment";
   static define_unary_function_eval4_index (151,__increment,&_increment,_increment_s,&printasincrement,&texprintsommetasoperator);
-  define_unary_function_ptr5( at_increment ,alias_at_increment,&__increment,_QUOTE_ARGUMENTS,true); 
+  define_unary_function_ptr5( at_increment ,alias_at_increment,&__increment,_QUOTE_ARGUMENTS,true);
 
   gen _decrement(const gen & a,const context * contextptr){
     if ( a.type==_STRNG && a.subtype==-1) return  a;
@@ -4337,7 +4337,7 @@ double my_tan(double arg){
   }
   static const char _decrement_s []="decrement";
   static define_unary_function_eval4_index (153,__decrement,&_decrement,_decrement_s,&printasdecrement,&texprintsommetasoperator);
-  define_unary_function_ptr5( at_decrement ,alias_at_decrement,&__decrement,_QUOTE_ARGUMENTS,true); 
+  define_unary_function_ptr5( at_decrement ,alias_at_decrement,&__decrement,_QUOTE_ARGUMENTS,true);
 
   static string printasmultcrement(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
     return printasincdec(feuille,'*',false,contextptr);
@@ -4356,7 +4356,7 @@ double my_tan(double arg){
   }
   static const char _multcrement_s []="multcrement";
   static define_unary_function_eval4_index (155,__multcrement,&_multcrement,_multcrement_s,&printasmultcrement,&texprintsommetasoperator);
-  define_unary_function_ptr5( at_multcrement ,alias_at_multcrement,&__multcrement,_QUOTE_ARGUMENTS,true); 
+  define_unary_function_ptr5( at_multcrement ,alias_at_multcrement,&__multcrement,_QUOTE_ARGUMENTS,true);
 
   gen _divcrement(const gen & a,const context * contextptr){
     if ( a.type==_STRNG && a.subtype==-1) return  a;
@@ -4368,7 +4368,7 @@ double my_tan(double arg){
   }
   static const char _divcrement_s []="divcrement";
   static define_unary_function_eval4_index (157,__divcrement,&_divcrement,_divcrement_s,&printasdivcrement,&texprintsommetasoperator);
-  define_unary_function_ptr5( at_divcrement ,alias_at_divcrement,&__divcrement,_QUOTE_ARGUMENTS,true); 
+  define_unary_function_ptr5( at_divcrement ,alias_at_divcrement,&__divcrement,_QUOTE_ARGUMENTS,true);
 
   gen _iquosto(const gen & a,const context * contextptr){
     if ( a.type==_STRNG && a.subtype==-1) return  a;
@@ -4520,7 +4520,7 @@ double my_tan(double arg){
   }
   // v = previous assumptions, a=the real value, direction
   // is positive for [a,+inf[, negative for ]-inf,a]
-  // |direction| = 1 (large) or 2 (strict) 
+  // |direction| = 1 (large) or 2 (strict)
   gen doubleassume_and(const vecteur & v,const gen & a,int direction,bool or_assumption,GIAC_CONTEXT){
     vecteur v_intervalle,v_excluded;
     if ( (v.size()>=3) && (v[1].type==_VECT) && (v[2].type==_VECT) ){
@@ -4533,7 +4533,7 @@ double my_tan(double arg){
       v0=v.front();
     if (!(direction %2) && !equalposcomp(v_excluded,a))
       v_excluded.push_back(a);
-    if (or_assumption){ 
+    if (or_assumption){
       // remove excluded values if they are in the interval we add
       vecteur old_v(v_excluded);
       v_excluded.clear();
@@ -4641,7 +4641,7 @@ double my_tan(double arg){
       else
 	arg1=v[1].eval(eval_level(contextptr),contextptr);
       gen borne_inf(gnuplot_xmin),borne_sup(gnuplot_xmax),pas;
-      if ( s==at_equal || s== at_equal2 || s==at_same || s==at_sto ){     
+      if ( s==at_equal || s== at_equal2 || s==at_same || s==at_sto ){
 	// ex: assume(a=[1.7,1.1,2.3])
 	if (arg1.type==_VECT && arg1._VECTptr->size()>=3){
 	  vecteur vtmp=*arg1._VECTptr;
@@ -4658,14 +4658,14 @@ double my_tan(double arg){
       }
       if (s==at_inferieur_strict) // ex: assume(a<1.7)
 	hyp=doubleassume_and(last_hyp,arg1,-2,or_assumption,contextptr);
-      if (s==at_inferieur_egal) 
+      if (s==at_inferieur_egal)
 	hyp=doubleassume_and(last_hyp,arg1,-1,or_assumption,contextptr);
       if (s==at_superieur_strict)
 	hyp=doubleassume_and(last_hyp,arg1,2,or_assumption,contextptr);
-      if (s==at_superieur_egal) 
+      if (s==at_superieur_egal)
 	hyp=doubleassume_and(last_hyp,arg1,1,or_assumption,contextptr);
       if (!is_undef(hyp)){
-	gen tmpsto=sto(hyp,arg0,contextptr); 
+	gen tmpsto=sto(hyp,arg0,contextptr);
 	if (is_undef(tmpsto)) return tmpsto;
 	if ( s==at_equal || s==at_equal2 || s==at_same || s==at_sto )
 	  return _parameter(makevecteur(arg0,borne_inf,borne_sup,arg1,pas),contextptr);
@@ -4721,7 +4721,7 @@ double my_tan(double arg){
     }
     gen a_;
     if (a.type==_SYMB){
-      if (a._SYMBptr->sommet==at_and || a._SYMBptr->sommet==at_ou || a._SYMBptr->sommet==at_inferieur_strict || a._SYMBptr->sommet==at_inferieur_egal || a._SYMBptr->sommet==at_superieur_egal || a._SYMBptr->sommet==at_superieur_strict || a._SYMBptr->sommet==at_equal) 
+      if (a._SYMBptr->sommet==at_and || a._SYMBptr->sommet==at_ou || a._SYMBptr->sommet==at_inferieur_strict || a._SYMBptr->sommet==at_inferieur_egal || a._SYMBptr->sommet==at_superieur_egal || a._SYMBptr->sommet==at_superieur_strict || a._SYMBptr->sommet==at_equal)
 	a_=a;
       else
 	a_=eval(a,1,contextptr);
@@ -4757,7 +4757,7 @@ double my_tan(double arg){
 	gen tmp=giac_assume(a,contextptr);
 	if (is_undef(tmp)) return tmp;
       }
-    }    
+    }
     return assumesymbolic(a,0,contextptr);
   }
   static const char giac_additionally_s []="additionally";
@@ -4787,7 +4787,7 @@ double my_tan(double arg){
   inline bool plus_idnt_symb(const gen & a){
     return (a.type==_IDNT && strcmp(a._IDNTptr->id_name,"undef") && strcmp(a._IDNTptr->id_name,"infinity")) || (a.type==_SYMB && !is_inf(a) && (a._SYMBptr->sommet==at_prod || a._SYMBptr->sommet==at_pow || a._SYMBptr->sommet==at_neg));
   }
-  
+
   inline bool idnt_symb_int(const gen & b){
     return (b.type==_INT_ && b.val!=0) || b.type==_ZINT || (b.type==_SYMB && !is_inf(b) && b._SYMBptr->sommet!=at_unit && b._SYMBptr->sommet!=at_equal && b._SYMBptr->sommet!=at_equal2 && !equalposcomp(plot_sommets,b._SYMBptr->sommet) && !equalposcomp(inequality_tab,b._SYMBptr->sommet) ) || (b.type==_IDNT && strcmp(b._IDNTptr->id_name,"undef") && strcmp(b._IDNTptr->id_name,"infinity"));
   }
@@ -4824,7 +4824,7 @@ double my_tan(double arg){
 	  return chkmod(zero,a);
 	if (a.is_neg() && b==a._SYMBptr->feuille)
 	  return chkmod(zero,b);
-	if (!b.is_program() 
+	if (!b.is_program()
 	    && !b.is_plus()
 	    )
 	  return (symb_plus(args));
@@ -4834,7 +4834,7 @@ double my_tan(double arg){
 	  return chkmod(zero,a);
 	if (a.is_neg() && b==a._SYMBptr->feuille)
 	  return chkmod(zero,b);
-	if (!a.is_program() 
+	if (!a.is_program()
 	    && !a.is_plus()
 	    )
 	  return (symb_plus(args));
@@ -4939,7 +4939,7 @@ double my_tan(double arg){
   gen symb_prod2(const gen & a,const gen &b){
     return symbolic(at_prod,makesequence(a,b));
   }
-  
+
   gen symb_prod(const gen & a,const gen & b){
     if (a.is_neg()){
       if (b.is_neg())
@@ -5191,7 +5191,7 @@ double my_tan(double arg){
       m=v[2];
       p=v[3];
       if (is_integer(p)){
-	p=v[2]; m=v[3]; 
+	p=v[2]; m=v[3];
       }
     }
     gen m1=findmod(p);
@@ -5214,7 +5214,7 @@ double my_tan(double arg){
       return gensizeerr(contextptr);
     fxnd(bb,bbn,bbd);
     if ( (bbd.type==_POLY) && (bbd._POLYptr->lexsorted_degree() ) )
-      return gensizeerr(contextptr); 
+      return gensizeerr(contextptr);
     if (bbn.type!=_POLY)
       return gensizeerr(contextptr);
     modpoly A;
@@ -5255,7 +5255,7 @@ double my_tan(double arg){
     if (args.type!=_VECT)
       return symb_inferieur_strict(args);
     gen res=inferieur_strict(args._VECTptr->front(),args._VECTptr->back(),contextptr);
-    if (res.type==_INT_ 
+    if (res.type==_INT_
 #ifdef GIAC_HAS_STO_38
 	&& abs_calc_mode(contextptr)!=38
 #endif
@@ -5530,9 +5530,9 @@ double my_tan(double arg){
   define_unary_function_ptr5( at_of ,alias_at_of,&__of,_QUOTE_ARGUMENTS,0);
 
   string gen2string(const gen & g,int format,GIAC_CONTEXT){
-    if (format==1) 
-      return gen2tex(g,contextptr); 
-    else 
+    if (format==1)
+      return gen2tex(g,contextptr);
+    else
       return g.print(contextptr);
   }
 
@@ -5542,7 +5542,7 @@ double my_tan(double arg){
     else
       return gen2string(g,format,contextptr);
   }
-  
+
   static string printasat_(const gen & feuille,const char * sommetstr,int format,GIAC_CONTEXT){
     if ( (feuille.type!=_VECT) || (feuille._VECTptr->size()!=2) )
       return string(sommetstr)+('('+gen2string(feuille,format,contextptr)+')');
@@ -5727,7 +5727,7 @@ double my_tan(double arg){
       return apply(equaltosame(arg._VECTptr->front()).eval(el,contextptr),equaltosame(arg._VECTptr->back()).eval(el,contextptr),ou2);
     if (arg.type!=_VECT || arg._VECTptr->empty())
       return eval(equaltosame(arg),el,contextptr);
-    vecteur::const_iterator it=arg._VECTptr->begin(),itend=arg._VECTptr->end(); 
+    vecteur::const_iterator it=arg._VECTptr->begin(),itend=arg._VECTptr->end();
     gen res(eval(equaltosame(*it),el,contextptr));
     ++it;
     for (;it!=itend;++it){
@@ -5918,7 +5918,7 @@ double my_tan(double arg){
       return gensizeerr(contextptr);
     fxnd(bb,bbn,bbd);
     if ( (bbd.type==_POLY) && (bbd._POLYptr->lexsorted_degree() ) )
-      return gensizeerr(contextptr); 
+      return gensizeerr(contextptr);
     gen u,v,d;
     if ( (aan.type==_POLY) && (bbn.type==_POLY) ){
       polynome un(aan._POLYptr->dim),vn(aan._POLYptr->dim),dn(aan._POLYptr->dim);
@@ -6172,7 +6172,7 @@ double my_tan(double arg){
 	    if (v3.type==_DOUBLE_)
 	      sprintf(buf,fmt,v1._DOUBLE_val,v2._STRNGptr->c_str(),v3._DOUBLE_val);
 	    else
-	      sprintf(buf,fmt,v1._DOUBLE_val,v2._STRNGptr->c_str(),v3._STRNGptr->c_str());	    
+	      sprintf(buf,fmt,v1._DOUBLE_val,v2._STRNGptr->c_str(),v3._STRNGptr->c_str());
 	  }
 	} else {
 	  if (v2.type==_DOUBLE_){
@@ -6185,10 +6185,10 @@ double my_tan(double arg){
 	    if (v3.type==_DOUBLE_)
 	      sprintf(buf,fmt,v1._STRNGptr->c_str(),v2._STRNGptr->c_str(),v3._DOUBLE_val);
 	    else
-	      sprintf(buf,fmt,v1._STRNGptr->c_str(),v2._STRNGptr->c_str(),v3._STRNGptr->c_str());	    
+	      sprintf(buf,fmt,v1._STRNGptr->c_str(),v2._STRNGptr->c_str(),v3._STRNGptr->c_str());
 	  }
 	}
-	return string2gen(buf,false);	
+	return string2gen(buf,false);
       }
       return gendimerr(contextptr);
     }
@@ -6256,7 +6256,7 @@ double my_tan(double arg){
     if (python_compat(contextptr) && g.type==_VECT && g._VECTptr->size()==2)
       return g._VECTptr->front().print(contextptr)+" % "+g._VECTptr->back().print(contextptr);
     return s+("("+g.print(contextptr)+")");
-  }  
+  }
   static define_unary_function_eval2 (__irem,&_irem,_irem_s,printasirem);
   define_unary_function_ptr5( at_irem ,alias_at_irem,&__irem,0,true);
 
@@ -6322,7 +6322,7 @@ double my_tan(double arg){
     if (python_compat(contextptr) && g.type==_VECT && g._VECTptr->size()==2)
       return g._VECTptr->front().print(contextptr)+" // "+g._VECTptr->back().print(contextptr);
     return s+("("+g.print(contextptr)+")");
-  }  
+  }
   static define_unary_function_eval2 (__iquo,&_iquo,_iquo_s,printasiquo);
   define_unary_function_ptr5( at_iquo ,alias_at_iquo,&__iquo,0,true);
 
@@ -6472,7 +6472,7 @@ double my_tan(double arg){
 #ifndef XLIGHT
     if (args.type==_VECT && args._VECTptr->size()>=3 && args[2].type==_VECT){
       vecteur v = *args._VECTptr;
-#if 0 
+#if 0
 	 gen g(_WITH_COCOA);
 	 g.subtype=_INT_GROEBNER;
 	 v.push_back(symb_equal(g,0));
@@ -6497,7 +6497,7 @@ double my_tan(double arg){
     return symbolic(at_floor,a);
   }
   gen apply_unit(const gen & args,const gen_op_context & f,GIAC_CONTEXT){
-    return symbolic(at_unit,gen(makevecteur(f(args._SYMBptr->feuille[0],contextptr),args._SYMBptr->feuille[1]),_SEQ__VECT));  
+    return symbolic(at_unit,gen(makevecteur(f(args._SYMBptr->feuille[0],contextptr),args._SYMBptr->feuille[1]),_SEQ__VECT));
   }
   gen _floor(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
@@ -6691,7 +6691,7 @@ double my_tan(double arg){
       if (is_integral(b)){
 #ifdef BCD
 	if (args._VECTptr->front().type==_FLOAT_)
-	  return fround(args._VECTptr->front()._FLOAT_val,b.val); 
+	  return fround(args._VECTptr->front()._FLOAT_val,b.val);
 #endif
 	/*
 #ifdef _SOFTMATH_H
@@ -6702,7 +6702,7 @@ double my_tan(double arg){
 	*/
 	gen d=10.0;
 	if (b.val<0){
-	  gen gf=_floor(log10(abs(args._VECTptr->front(),contextptr),contextptr),contextptr); 
+	  gen gf=_floor(log10(abs(args._VECTptr->front(),contextptr),contextptr),contextptr);
 	  if (gf.type!=_INT_)
 	    return gensizeerr(contextptr);
 	  b=-1-b-gf;
@@ -6719,9 +6719,9 @@ double my_tan(double arg){
     }
     if (args.type==_CPLX)
       return gen(_round(*args._CPLXptr,contextptr),_round(*(args._CPLXptr+1),contextptr));
-    gen r,i,tmp; 
+    gen r,i,tmp;
     reim(args,r,i,contextptr);
-    tmp=args+plus_one_half; // *(r.type<_POLY?sign(r,contextptr):1); 
+    tmp=args+plus_one_half; // *(r.type<_POLY?sign(r,contextptr):1);
     if (!is_zero(i))
       tmp=tmp+plus_one_half*cst_i; //  *(i.type<_POLY?sign(i,contextptr):plus_one);
     if (tmp.type==_VECT)
@@ -6927,7 +6927,7 @@ double my_tan(double arg){
     vecteur l(lidnt(makevecteur(a,b)));
     if (l.empty()){
       if (!check_2d_vecteur(a)
-	  || !check_2d_vecteur(b)) 
+	  || !check_2d_vecteur(b))
 	return gensizeerr(gettext("Vector of 2 integer arguments expected"));
       vecteur & av=*a._VECTptr;
       vecteur & bv=*b._VECTptr;
@@ -6946,7 +6946,7 @@ double my_tan(double arg){
 	return makemod(res,lcm(ab,bb));
       return makevecteur(res,lcm(ab,bb));
     }
-    l=lvar(a); lvar(b,l);    
+    l=lvar(a); lvar(b,l);
     gen x=l.front();
     if (a.type!=_VECT || b.type!=_VECT ){
       // a and b are polynomial, must have the same degrees
@@ -6988,7 +6988,7 @@ double my_tan(double arg){
       return _r2e(makesequence(res,x),context0); // ok
     }
     if (a.type==_VECT && a._VECTptr->size()==2 && b.type==_VECT && b._VECTptr->size()==2 ){
-      // ax and bx are the polynomials, 
+      // ax and bx are the polynomials,
       gen ax=_e2r(makevecteur(a._VECTptr->front(),x),context0),bx=_e2r(makevecteur(b._VECTptr->front(),x),context0); // ok
       if (ax.type!=_VECT || bx.type!=_VECT )
 	return gensizeerr(gettext("ichinrem2 2"));
@@ -7040,7 +7040,7 @@ double my_tan(double arg){
   static const char _ichinrem_s []="ichinrem";
   static define_unary_function_eval (__ichinrem,&_ichinrem,_ichinrem_s);
   define_unary_function_ptr5( at_ichinrem ,alias_at_ichinrem,&__ichinrem,0,true);
-  
+
   gen _fracmod(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if ( (args.type!=_VECT) || (args._VECTptr->size()!=2))
@@ -7051,11 +7051,11 @@ double my_tan(double arg){
   static const char _fracmod_s []="fracmod";
   static define_unary_function_eval (__fracmod,&_fracmod,_fracmod_s);
   define_unary_function_ptr5( at_fracmod ,alias_at_fracmod,&__fracmod,0,true);
-  
+
   static const char _iratrecon_s []="iratrecon"; // maple name, fracmod takes only 2 arg
   static define_unary_function_eval (__iratrecon,&_fracmod,_iratrecon_s);
   define_unary_function_ptr5( at_iratrecon ,alias_at_iratrecon,&__iratrecon,0,true);
-  
+
   // static gen symb_chinrem(const gen & a,const gen & b){    return symbolic(at_chinrem,makevecteur(a,b));  }
   static vecteur polyvect(const gen & a,const vecteur & v){
     if (a.type==_POLY)
@@ -7109,7 +7109,7 @@ double my_tan(double arg){
       return res;
     }
     modpoly produit=(*a._VECTptr->back()._VECTptr)**b._VECTptr->back()._VECTptr;
-    return makevecteur(gen(chinrem(*a._VECTptr->front()._VECTptr,*b._VECTptr->front()._VECTptr,*a._VECTptr->back()._VECTptr,*b._VECTptr->back()._VECTptr,0),_POLY1__VECT),gen(produit,_POLY1__VECT));    
+    return makevecteur(gen(chinrem(*a._VECTptr->front()._VECTptr,*b._VECTptr->front()._VECTptr,*a._VECTptr->back()._VECTptr,*b._VECTptr->back()._VECTptr,0),_POLY1__VECT),gen(produit,_POLY1__VECT));
   }
   static const char _chinrem_s []="chinrem";
   static define_unary_function_eval (__chinrem,&_chinrem,_chinrem_s);
@@ -7174,7 +7174,7 @@ double my_tan(double arg){
       return gentypeerr(contextptr);
     vecteur & v=*args._VECTptr;
     if (v.front().type!=_INT_ || v.back().type!=_INT_)
-      return comb(v.front(),v.back(),contextptr); 
+      return comb(v.front(),v.back(),contextptr);
     if (v.front().val<0){
       int n=v.front().val;
       int k=v.back().val;
@@ -7244,7 +7244,7 @@ double my_tan(double arg){
   }
   gen symb_ker(const gen & a){
     return symbolic(at_ker,a);
-  }  
+  }
   gen symb_image(const gen & a){
     return symbolic(at_image,a);
   }
@@ -7255,7 +7255,7 @@ double my_tan(double arg){
       return gensizeerr(gettext("Longfloat library not available"));
 #endif
     set_decimal_digits(ndigits,contextptr);
-    gen res=a.evalf(1,contextptr); 
+    gen res=a.evalf(1,contextptr);
     if (res.type==_CPLX)
       res=accurate_evalf(res,digits2bits(ndigits));
 #if 0
@@ -7339,8 +7339,8 @@ double my_tan(double arg){
   static const char _evalf_s []="evalf";
   static define_unary_function_eval (__evalf,&_evalf,_evalf_s);
   define_unary_function_ptr5( at_evalf ,alias_at_evalf,&__evalf,0,true);
-  gen symb_evalf(const gen & a){  
-    return symbolic(at_evalf,a);  
+  gen symb_evalf(const gen & a){
+    return symbolic(at_evalf,a);
   }
 
   gen _eval(const gen & a,GIAC_CONTEXT){
@@ -7365,14 +7365,14 @@ double my_tan(double arg){
   static const char _eval_s []="eval";
   static define_unary_function_eval_quoted (__eval,&_eval,_eval_s);
   define_unary_function_ptr5( at_eval ,alias_at_eval,&__eval,_QUOTE_ARGUMENTS,true);
-  gen symb_eval(const gen & a){    
-    return symbolic(at_eval,a);  
+  gen symb_eval(const gen & a){
+    return symbolic(at_eval,a);
   }
-  
+
   static const char _evalm_s []="evalm";
   static define_unary_function_eval (__evalm,&_eval,_evalm_s);
   define_unary_function_ptr5( at_evalm ,alias_at_evalm,&__evalm,0,true);
-  
+
   gen _ampersand_times(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type!=_VECT || g._VECTptr->size()!=2)
@@ -7382,7 +7382,7 @@ double my_tan(double arg){
   static const char _ampersand_times_s []="&*";
   static define_unary_function_eval4_index (108,__ampersand_times,&_ampersand_times,_ampersand_times_s,&printsommetasoperator,&texprintsommetasoperator);
   define_unary_function_ptr( at_ampersand_times ,alias_at_ampersand_times ,&__ampersand_times);
-  
+
   static const char _subst_s []="subst";
   gen _subst(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
@@ -7436,7 +7436,7 @@ double my_tan(double arg){
     vecteur & v=*feuille._VECTptr;
     vecteur w=mergevecteur(vecteur(1,v.back()),vecteur(v.begin(),v.end()-1));
     return sommetstr+("("+gen(w,_SEQ__VECT).print(contextptr)+")");
-  }  
+  }
   gen _subs(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if ( g.type==_STRNG && g.subtype==-1) return  g;
@@ -7452,7 +7452,7 @@ double my_tan(double arg){
     vecteur & v=*feuille._VECTptr;
     vecteur w=mergevecteur(vecteur(1,v.back()),vecteur(v.begin(),v.end()-1));
     return sommetstr+("("+gen(w,_SEQ__VECT).print(contextptr)+")");
-  }  
+  }
   gen _maple_subs(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type!=_VECT || g._VECTptr->size()<2)
@@ -7488,7 +7488,7 @@ double my_tan(double arg){
       prod2frac(g._FRACptr->den,den2,num2);
       num=mergevecteur(num,num2);
       den=mergevecteur(den,den2);
-      return;      
+      return;
     }
     if (g.is_neg()){
       prod2frac(g._SYMBptr->feuille,num,den);
@@ -7581,7 +7581,7 @@ double my_tan(double arg){
 	res=*args._STRNGptr;
       else
 	res=args.print(contextptr);
-      res += '\n'; 
+      res += '\n';
     }
     return string2gen(res,false);
   }
@@ -7672,7 +7672,7 @@ double my_tan(double arg){
     }
     return res;
   }
-  
+
   static complex_long_double lngamma(complex_long_double x){
     complex_long_double res;
     if (x.real()<0.5){
@@ -7704,7 +7704,7 @@ double my_tan(double arg){
     }
     return res;
   }
-  
+
   gen lngamma(const gen & x,GIAC_CONTEXT){
     gen g(x);
 #if 0
@@ -7906,7 +7906,7 @@ double my_tan(double arg){
 	  mpfi_clear(res); mpfr_clear(l); mpfr_clear(u);
 	  return tmp;
 	}
-	mpfi_clear(res); mpfr_clear(l); 
+	mpfi_clear(res); mpfr_clear(l);
 	// l<0
 	if (mpfr_cmp_d(u,0)>=0){
 	  mpfr_clear(u);
@@ -7936,7 +7936,7 @@ double my_tan(double arg){
     if (x.type==_CPLX)
       return pari_gamma(x);
 #endif
-    if (x.type==_DOUBLE_ || ( x.type==_CPLX &&  
+    if (x.type==_DOUBLE_ || ( x.type==_CPLX &&
 			      (x._CPLXptr->type==_DOUBLE_ || (x._CPLXptr+1)->type==_DOUBLE_ )
 			      )
 	) {
@@ -7961,8 +7961,8 @@ double my_tan(double arg){
       for (int i=1;i<g+2;++i)
 	X += gen(p[i])/(z+i);
       gen t = z + g + 0.5;
-      return sqrt(2*cst_pi,contextptr) * pow(t,z+0.5,contextptr) * exp(-t,contextptr) * X;   
-#endif   
+      return sqrt(2*cst_pi,contextptr) * pow(t,z+0.5,contextptr) * exp(-t,contextptr) * X;
+#endif
     }
 #ifdef GIAC_HAS_STO_38
     return gammatofactorial(x,contextptr);
@@ -8039,7 +8039,7 @@ double my_tan(double arg){
 	Pm1 *= invdeux;
 	Qm1 *= invdeux;
       }
-    } 
+    }
     // alt a1=1, a2=s-1, a3=2*(s-2), a_{m+1}=m*(s-m)
     // b1=1+z-s, b_{m+1}=2+b_{m}
     return -1;
@@ -8115,7 +8115,7 @@ double my_tan(double arg){
 	else
 	  res *= std::exp(-z+s*std::log(z));
 	return res;
-      }	
+      }
       Pm2=Pm1; Pm1=Pm;
       Qm2=Qm1; Qm1=Qm;
       // normalize
@@ -8186,7 +8186,7 @@ double my_tan(double arg){
 
   static gen igamma_replace(const gen & g,GIAC_CONTEXT){
     return Gamma(g[0],contextptr)-_igamma_exp(g,contextptr)*exp(-g[1],contextptr);
-  }  
+  }
 
 #ifdef XLIGHT
   gen Psi(const gen & x,GIAC_CONTEXT){
@@ -8322,7 +8322,7 @@ double my_tan(double arg){
       double z=x._DOUBLE_val;
       // z<=0 , psi(z)=pi*cotan(pi*z)-psi(1-z)
       // z>0, psi(z)=psi(z+1)-1/z
-      // until x>10, 
+      // until x>10,
       double res0=0,res1=0,res2=0;
       bool sub=false;
       if (z<0){
@@ -8363,7 +8363,7 @@ double my_tan(double arg){
       complex<double> z(c._CPLXptr->_DOUBLE_val,(c._CPLXptr+1)->_DOUBLE_val);
       // z<=0 , psi(z)=pi*cotan(pi*z)-psi(1-z)
       // z>0, psi(z)=psi(z+1)-1/z
-      // until x>10, 
+      // until x>10,
       complex<double> res0=0,res1=0,res2=0;
       bool sub=false;
       if (c._CPLXptr->_DOUBLE_val<0){
@@ -8536,7 +8536,7 @@ double my_tan(double arg){
       return x;
     if (is_inf(x))
       return undef;
-    if (!n) 
+    if (!n)
       return Psi(x,contextptr);
     if ( (x.type==_INT_) && (x.val<10000) ){
       identificateur tt(" t");
@@ -8552,7 +8552,7 @@ double my_tan(double arg){
       double val=gsl_sf_psi_n(n,x._DOUBLE_val);
       CERR << d << " " << val << endl;
       return d;
-#endif 
+#endif
     }
     return symbolic(at_Psi,makesequence(x,n));
   }
@@ -8580,11 +8580,11 @@ double my_tan(double arg){
 #endif
   define_unary_function_ptr5( at_Psi ,alias_at_Psi,&__Psi,0,true);
 #endif
-  
+
   string printsommetasnormalmod(const gen & feuille,const char * sommetstr_orig,GIAC_CONTEXT){
     if (python_compat(contextptr))
       return printsommetasoperator(feuille,"mod",contextptr);
-    return printsommetasoperator(feuille,sommetstr_orig,contextptr);    
+    return printsommetasoperator(feuille,sommetstr_orig,contextptr);
   }
   gen _normalmod(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
@@ -8636,7 +8636,7 @@ double my_tan(double arg){
   define_unary_function_ptr( at_normalmod ,alias_at_normalmod ,&__normalmod);
 
 #ifndef XLIGHT
-  // a=expression, x variable, n=number of terms, 
+  // a=expression, x variable, n=number of terms,
   // compute an approx value of sum((-1)^k*a(k),k,0,+infinity)
   // using Chebychev polynomials
   gen alternate_series(const gen & a,const gen & x,int n,GIAC_CONTEXT){
@@ -8811,7 +8811,7 @@ double my_tan(double arg){
       if (!w.empty() && is_undef(w.front()))
 	w.erase(w.begin());
       gen gw=horner(w,x);
-      sparse_poly1 sp=series__SPOL1(symbolic(at_Eta,x+1)/gw,x,0,ordre,0,contextptr); 
+      sparse_poly1 sp=series__SPOL1(symbolic(at_Eta,x+1)/gw,x,0,ordre,0,contextptr);
       sparse_poly1::const_iterator it=sp.begin(),itend=sp.end();
       for (;it!=itend;++it){
 	v.push_back(it->coeff); // assumes all coeffs are non zero...
@@ -8849,7 +8849,7 @@ double my_tan(double arg){
   static define_unary_function_eval3 (__Eta,&_Eta,D_at_Eta,_Eta_s);
 #endif
   define_unary_function_ptr5( at_Eta ,alias_at_Eta,&__Eta,0,true);
-  
+
   // error function
   static gen taylor_erfs(const gen & lim_point,const int ordre,const unary_function_ptr & f, int direction,gen & shift_coeff,GIAC_CONTEXT){
     if (ordre<0)
@@ -8909,10 +8909,10 @@ double my_tan(double arg){
 
   static gen erf0(const gen & x,gen & erfc,GIAC_CONTEXT){
     // if (x.type==_REAL && is_strictly_positive(-x,contextptr)) return -erf0(-x,erfc,contextptr);
-    if (x.type==_DOUBLE_){ 
+    if (x.type==_DOUBLE_){
       double absx=absdouble(x._DOUBLE_val);
       if (absx<=3){
-	// numerical computation of int(exp(-t^2),t=0..x) 
+	// numerical computation of int(exp(-t^2),t=0..x)
 	// by series expansion at x=0
 	// x*sum( (-1)^n*(x^2)^n/n!/(2*n+1),n=0..inf)
 	long_double z=x._DOUBLE_val,z2=z*z,res=0,pi=1;
@@ -8944,7 +8944,7 @@ double my_tan(double arg){
 	erfc=2-erfc;
 	return -e;
       }
-      else { 
+      else {
 	// erf(x)=2*x*exp(-x^2)/sqrt(pi)*sum(2^j*x^(2j)/1/3/5/.../(2j+1),j=0..inf)
 	// or continued fraction
 	// 2*exp(z^2)*int(exp(-t^2),t=z..inf)=1/(z+1/2/(z+1/(z+3/2/(z+...))))
@@ -8994,7 +8994,7 @@ double my_tan(double arg){
       complex_long_double z(evalf_double(re(x,contextptr),1,contextptr)._DOUBLE_val,
 			     evalf_double(im(x,contextptr),1,contextptr)._DOUBLE_val);
       if (absx<=3){
-	// numerical computation of int(exp(-t^2),t=0..x) 
+	// numerical computation of int(exp(-t^2),t=0..x)
 	// by series expansion at x=0
 	// x*sum( (-1)^n*(x^2)^n/n!/(2*n+1),n=0..inf)
 	complex_long_double z2=z*z,res=0,pi=1;
@@ -9046,7 +9046,7 @@ double my_tan(double arg){
 	erfc=2-erfc;
 	return -e;
       }
-      else { 
+      else {
 	// continued fraction
 	// 2*exp(z^2)*int(exp(-t^2),t=z..inf)=1/(z+1/2/(z+1/(z+3/2/(z+...))))
 	complex_long_double res=0;
@@ -9070,7 +9070,7 @@ double my_tan(double arg){
     // take account of loss of accuracy
     int prec=decimal_digits(contextptr);
     int newprec,nbitsz=int(z._DOUBLE_val*z._DOUBLE_val/std::log(2.)),prec2=int(prec*std::log(10.0)/std::log(2.0)+.5);
-    if (nbitsz>prec2){ 
+    if (nbitsz>prec2){
       // use asymptotic expansion at z=inf
       z = accurate_evalf(inv(x,contextptr),prec2);
       gen z2=z*z/2,res=0,pi=inv(accurate_evalf(plus_two,prec2),contextptr),eps=accurate_evalf(pow(10,-prec,contextptr),prec2)/2;
@@ -9087,7 +9087,7 @@ double my_tan(double arg){
       newprec = prec2+nbitsz+int(std::log(z._DOUBLE_val))+1;
     else
       newprec = prec2+2;
-    // numerical computation of int(exp(-t^2),t=0..x) 
+    // numerical computation of int(exp(-t^2),t=0..x)
     // by series expansion at x=0
     // x*sum( (-1)^n*(x^2)^n/n!/(2*n+1),n=0..inf)
     z=accurate_evalf(x,newprec);
@@ -9360,7 +9360,7 @@ double my_tan(double arg){
   const gen & plus_three = *(const gen *) & alias_plus_three;
 #endif
 
-  //grad 
+  //grad
   const double rad2deg_d(180/M_PI);
   const double deg2rad_d(M_PI/180);
   const double rad2grad_d(200 / M_PI);
@@ -9422,7 +9422,7 @@ double my_tan(double arg){
   //grad
   gen rad2grad_e(_FRAC2_SYMB(200,_IDNT_pi()));
   gen grad2rad_e(_FRAC2_SYMB(_IDNT_pi(),200));
-  
+
   // 0 = -pi, 12=0, 24=pi
   const gen * const table_cos[trig_deno+1]={
     &minus_one,&minus_cos_pi_12,&minus_sqrt3_2,&minus_sqrt2_2,&minus_one_half,&minus_sin_pi_12,
@@ -9438,7 +9438,7 @@ double my_tan(double arg){
   };
 
 
-#else 
+#else
   const define_alias_gen(alias_plus_four,_INT_,0,4);
   const gen & gen_plus_four = *(const gen *)&alias_plus_four;
   const define_alias_gen(alias_plus_six,_INT_,0,6);
@@ -9486,7 +9486,7 @@ double my_tan(double arg){
   const define_alias_ref_symbolic( minus_one_half_symb ,alias_at_neg,_SYMB,0,&inv_2_symb);
   const define_alias_gen(alias_minus_one_half,_SYMB,0,&minus_one_half_symb);
   const gen & minus_one_half = *(const gen *)&alias_minus_one_half;
-  
+
   const define_tab2_alias_gen(alias_plus_sqrt3_tab,_INT_,0,3,_FRAC,0,&plus_one_half_ref);
   const define_alias_ref_vecteur2(plus_sqrt3_refv,alias_plus_sqrt3_tab);
 
@@ -9762,9 +9762,9 @@ double my_tan(double arg){
 #endif
   const unary_function_ptr * const inverse_tab_op=(const unary_function_ptr * const)inverse_tab_op_alias;
 
-  const alias_type  analytic_sommets_alias[]={ (const alias_type)&__plus, (const alias_type)&__prod, (const alias_type)&__neg, (const alias_type)&__inv, (const alias_type)&__pow, (const alias_type)&__sin, (const alias_type)&__cos, (const alias_type)&__tan, (const alias_type)&__exp, (const alias_type)&__sinh, (const alias_type)&__cosh, (const alias_type)&__tanh, (const alias_type)&__asin, (const alias_type)&__acos, (const alias_type)&__atan, (const alias_type)&__asinh, (const alias_type)&__atanh, (const alias_type)&__acosh, (const alias_type)&__ln, (const alias_type)&__sqrt,0};  
+  const alias_type  analytic_sommets_alias[]={ (const alias_type)&__plus, (const alias_type)&__prod, (const alias_type)&__neg, (const alias_type)&__inv, (const alias_type)&__pow, (const alias_type)&__sin, (const alias_type)&__cos, (const alias_type)&__tan, (const alias_type)&__exp, (const alias_type)&__sinh, (const alias_type)&__cosh, (const alias_type)&__tanh, (const alias_type)&__asin, (const alias_type)&__acos, (const alias_type)&__atan, (const alias_type)&__asinh, (const alias_type)&__atanh, (const alias_type)&__acosh, (const alias_type)&__ln, (const alias_type)&__sqrt,0};
   const unary_function_ptr * const analytic_sommets=(const unary_function_ptr * const)analytic_sommets_alias;
-  // test if g is < > <= >=, 
+  // test if g is < > <= >=,
   const alias_type  inequality_tab_alias[]={ (const alias_type)&__equal, (const alias_type)&__inferieur_strict, (const alias_type)&__inferieur_egal, (const alias_type)&__different, (const alias_type)&__superieur_strict, (const alias_type)&__superieur_egal,0};
   const unary_function_ptr * const inequality_tab=(const unary_function_ptr * const)inequality_tab_alias;
   // if you add functions to solve_fcns, modify the second argument of solve_fcns_v to reflect the number of functions in the array
@@ -9775,7 +9775,7 @@ double my_tan(double arg){
   const alias_type limit_tab_alias[]={(const alias_type)&__Gamma,(const alias_type)&__lower_incomplete_gamma,0};
   const unary_function_ptr * const limit_tab = (const unary_function_ptr * const) limit_tab_alias;
   const gen_op_context limit_replace [] = {Gamma_replace,igamma_replace,0};
-#else  
+#else
   const alias_type limit_tab_alias[]={(const alias_type)&__Gamma,(const alias_type)&__Psi,(const alias_type)&__erf,(const alias_type)&__lower_incomplete_gamma,0};
   const unary_function_ptr * const limit_tab = (const unary_function_ptr * const) limit_tab_alias;
   const gen_op_context limit_replace [] = {Gamma_replace,Psi_replace,erf_replace,igamma_replace,0};

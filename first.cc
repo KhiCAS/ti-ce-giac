@@ -29,17 +29,17 @@ void* operator new(std::size_t size)
 {
 	return GC_MALLOC_UNCOLLECTABLE( size );
 }
-  
+
 void operator delete(void* obj)
 {
 	GC_FREE(obj);
 }
-  
+
 void* operator new[](std::size_t size)
 {
 	return GC_MALLOC_UNCOLLECTABLE(size);
 }
-  
+
 void operator delete[](void* obj)
 {
 	GC_FREE(obj);
@@ -82,7 +82,7 @@ init_gmp_memory::~init_gmp_memory() { }
 
 #else
 #ifdef NSPIRE
-#include <os.h> 
+#include <os.h>
 #else
 #include <new>
 #include <cstdlib>
@@ -99,26 +99,26 @@ void* operator new(std::size_t size)
 {
   std::cerr << giac_allocated << " + " << size << std::endl;
   giac_allocated += size;
-  void * p =  std::malloc(size);  
+  void * p =  std::malloc(size);
   if(!p) {
     std::bad_alloc ba;
     throw ba;
   }
   return p;
 }
-  
+
 void* operator new[](std::size_t size)
 {
   std::cerr << giac_allocated << " + [] " << size << std::endl;
   giac_allocated += size;
-  void * p =  std::malloc(size);  
+  void * p =  std::malloc(size);
   if(!p) {
     std::bad_alloc ba;
     throw ba;
   }
   return p;
 }
-  
+
 void operator delete[](void* obj)
 {
   free(obj);
@@ -126,4 +126,3 @@ void operator delete[](void* obj)
 #endif
 
 #endif
-

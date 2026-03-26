@@ -23,7 +23,7 @@
 
 #define INT_MAXSHIFT (sizeof(int)*8-1)
 #define INT_MAXSHIFTM1 (sizeof(int)*8-2)
-  
+
 
 #ifndef GIAC_VERSION
 #define GIAC_VERSION VERSION
@@ -41,7 +41,7 @@
 #include <time.h>
 #define PREFETCH(addr) /* nothing */
 #elif (defined(__GNUC__) && __GNUC__ >= 3) || defined(__clang__)
-	#define PREFETCH(addr) __builtin_prefetch(addr) 
+	#define PREFETCH(addr) __builtin_prefetch(addr)
 #elif defined(_MSC_VER) && _MSC_VER >= 1400 && !defined(MS_SMART)
 	#define PREFETCH(addr) PreFetchCacheLine(PF_TEMPORAL_LEVEL_1, addr)
 #else
@@ -99,7 +99,7 @@ extern "C" double lgamma(double);
 #define COUT std::cout
 #ifdef EMCC
 #define CERR std::cout
-extern "C" double emcctime(); 
+extern "C" double emcctime();
 extern "C" int glinit(int,int,int,int,int);
 extern "C" void glcontext(int);
 #define CLOCK emcctime
@@ -244,7 +244,7 @@ int my_sprintf(char * s, const char * format, ...);
 #define define_unary_function_ptr(name,alias_name,ptr) const size_t alias_name = (size_t)(ptr); const unary_function_ptr * const name = (const unary_function_ptr *) &alias_name
 #endif
 
-#ifdef DOUBLEVAL 
+#ifdef DOUBLEVAL
 #undef STATIC_BUILTIN_LEXER_FUNCTIONS
 // otherwise change the definition of charptr_gen in input_lexer.ll
 #endif
@@ -269,7 +269,7 @@ int my_sprintf(char * s, const char * format, ...);
 #endif
 #endif
 
-#ifdef __VISUALC__ 
+#ifdef __VISUALC__
 #define GIAC_GENERIC_CONSTANTS
 // Visual C++ is compiling
 #define VISUALC
@@ -306,10 +306,10 @@ typedef unsigned long long ulonglong;
 #ifdef FIR
 #if !(defined(BESTA_OS) || defined(WINDOWS) || defined(OSXIOS) || defined(FIR_LINUX) || defined(FIR_ANDROID) || defined(FREERTOS) )
 // was #if !(defined(IOS) || defined(__ANDROID__)) && !defined(OSX) && !defined(LINUX)
-#define PSEUDO_MOD 
+#define PSEUDO_MOD
 #endif
 #else
-#define PSEUDO_MOD 
+#define PSEUDO_MOD
 #endif
 
 #endif // __VISUALC__
@@ -328,7 +328,7 @@ typedef int ref_count_t;
 
 #ifdef WINSTORE
 //tw  **NOTE** this is pulled out of winnt.h!!! I don't know why it is not found there.
-//             there is some sort of interaction in windows ARM builds... 
+//             there is some sort of interaction in windows ARM builds...
 //#define CP15_TPIDRURW          15, 0, 13,  0, 2         // Software Thread ID Register, User Read/Write
 #endif
 
@@ -373,7 +373,7 @@ typedef int ref_count_t;
 #include <cassert>
 #endif
 
-class init_gmp_memory 
+class init_gmp_memory
 {
 	static int refcount;
 	public:
@@ -387,20 +387,20 @@ extern init_gmp_memory init_gmp_memory_instance;
 // #define CAS38_DISABLED
 
 #include <stdlib.h>
-#include "bcd_float.h" 
+#include "bcd_float.h"
 // abstract structure for BCD float operations
-// bcd_float.h should define a type for bcd_float, 
+// bcd_float.h should define a type for bcd_float,
 // that fits into a gen (it can be a 64 bits integer but only 56 bits avail.)
 // For accuracy, the BCD floats should have an expanded form
-// of type accurate_bcd_float, that one can get using 
+// of type accurate_bcd_float, that one can get using
 //   accurate_bcd_float * fExpand(bcd_float,accurate_bcd_float *)
 // This accurate value is returned from a gen g using
 //   gentobcd(g,accurate_bcd_float *)
-// bcd_float.h should define the following operations 
+// bcd_float.h should define the following operations
 //   fradd_g, frsub_g, fmul_g, fdiv_g, fchs_g, fpow_g
 //   fLT_g, fGT_g (strict comparison, return bool), fEQ_g,
 //   fabs_g, fsqrt_g, fZero_g (is ==0)
-//   bcd_zero, bcd_set_double, bcd_get_double, bcd_set_int, bcd_get_int, 
+//   bcd_zero, bcd_set_double, bcd_get_double, bcd_set_int, bcd_get_int,
 struct giac_bcdfloat {
   bcd_float f;
   giac_bcdfloat(const bcd_float & _f){f=_f;}
@@ -500,7 +500,7 @@ inline giac_bcdfloat atan2f(const giac_bcdfloat & re,const giac_bcdfloat & im,in
 
 inline giac_bcdfloat strtobcd(const char *nptr,const char **endptr, CHPPrintData const &pd){ return fstrtobcd(nptr,endptr,pd); }
 giac_bcdfloat strtobcd(const char *nptr,const char **endptr);
-inline double get_double(const giac_bcdfloat & f) { 
+inline double get_double(const giac_bcdfloat & f) {
   // FIXME
 #ifdef GIAC_HAS_STO_38
   return bcd_get_float(f.f);
@@ -511,7 +511,7 @@ inline double get_double(const giac_bcdfloat & f) {
   if (fis_nan(f)){ double d=0.0; return 0./d; }
   if (!pos) ch[0]='-';
   print_float(pos?f.f:(-f).f,pos?ch:ch+1,'.'|('E'<<16)|(' '<<24),12+(15<<8),0);
-  return strtod(ch,&endchar); 
+  return strtod(ch,&endchar);
 #endif
 }
 #else // defined BCD
@@ -525,22 +525,22 @@ inline int get_int(float f) { return int(f);}
 inline int fsign (float f1){return f1==0?0:(f1>0?1:-1);}
 float fsqrt (float f1);
 void print_float(const giac_float & f,char * ch);
-inline float fpow(float f1,float f2){ 
+inline float fpow(float f1,float f2){
 #ifdef NSPIRE
-  return pow(f1,f2); 
+  return pow(f1,f2);
 #else
-  return std::pow(f1,f2); 
+  return std::pow(f1,f2);
 #endif
 }
-inline float ffloor(float f1){ 
+inline float ffloor(float f1){
 #ifdef NSPIRE
-  return floor(f1); 
+  return floor(f1);
 #else
-  return std::floor(f1); 
+  return std::floor(f1);
 #endif
 }
 inline float finv(float f1){ return 1/f1; }
-#if defined __APPLE__ || defined EMCC || defined NO_BSD 
+#if defined __APPLE__ || defined EMCC || defined NO_BSD
 inline float fgamma(float f1){ return tgammaf(f1); }
 #else
 #if defined(__MINGW_H) || defined(VISUALC) || defined(FXCG) || defined TICE// FIXME gamma, not used

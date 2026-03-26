@@ -56,7 +56,7 @@ namespace giac {
   }
 
   struct indexed_string {
-    int index; 
+    int index;
     std::string chaine;
     indexed_string():index(0) {}
     indexed_string(int l,const std::string & s): index(l),chaine(s) {}
@@ -64,7 +64,7 @@ namespace giac {
 
   bool operator < (const indexed_string & is1,const indexed_string & is2);
 
-  struct aide { 
+  struct aide {
     std::string cmd_name;
     std::string syntax;
     std::vector<localized_string> blabla;

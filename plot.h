@@ -79,9 +79,9 @@ enum Fl_Color {
   FL_GREEN  = ColorGreen,
   FL_MAGENTA = ColorMagenta,
   FL_TRANSPARENT = ColorTransparent, // transparent
-  FL_DARK1		= ColorDarkGrey,	
-  FL_GRAY		= ColorGrey,	
-  FL_LIGHT1		= ColorWhite,	
+  FL_DARK1		= ColorDarkGrey,
+  FL_GRAY		= ColorGrey,
+  FL_LIGHT1		= ColorWhite,
 
 };
 
@@ -255,7 +255,7 @@ namespace giac {
 
   // return parametrization for a parametric curve and translate
   // ellipsis/hyperbola to a rational parametrization
-  // m will contain the complex depending on gen_t 
+  // m will contain the complex depending on gen_t
   bool find_curve_parametrization(const gen & geo_obj,gen & m,const gen & gen_t,double T,gen & tmin,gen & tmax,gen & tstep,GIAC_CONTEXT);
   // test if a point f is on a parametric curve e
   // compute t if true
@@ -288,8 +288,8 @@ namespace giac {
 
   gen _erase(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_erase;
-  
-  extern int pixon_size; 
+
+  extern int pixon_size;
   vecteur merge_pixon(const vecteur & v);
   gen _pixon(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_pixon;
@@ -409,7 +409,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_angle;
 
   gen scalar_product(const gen & a,const gen & b,GIAC_CONTEXT);
-  // return t such that tb+(1-t)a ? ta+(1-t)b is the projection of c on [a,b] 
+  // return t such that tb+(1-t)a ? ta+(1-t)b is the projection of c on [a,b]
   gen projection(const gen & a,const gen & b,const gen & c,GIAC_CONTEXT);
   // projection of p on a parametric curve
   // e=symb_cercle or line, returns t
@@ -417,7 +417,7 @@ namespace giac {
   gen parameter2point(const vecteur & v,GIAC_CONTEXT);
   gen cercle2curve(const gen & f,GIAC_CONTEXT);
   gen line2curve(const gen & f);
-  
+
   std::vector<int> nearest_point(const vecteur & v,const gen & p,double eps,GIAC_CONTEXT);
 
   vecteur inter(const gen & a,const gen & b,GIAC_CONTEXT);
@@ -490,7 +490,7 @@ namespace giac {
 
   gen _curve(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_curve;
-  // curve arguments: 0 complex parametric equation, 1 variable (e.g. t), 2 tmin, 3 tmax, 
+  // curve arguments: 0 complex parametric equation, 1 variable (e.g. t), 2 tmin, 3 tmax,
   // 4 optional != 0 automatically show a legende based on arg 0 and 1
   // 5 optional cartesian equation in x and y, 6 optional parametric rational equation
 
@@ -704,16 +704,16 @@ namespace giac {
   int est_rect(const gen & a,const gen & b,const gen & c,const gen & d,GIAC_CONTEXT);
   gen _est_rectangle(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_est_rectangle;
- 
+
   gen _est_harmonique(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_est_harmonique;
-  
+
   gen _div_harmonique(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_div_harmonique;
-  
+
   gen _point_div(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_point_div;
-  
+
   gen _birapport(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_birapport;
 

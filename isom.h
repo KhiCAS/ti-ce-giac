@@ -1,4 +1,4 @@
-// -*- mode:C++ ; compile-command: "g++ -I.. -g -c isom.cc " -*- 
+// -*- mode:C++ ; compile-command: "g++ -I.. -g -c isom.cc " -*-
 /*
  *  Copyright (C) 2001,2014 R. De Graeve, Institut Fourier, 38402 St Martin d'Heres
  *

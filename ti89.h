@@ -28,7 +28,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_frenet;
   extern const unary_function_ptr * const  at_osculating_circle;
   extern const unary_function_ptr * const  at_curvature;
-  
+
   extern const unary_function_ptr * const  at_entry;
   extern const unary_function_ptr * const  at_ans;
   gen _seq(const gen & g,GIAC_CONTEXT);

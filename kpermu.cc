@@ -1,7 +1,7 @@
 /* -*- mode:C++ ; compile-command: "g++-3.4 -I.. -g -c permu.cc -DHAVE_CONFIG_H -DIN_GIAC" -*- */
 #include "giacPCH.h"
 /*
- *  Copyright (C) 2005, 2007 R. De Graeve & B. Parisse, 
+ *  Copyright (C) 2005, 2007 R. De Graeve & B. Parisse,
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -39,19 +39,19 @@ namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
 
   bool is_permu(const vecteur &p,vector<int> & p1,GIAC_CONTEXT) {
-    //renvoie true si p est une perm et transforme p en le vector<int> p1  
+    //renvoie true si p est une perm et transforme p en le vector<int> p1
     int n;
     n=int(p.size());
     vector<int> p2(n);
     p1=p2;
     vector<int> temp(n);
-   
+
     for (int j=0;j<n;j++){ if (p[j].type!=_INT_){return(false);}}
-     
+
     for (int j=0;j<n;j++){
-      if (array_start(contextptr)) //xcas_mode(contextptr)>0 || abs_calc_mode(contextptr)==38) 
-	p1[j]=p[j].val-1; 
-      else 
+      if (array_start(contextptr)) //xcas_mode(contextptr)>0 || abs_calc_mode(contextptr)==38)
+	p1[j]=p[j].val-1;
+      else
 	p1[j]=p[j].val;
       if ((n<=p1[j])|| (p1[j])<0) {
 	return(false);
@@ -63,24 +63,24 @@ namespace giac {
       int p1k=p1[k];
       if (p1k<0 || p1k>=n) {return(false);}
       if (temp[p1k]) {
-	return(false);} 
+	return(false);}
       else {temp[p1k]=1;}
       k=k+1;
     }
     return(true);
-  } 
+  }
   gen _permu2mat(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-    //transforme une permutation en une matrice obtenue en permutant les lignes de la matrice identite  
-    if (args.type!=_VECT)  
-      return gentypeerr(contextptr); 
+    //transforme une permutation en une matrice obtenue en permutant les lignes de la matrice identite
+    if (args.type!=_VECT)
+      return gentypeerr(contextptr);
     vector<int> p1;
     vecteur p(*args._VECTptr);
-    if (!(is_permu(p,p1,contextptr)))  
+    if (!(is_permu(p,p1,contextptr)))
       return gentypeerr(contextptr);
     int n=int(p.size());
-    vecteur c; 
-    vecteur l(n); 
+    vecteur c;
+    vecteur l(n);
     for (int k=0;k<n;k++){
       for (int j=0;j<n;j++){
 	if (p[k]==j+array_start(contextptr)) {
@@ -95,7 +95,7 @@ namespace giac {
   }
 
   vecteur vector_int_2_vecteur(const vector<int> & v,GIAC_CONTEXT){
-    //transforme un vector<int> en vecteur 
+    //transforme un vector<int> en vecteur
     vector<int>::const_iterator it=v.begin(),itend=v.end();
     vecteur res;
     res.reserve(itend-it);
@@ -108,17 +108,17 @@ namespace giac {
 	res.push_back(*it);
     }
     return res;
-  } 
+  }
 
   vecteur vector_int_2_vecteur(const vector<int> & v){
-    //transforme un vector<int> en vecteur 
+    //transforme un vector<int> en vecteur
     vector<int>::const_iterator it=v.begin(),itend=v.end();
     vecteur res;
     res.reserve(itend-it);
     for (;it!=itend;++it)
       res.push_back(*it);
     return res;
-  } 
+  }
 
   static vector<int> vecteur_2_vector_int(const vecteur & v,GIAC_CONTEXT){
     //transforme un vecteur en vector<int>  -> empty vector on error
@@ -127,20 +127,20 @@ namespace giac {
     res.reserve(itend-it);
     if (array_start(contextptr)){ //(xcas_mode(contextptr) || abs_calc_mode(contextptr)==38){
       for (;it!=itend;++it)
-	if ((*it).type==_INT_) 
+	if ((*it).type==_INT_)
 	  res.push_back((*it).val-1);
-	else 
+	else
 	  return vector<int>(0);
     }
     else {
       for (;it!=itend;++it)
-	if ((*it).type==_INT_) 
-	  res.push_back((*it).val); 
-	else 
+	if ((*it).type==_INT_)
+	  res.push_back((*it).val);
+	else
 	  return vector<int>(0);
     }
     return res;
-  } 
+  }
 
   vector<int> vecteur_2_vector_int(const vecteur & v){
     //transforme un vecteur en vector<int>  -> empty vector on error
@@ -148,13 +148,13 @@ namespace giac {
     vector<int> res;
     res.reserve(itend-it);
     for (;it!=itend;++it){
-      if ((*it).type==_INT_) 
-	res.push_back((*it).val); 
-      else 
+      if ((*it).type==_INT_)
+	res.push_back((*it).val);
+      else
 	return vector<int>(0);
     }
     return res;
-  } 
+  }
 
   static vector< vector<int> > vecteur_2_vectvector_int(const vecteur & v,GIAC_CONTEXT){
     //transforme un vecteur en vector< vector<int> >  -> empty vector on error
@@ -183,7 +183,7 @@ namespace giac {
   }
 
   static vecteur vectvector_int_2_vecteur(const vector< vector<int> > & v,GIAC_CONTEXT){
-    //transforme un vector< vector<int> > en vecteur  
+    //transforme un vector< vector<int> > en vecteur
     int s=int(v.size());
     vecteur res;
     res.reserve(s);
@@ -193,7 +193,7 @@ namespace giac {
   }
 
   vecteur vectvector_int_2_vecteur(const vector< vector<int> > & v){
-    //transforme un vector< vector<int> > en vecteur  
+    //transforme un vector< vector<int> > en vecteur
     int s=int(v.size());
     vecteur res;
     res.reserve(s);
@@ -217,9 +217,9 @@ namespace giac {
 
   gen _sizes(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-    if (args.type!=_VECT) 
+    if (args.type!=_VECT)
       return gentypeerr(contextptr);
-    vecteur v(*args._VECTptr); 
+    vecteur v(*args._VECTptr);
     vecteur res;
     vecteur::const_iterator it=v.begin(),itend=v.end();
     res.reserve(itend-it);
@@ -229,7 +229,7 @@ namespace giac {
       res.push_back(int(it->_VECTptr->size()));
     }
     return res;
-  } 
+  }
   static const char _sizes_s[]="sizes";
   static define_unary_function_eval (__sizes,&_sizes,_sizes_s);
   define_unary_function_ptr5( at_sizes ,alias_at_sizes,&__sizes,0,true);
@@ -249,27 +249,27 @@ namespace giac {
     return r;
   }
 
-  
+
   vecteur vector_giac_double_2_vecteur(const vector<giac_double> & v){
-    //transforme un vector<double> en vecteur 
+    //transforme un vector<double> en vecteur
     vector<giac_double>::const_iterator it=v.begin(),itend=v.end();
     vecteur res;
     res.reserve(itend-it);
     for (;it!=itend;++it)
       res.push_back(double(*it));
     return res;
-  } 
+  }
 
   vecteur vectvector_giac_double_2_vecteur(const vector< vector<giac_double> > & v){
-    //transforme un vector< vector<double> > en vecteur  
+    //transforme un vector< vector<double> > en vecteur
     int s=int(v.size());
     vecteur res;
     res.reserve(s);
     for (int i=0;i<s;++i)
       res.push_back(vector_giac_double_2_vecteur(v[i]));
     return res;
-  }  
-  
+  }
+
   gen _hilbert(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     int n,p;
@@ -283,8 +283,8 @@ namespace giac {
       vecteur v(*args._VECTptr);
       gen v1=v.front(),v2=v.back();
       n=v1.val;
-      p=v2.val; 
-    }   
+      p=v2.val;
+    }
     vecteur c;
     for (int k=0;k<n;k++){
       vecteur l(p);
@@ -292,7 +292,7 @@ namespace giac {
 	l[j]=rdiv(1,k+j+1,contextptr);
       }
       c.push_back(l);
-    } 
+    }
     return gen(c,_MATRIX__VECT);
   }
 
@@ -303,7 +303,7 @@ namespace giac {
   gen l2norm2(const gen & g){
     if (g.type!=_VECT)
       return g*g;
-    const_iterateur it=g._VECTptr->begin(),itend=g._VECTptr->end();    
+    const_iterateur it=g._VECTptr->begin(),itend=g._VECTptr->end();
     gen res(0);
     mpz_t tmpz;
     mpz_init(tmpz);
@@ -321,7 +321,7 @@ namespace giac {
 	  mpz_set_si(tmpz,it->val);
 	  mpz_mul(tmpz,tmpz,tmpz);
 	}
-	else 
+	else
 	  mpz_mul(tmpz,*it->_ZINTptr,*it->_ZINTptr);
 	mpz_add(*res._ZINTptr,*res._ZINTptr,tmpz);
 #endif
@@ -360,16 +360,16 @@ namespace giac {
       return gentypeerr(contextptr);
     vecteur v(*args._VECTptr);
     gen g1=v.front(),g2=v.back();
-     
+
     if ((g1.type!=_VECT) ||(g2.type!=_VECT))
       return gentypeerr(contextptr);
-    vecteur v1(*g1._VECTptr); 
+    vecteur v1(*g1._VECTptr);
     vecteur v2(*g2._VECTptr);
     if (v1.size()!=v2.size()) return gensizeerr(contextptr);
     int n=int(v1.size());
     vecteur c;
     for (int k=0;k<n;k++){
-      if ((v1[k].type!=_VECT) ||(v2[k].type!=_VECT)) return gentypeerr(contextptr); 
+      if ((v1[k].type!=_VECT) ||(v2[k].type!=_VECT)) return gentypeerr(contextptr);
       vecteur l1(*(v1[k])._VECTptr);
       vecteur l2(*(v2[k])._VECTptr);
       if (l1.size()!=l2.size()) return gensizeerr(contextptr);
@@ -380,7 +380,7 @@ namespace giac {
       }
 
       c.push_back(l);
-    } 
+    }
     return gen(c,_MATRIX__VECT);
   }
   static const char _hadamard_s[]="hadamard";
@@ -397,7 +397,7 @@ namespace giac {
 
   gen _vandermonde(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-    if (args.type!=_VECT)  
+    if (args.type!=_VECT)
       return gentypeerr(contextptr);
     vecteur v(*args._VECTptr);
     int n=int(v.size()),m=n;
@@ -406,8 +406,8 @@ namespace giac {
       v=*v[0]._VECTptr;
       n=int(v.size());
     }
-    vecteur c; 
-    vecteur l(n); 
+    vecteur c;
+    vecteur l(n);
     for (int j=0;j<n;j++){
       l[j]=1;
     }
@@ -474,12 +474,12 @@ namespace giac {
       }
     }
     if ( (args.type!=_VECT)  || (args._VECTptr->size()!=2) )
-      return gentypeerr(contextptr);    
+      return gentypeerr(contextptr);
     vecteur v(plotpreprocess(args,contextptr));
     if (is_undef(v))
       return v;
     gen g1=v.front(),g2=v.back();
-    if (g2.type!=_VECT) 
+    if (g2.type!=_VECT)
       return gentypeerr(contextptr);
     vecteur v2(*g2._VECTptr);
     int n=int(v2.size());
@@ -487,7 +487,7 @@ namespace giac {
     la=0;
     for (int k=0;k<n;k++){
       la=la+derive(derive(g1,v2[k],contextptr),v2[k],contextptr);
-    } 
+    }
     return normal(la,contextptr);
   }
   static const char _laplacian_s[]="laplacian";
@@ -497,16 +497,16 @@ namespace giac {
   gen _hessian(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if ( (args.type!=_VECT)  || (args._VECTptr->size()!=2) )
-      return gentypeerr(contextptr);        
+      return gentypeerr(contextptr);
     vecteur v(plotpreprocess(args,contextptr));
     if (is_undef(v))
       return v;
     gen g1=v.front(),g2=v.back();
-    if (g2.type!=_VECT) 
+    if (g2.type!=_VECT)
       return gentypeerr(contextptr);
     vecteur v2(*g2._VECTptr);
     int n=int(v2.size());
-    vecteur he;    
+    vecteur he;
     for (int k=0;k<n;k++){
       vecteur l(n);
       for (int j=0;j<n;j++){
@@ -515,7 +515,7 @@ namespace giac {
       he.push_back(l);
     }
     return (he);
-  }    
+  }
   static const char _hessian_s[]="hessian";
   static define_unary_function_eval_quoted (__hessian,&_hessian,_hessian_s);
   define_unary_function_ptr5( at_hessian ,alias_at_hessian,&__hessian,_QUOTE_ARGUMENTS,true);
@@ -542,7 +542,7 @@ namespace giac {
       }
     }
     if ( (args.type!=_VECT)  || (args._VECTptr->size()!=2) )
-      return gentypeerr(contextptr);    
+      return gentypeerr(contextptr);
     vecteur v(plotpreprocess(args,contextptr));
     if (is_undef(v))
       return v;
@@ -556,9 +556,9 @@ namespace giac {
     di=0;
     for (int k=0;k<n;k++){
       di=di+derive(v1[k],v2[k],contextptr);
-    } 
+    }
     return normal(di,contextptr);
-  }    
+  }
   static const char _divergence_s[]="divergence";
   static define_unary_function_eval_quoted (__divergence,&_divergence,_divergence_s);
   define_unary_function_ptr5( at_divergence ,alias_at_divergence,&__divergence,_QUOTE_ARGUMENTS,true);
@@ -710,12 +710,12 @@ namespace giac {
       //p2=rdiv(2*k+a-1-x,k)*p1-rdiv(k+a-1,k)*p0;
       p2=(2*k+a-1-x)*p1-(k-1)*(k+a-1)*p0;
       p0=p1;
-      p1=p2;  
-    } 
+      p1=p2;
+    }
     //return normal(p2,contextptr);
     return normal(rdiv(p2,factorial(n),contextptr),contextptr);
   }
-    
+
   static const char _laguerre_s[]="laguerre";
   static define_unary_function_eval (__laguerre,&_laguerre,_laguerre_s);
   define_unary_function_ptr5( at_laguerre ,alias_at_laguerre,&__laguerre,0,true);
@@ -784,11 +784,11 @@ namespace giac {
       vtmp1=vtmp1-vtmp2; // p2=(2*k-1)*x*p1-(k-1)*(k-1)*p0;
       v0=v1;
       v1=vtmp1;
-    } 
-    return v1; 
+    }
+    return v1;
   }
 
-  gen _legendre(const gen & args,GIAC_CONTEXT){ 
+  gen _legendre(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     int n;
     gen a,x;
@@ -838,7 +838,7 @@ namespace giac {
     if (column)
       mt=mtran(m);
     else
-      mt=m; 
+      mt=m;
     vecteur moyenne(mean(mt,false));
     vecteur res;
     const_iterateur it=mt.begin(),itend=mt.end();
@@ -906,7 +906,7 @@ namespace giac {
   }
 
   static bool est_dans(const vector<int> & a , const int n, vector< vector<int> > s) {
-    //teste si a est egal a l'un des n premiers elements de s 
+    //teste si a est egal a l'un des n premiers elements de s
     bool cont=true;
     int j=0;
     while (j<=n && cont) {
@@ -916,10 +916,10 @@ namespace giac {
       j=j+1;
     }
     return (! cont);
-  } 
+  }
 
 #ifndef XLIGHT
-  
+
   gen _split(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     //renvoie [ax,ay] si les arg sont g1=ax*an (sans denominateur) et g2=[x,y]
@@ -971,16 +971,16 @@ namespace giac {
     res[1]=ay;
     return res;
   }
- 
+
   static const char _split_s[]="split";
   static define_unary_function_eval (__split,&_split,_split_s);
   define_unary_function_ptr5( at_split ,alias_at_split,&__split,0,true);
- 
+
   gen _join(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type==_VECT && args._VECTptr->size()==2){
       gen g1=args._VECTptr->front(),g2=args._VECTptr->back();
-      if (g1.type==_STRNG && g2.type==_VECT){ // Python 
+      if (g1.type==_STRNG && g2.type==_VECT){ // Python
 	const_iterateur it=g2._VECTptr->begin(),itend=g2._VECTptr->end();
 	string res;
 	for (;it!=itend;){
@@ -997,11 +997,11 @@ namespace giac {
       }
     }
     return gensizeerr(contextptr);
-  } 
+  }
   static const char _join_s[]="join";
   static define_unary_function_eval (__join,&_join,_join_s);
   define_unary_function_ptr5( at_join ,alias_at_join,&__join,0,true);
-#endif 
+#endif
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

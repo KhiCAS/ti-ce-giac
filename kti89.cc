@@ -286,7 +286,7 @@ namespace giac {
     if (vs>=3 && v[2].type==_INT_ && v[1].type==_INT_ && v[0].type==_VECT){
       // randpoly(variables,total_degree,nterms,[law])
       gen a=v[0],b=v[1];
-      v[0]=b; v[1]=v[2]; v[2]=a; 
+      v[0]=b; v[1]=v[2]; v[2]=a;
     }
     if (vs>=2 && v[1].type==_VECT && v[0].type==_VECT){
       // randpoly(variables,partial_degrees,[law])
@@ -429,7 +429,7 @@ namespace giac {
   static define_unary_function_eval (__randpoly,&_randPoly,_randpoly_s);
   define_unary_function_ptr5( at_randpoly ,alias_at_randpoly,&__randpoly,0,true);
 #endif
-  
+
   gen _fMin(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     vecteur v(gen2vecteur(g));
@@ -614,7 +614,7 @@ namespace giac {
     if (g.is_symb_of_sommet(at_curve)){
       gen f=g._SYMBptr->feuille;
       return curvature(f[0],contextptr);
-    }    
+    }
     if (g.type!=_VECT || g._VECTptr->size()<2)
       return gensizeerr(contextptr);
     vecteur v=*g._VECTptr;
@@ -750,7 +750,7 @@ namespace giac {
   static const char _curvature_s[]="curvature";
   static define_unary_function_eval (__curvature,&_curvature,_curvature_s);
   define_unary_function_ptr5( at_curvature ,alias_at_curvature,&__curvature,0,true);
-  
+
 #endif // GEODIFF
 
   gen _dim(const gen & g,GIAC_CONTEXT){
@@ -811,7 +811,7 @@ namespace giac {
   static const char _left_s[]="left";
   static define_unary_function_eval (__left,&_left,_left_s);
   define_unary_function_ptr5( at_left ,alias_at_left,&__left,0,true);
-#else  
+#else
   // FIXME: the print() should have an additionnal format argument
   // that would cover normal, tex, C, and formatted output
   static string format(const gen & g,const string & forme,GIAC_CONTEXT){
@@ -831,7 +831,7 @@ namespace giac {
 	  string tmp = txt.substr(0, 1) + "." + txt.substr(1, digits) + "e+" + print_INT_(int(txt.size()) - 1);
 	  return tmp;
 	}
-      }  
+      }
       return txt;
     }
     else {
@@ -867,7 +867,7 @@ namespace giac {
 	}
 	int c=0;
 	for (++i;i<fs && fmt[i]>='0' && fmt[i]<='9';++i){
-	  c=c*10+int(fmt[i]-'0');	  
+	  c=c*10+int(fmt[i]-'0');
 	}
 	if (i==fs || fmt[i]!='}')
 	  return gendimerr(contextptr);
@@ -1058,7 +1058,7 @@ namespace giac {
   static const char _shift_s[]="shift";
   static define_unary_function_eval (__shift,&_shift,_shift_s);
   define_unary_function_ptr5( at_shift ,alias_at_shift,&__shift,0,true);
-  
+
   gen _augment(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     return concat(g,false,contextptr);
@@ -1209,7 +1209,7 @@ namespace giac {
 	return is_strictly_greater(*b._CPLXptr,a,contextptr);
       return is_strictly_greater(*(b._CPLXptr+1),0,contextptr);
     }
-    gen g=inferieur_strict(a,b,contextptr); 
+    gen g=inferieur_strict(a,b,contextptr);
     if (g.type!=_INT_)
       return a.islesscomplexthan(b);
     return g.val==1;
@@ -1372,9 +1372,9 @@ namespace giac {
 #ifdef COMPILE_FOR_STABILITY
       control_c();
 #endif
-      if (ctrl_c || interrupted) { 
+      if (ctrl_c || interrupted) {
 	interrupted = true; ctrl_c=false;
-	return gensizeerr(gettext("Stopped by user interruption.")); 
+	return gensizeerr(gettext("Stopped by user interruption."));
       }
       res.push_back(int(d*eps1));
       d=d-int(d*eps1);
@@ -1453,7 +1453,7 @@ namespace giac {
     if (key==KEY_CTRL_LEFT) key=0;
     if (key==KEY_CTRL_RIGHT) key=3;
     if (key==KEY_CTRL_UP) key=1;
-    if (key==KEY_CTRL_DOWN) key=2;    
+    if (key==KEY_CTRL_DOWN) key=2;
     return key;
   }
   static const char _getKey_s[]="get_key";

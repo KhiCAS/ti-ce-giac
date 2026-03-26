@@ -34,7 +34,7 @@ namespace giac {
   inline int archive_function_index(const unary_function_ptr * f) { return archive_function_index(*f); };
 
   std::ostream & operator << (std::ostream & os,const symbolic & s);
-  
+
   int equalposcomp(const unary_function_ptr tab[],const unary_function_ptr & f);
   inline int equalposcomp(const unary_function_ptr tab[],const unary_function_ptr * f){ return equalposcomp(tab,*f);} ;
   int equalposcomp(const std::vector<const unary_function_ptr *> & v,const unary_function_ptr * f);

@@ -34,7 +34,7 @@ namespace giac {
     vecteur * localvalue;
     short int * quoted;
   };
-  
+
   extern int protection_level; // for local vars
 
   const int MAXLENSIZE = 1000000; // max size of a line in files
@@ -65,7 +65,7 @@ namespace giac {
   extern const char string_undef[];
   identificateur & _IDNT_undef();
   extern gen undef;
-#else  
+#else
   extern const char string_euler_gamma[];
   extern const gen & cst_euler_gamma;
 
@@ -173,7 +173,7 @@ namespace giac {
   extern const identificateur & laplace_var;
 
   extern const gen & CST__IDNT_e;
-  gen & vx_var(); 
+  gen & vx_var();
   // commented otherwise can not make assign/assumptions on vx_var
   // if must uncomment, check extern gen vx_var declaration after endif
 #else

@@ -39,13 +39,13 @@ namespace std {
   };
 
   // define IMMEDIATE_VECTOR to an integer>=1 for non-dynamical small vectors
-#if defined(IMMEDIATE_VECTOR) 
+#if defined(IMMEDIATE_VECTOR)
 
 #if 1
 #define _begin_immediate_vect _ptr[0]
 #define _endalloc_immediate_vect _ptr[1]
 #endif
-  
+
   template<typename _Tp> class imvector{
     // private members
     int _taille; // <=0 for immediate, >0 for allocated, immvector_max for empty allocated
@@ -61,8 +61,8 @@ namespace std {
     };
     // private allocation methods
     void _zero_tab(){
-      for (unsigned i=0;i<IMMEDIATE_VECTOR;i++) 
-	_tab[i]=0; 
+      for (unsigned i=0;i<IMMEDIATE_VECTOR;i++)
+	_tab[i]=0;
     }
     void _free_tab(){
       for (unsigned i=0;i<(sizeof(int)*IMMEDIATE_VECTOR)/sizeof(_Tp);++i){
@@ -71,10 +71,10 @@ namespace std {
       }
     }
     void _destroy(){
-      if (_taille>0){ 
+      if (_taille>0){
 	if (_begin_immediate_vect) {
 	  // std::cerr << "delete " << _taille << endl;
-	  delete [] _begin_immediate_vect; 
+	  delete [] _begin_immediate_vect;
 	}
       }
       else
@@ -139,7 +139,7 @@ namespace std {
 	}
       }
       else {
-	_alloc(n); 
+	_alloc(n);
 	unsigned i=0;
 	for (_Tp * ptr=_begin_immediate_vect;i<n;++ptr,++b,++i){
 	  *ptr = *b;
@@ -153,16 +153,16 @@ namespace std {
     typedef pointer iterator;
     typedef giac_reverse_pointer<_Tp> reverse_iterator;
     typedef giac_reverse_pointer<const _Tp> const_reverse_iterator;
-    
-    imvector():_taille(0) { 
+
+    imvector():_taille(0) {
       _zero_tab();
     }
-    ~imvector() { 
+    ~imvector() {
       _destroy();
     }
     imvector(size_t n_,const _Tp & value=_Tp()){
       unsigned n=unsigned(n_);
-      _alloc(n); 
+      _alloc(n);
       _Tp * _end_immediate_vect=_taille>0?_begin_immediate_vect:(_Tp *)_tab;
       for (unsigned i=0;i<n;++_end_immediate_vect,++i){
 	*_end_immediate_vect =value;
@@ -227,16 +227,16 @@ namespace std {
     const _Tp & front() const { return *begin(); }
     const _Tp & back() const { return *rbegin(); }
     const _Tp & operator [](size_t i) const { return *(begin()+i); }
-    void push_back(const _Tp & p0){ 
-      if (_taille<=0){ 
+    void push_back(const _Tp & p0){
+      if (_taille<=0){
 	if (unsigned(-_taille)<(sizeof(int)*IMMEDIATE_VECTOR)/sizeof(_Tp)){
 	  ((_Tp *) _tab)[-_taille]=p0;
 	  --_taille;
 	  return;
 	}
-	// create a copy since p0 may be scratched 
+	// create a copy since p0 may be scratched
 	// if p0 is a vector element and the vector is realloced
-	_Tp p(p0); 
+	_Tp p(p0);
 	_realloc(_taille?-2*_taille:1);
 	if (_taille==immvector_max){
 	  *(_begin_immediate_vect)=p;
@@ -248,10 +248,10 @@ namespace std {
 	}
 	return;
       }
-      if (_taille==immvector_max) 
+      if (_taille==immvector_max)
 	_taille=0;
       if (_endalloc_immediate_vect==_begin_immediate_vect+_taille){
-	_Tp p(p0); 
+	_Tp p(p0);
 	_realloc(_taille?2*_taille:1);
 	*(_begin_immediate_vect+_taille)=p;
       }
@@ -259,16 +259,16 @@ namespace std {
 	*(_begin_immediate_vect+_taille)=p0;
       ++_taille;
     }
-    _Tp pop_back(){ 
+    _Tp pop_back(){
       if (_taille<=0){
 	if (_taille) ++_taille;
 	_Tp res=*( ((_Tp *) _tab) -_taille);
 	*(((_Tp *) _tab)-_taille)=_Tp();
 	return res;
       }
-      --_taille; 
+      --_taille;
       if (_taille){
-	_Tp res=*(_begin_immediate_vect+_taille); 
+	_Tp res=*(_begin_immediate_vect+_taille);
 	*(_begin_immediate_vect+_taille)=_Tp();
 	return res;
       }
@@ -277,7 +277,7 @@ namespace std {
       _zero_tab();
       return res;
     }
-    void clear(){ 
+    void clear(){
       if (_taille>0 &&_begin_immediate_vect){
 	if (_taille!=immvector_max){
 	  for (int i=0;i<_taille;++i)
@@ -293,7 +293,7 @@ namespace std {
     }
     bool empty() const { return _taille==0 || _taille==immvector_max; }
     void reserve(size_t n){ if (_abs(_taille)<n) _realloc(int(n)); }
-    void resize(size_t n_){ 
+    void resize(size_t n_){
       unsigned n=unsigned(n_);
       if (_taille!=immvector_max && _abs(_taille)>=n) {
 	// clear elements from _begin()+n to _end()
@@ -308,7 +308,7 @@ namespace std {
 	if (_taille<=0) _taille=-int(n); else _taille=n?n:immvector_max;
       }
     }
-    void resize(size_t n_,const _Tp &value){ 
+    void resize(size_t n_,const _Tp &value){
       unsigned n=unsigned(n_);
       if (_taille!=immvector_max && _abs(_taille)>=n) {
 	// clear elements from _begin()+n to _end()
@@ -340,8 +340,8 @@ namespace std {
 	*(ptr-decal)=*ptr;
 	*ptr = _Tp();
       }
-      if (_taille<0) { 
-	_taille += decal; 
+      if (_taille<0) {
+	_taille += decal;
       }
       else {
 	_taille -= decal;
@@ -441,7 +441,7 @@ namespace std {
   };
 
   template<typename _Tp>
-    inline bool operator==(const imvector<_Tp>& __x, const imvector<_Tp>& __y){ 
+    inline bool operator==(const imvector<_Tp>& __x, const imvector<_Tp>& __y){
     if (__x.size() != __y.size())
       return false;
     const _Tp * xend=__x.end();
@@ -453,7 +453,7 @@ namespace std {
   }
 
   template<typename _Tp>
-    inline bool operator < (const imvector<_Tp>& __x, const imvector<_Tp>& __y){ 
+    inline bool operator < (const imvector<_Tp>& __x, const imvector<_Tp>& __y){
     if (__x.size() != __y.size())
       return __x.size()<__y.size();
     const _Tp * xend=__x.end();
@@ -506,7 +506,7 @@ namespace std {
     }
     void _alloc_fill(const _Tp * b,const _Tp * e){
       unsigned n=unsigned(e-b);
-      _alloc(n); 
+      _alloc(n);
       for (_Tp * ptr=_begin;ptr!=_endalloc;++ptr,++b){
 	*ptr = *b;
       }
@@ -519,12 +519,12 @@ namespace std {
     typedef pointer iterator;
     typedef giac_reverse_pointer<_Tp> reverse_iterator;
     typedef giac_reverse_pointer<const _Tp> const_reverse_iterator;
-    
+
   vector():_begin(0),_end(0),_endalloc(0) {}
     ~vector() { if (_begin) delete [] _begin; }
     vector(size_t n_,const _Tp & value=_Tp()){
       unsigned n=unsigned(n_);
-      _alloc(n); 
+      _alloc(n);
       for (;_end!=_endalloc;++_end){
 	*_end =value;
       }
@@ -562,19 +562,19 @@ namespace std {
     const _Tp & front() const { return *_begin; }
     const _Tp & back() const { return *(_end-1); }
     const _Tp & operator [](size_t i) const { return *(_begin+i); }
-    void push_back(const _Tp & p){ 
+    void push_back(const _Tp & p){
       if (_endalloc==_end){
 	unsigned n = unsigned(_end-_begin);
 	_realloc(n?2*n:2);
-      } 
-      *_end=p; 
-      ++_end; 
+      }
+      *_end=p;
+      ++_end;
     }
     _Tp pop_back(){ --_end; return *_end; }
     void clear(){ _end=_begin;}
     bool empty() const { return _end==_begin; }
     void reserve(size_t n){ if (_endalloc-_begin<int(n)) _realloc(int(n)); }
-    void resize(size_t n_,const _Tp &value=_Tp()){ 
+    void resize(size_t n_,const _Tp &value=_Tp()){
       int n=int(n_);
       if (_end-_begin>=n) _end=_begin+n;
       else {
@@ -663,7 +663,7 @@ namespace std {
   };
 
   template<typename _Tp>
-    inline bool operator==(const vector<_Tp>& __x, const vector<_Tp>& __y){ 
+    inline bool operator==(const vector<_Tp>& __x, const vector<_Tp>& __y){
     if (__x.size() != __y.size())
       return false;
     for (const _Tp * xptr=__x.begin(), * yptr=__y.begin();xptr!=__x.end();++yptr,++xptr){
@@ -676,7 +676,7 @@ namespace std {
   // template<typename _Tp> inline bool operator!=(const vector<_Tp>& __x, const vector<_Tp>& __y){ return !(__x==__y); }
 
   template<typename _Tp>
-    inline bool operator < (const vector<_Tp>& __x, const vector<_Tp>& __y){ 
+    inline bool operator < (const vector<_Tp>& __x, const vector<_Tp>& __y){
     if (__x.size() != __y.size())
       return __x.size()<__y.size();
     for (const _Tp * xptr=__x.begin(), * yptr=__y.begin();xptr!=__x.end();++yptr,++xptr){

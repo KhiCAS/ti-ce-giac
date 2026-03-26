@@ -29,7 +29,7 @@ extern giac::context * contextptr;
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
-  
+
   xcas::tableur * new_tableur(GIAC_CONTEXT){
     xcas::tableur * sheetptr=new xcas::tableur;
 #ifdef NUMWORKS
@@ -83,7 +83,7 @@ namespace giac {
   static const char _current_sheet_s []="current_sheet";
   static define_unary_function_eval(__current_sheet,&current_sheet,_current_sheet_s);
   define_unary_function_ptr5( at_current_sheet ,alias_at_current_sheet,&__current_sheet,_QUOTE_ARGUMENTS,true);
-  
+
 #ifndef NO_NAMESPACE_GIAC
 }
 #endif // ndef NO_NAMESPACE_GIAC
@@ -134,7 +134,7 @@ string printsel(int r,int c,int R,int C){
   return printcell(r,c)+":"+printcell(R,C);
 }
 #endif
-  
+
 void change_undo(tableur & t){
   t.undo=t.m;
   t.changed=true;
@@ -165,12 +165,12 @@ void change_undo(tableur & t){
       if (i==t.nrows-1)
 	s += "]";
       else
-	s += ",";      
+	s += ",";
     }
     return s;
-  }  
-  
-  
+  }
+
+
 void save_sheet_to(tableur & t,const char * filename_,GIAC_CONTEXT){
 #if 1
   string s=print_tableur(t,contextptr);
@@ -236,7 +236,7 @@ void sheet_status(tableur & t,GIAC_CONTEXT){
     }
   }
 void waitforvblank(){}
-  
+
   bool sheet_display(tableur &t,GIAC_CONTEXT,bool full_redraw){
   int disp_rows=(LCD_HEIGHT_PX-STATUS_AREA_PX)/row_height-3;
   int disp_cols=LCD_WIDTH_PX/(col_width+4)-1;
@@ -275,7 +275,7 @@ void waitforvblank(){}
     int J=giac::giacmin(t.ncols,t.disp_col_begin+disp_cols);
     for (int j=t.disp_col_begin;j<J;++j){
       draw_line(x,STATUS_AREA_PX,x,STATUS_AREA_PX+row_height,COLOR_BLACK);
-      char colname[3]="A"; 
+      char colname[3]="A";
       if (j>=26){ // if we accept more than 26 cols
         colname[0] += j/26;
         colname[1] = 'A'+(j%26);
@@ -334,7 +334,7 @@ void waitforvblank(){}
             s=s.substr(0,8)+"...";
 #ifdef HP39
             os_draw_string_small(x+2,y,rev?COLOR_WHITE:COLOR_BLACK,rev?COLOR_BLACK:COLOR_WHITE,s.c_str(),false); // draw
-#else    
+#else
             os_draw_string_small(x+2,y+1,COLOR_BLACK,rev?color_gris:COLOR_WHITE,s.c_str(),false); // draw
 #endif
           }
@@ -347,7 +347,7 @@ void waitforvblank(){}
     waitforvblank();
     drawRectangle(0,y+STATUS_AREA_PX,LCD_WIDTH_PX,LCD_HEIGHT_PX-y,COLOR_WHITE); // clear cmdline
     draw_line(0,y+STATUS_AREA_PX,LCD_WIDTH_PX,y+STATUS_AREA_PX,COLOR_BLACK);
-  } // 
+  } //
   // commandline
   int p=python_compat(contextptr); python_compat(0,contextptr);
   //int xpe=xcas_python_eval; xcas_python_eval=0;
@@ -381,7 +381,7 @@ void waitforvblank(){}
       if (small)
         xend=os_draw_string_small(xend,sheety,COLOR_BLACK,color_gris,s1.c_str(),false);
       else
-        xend=os_draw_string(xend,sheety,COLOR_BLACK,color_gris,s1.c_str(),false);        
+        xend=os_draw_string(xend,sheety,COLOR_BLACK,color_gris,s1.c_str(),false);
 #endif
     }
     else {
@@ -398,7 +398,7 @@ void waitforvblank(){}
     }
   } // end cmdline active
   else
-    xend=os_draw_string(xend,sheety,COLOR_BLACK,COLOR_WHITE,printcell(t.cur_row,t.cur_col).c_str())+5;    
+    xend=os_draw_string(xend,sheety,COLOR_BLACK,COLOR_WHITE,printcell(t.cur_row,t.cur_col).c_str())+5;
   int bg=t.cmd_row>=0?COLOR_WHITE:57051;
 #if 1
     xend=print_color(xend,sheety,s.c_str(),COLOR_BLACK,false,small);
@@ -534,7 +534,7 @@ void resizesheet(tableur &t){
       t.nrows=cur_r;
       t.ncols=cur_c;
     }
-  }  
+  }
 }
 
 void sheet_menu_setup(tableur & t,GIAC_CONTEXT){
@@ -607,8 +607,8 @@ void sheet_menu_setup(tableur & t,GIAC_CONTEXT){
 	change_undo(t);
 	resizesheet(t);
 	break;
-      }	
-    }      
+      }
+    }
   } // end endless while
 }
 
@@ -788,7 +788,7 @@ bool is_empty_cell(const gen & g){
 }
 
 void sheet_cmd(tableur & t,const char * ans){
-  string s=ans; 
+  string s=ans;
   if (t.sel_row_begin>=0){
     t.cmdline="";
     s="="+s+"matrix("+giac::print_INT_(giac::absint(t.sel_row_begin-t.cur_row)+1)+","+giac::print_INT_(giac::absint(t.sel_col_begin-t.cur_col)+1)+","+printsel(t.sel_row_begin,t.sel_col_begin,t.cur_row,t.cur_col)+")";
@@ -932,7 +932,7 @@ void sheet_clip(tableur & t){
     t.sel_row_begin=-1;
   }
 }
-  
+
 int sheet_stat1d(tableur & t){
   sheet_clip(t);
   if (t.sel_row_begin==-1){
@@ -943,7 +943,7 @@ int sheet_stat1d(tableur & t){
       if (l!=1 && l!=2){
         statuslinemsg("select 1 or 2 columns!",COLOR_CYAN);
         return -1;
-      }        
+      }
       string s;
       if (l==1){
         vecteur w;
@@ -1104,7 +1104,7 @@ giac::gen sheet(GIAC_CONTEXT){
       if (t.cmd_pos>=0 && t.cmd_row==t.cur_row && t.cmd_col==t.cur_col && t.sel_row_begin==-1){
 	t.cmd_pos=t.cmdline.size();
       }
-      else 
+      else
 	t.cur_col=t.ncols-1;
       break;
     case KEY_SELECT_LEFT:
@@ -1256,7 +1256,7 @@ giac::gen sheet(GIAC_CONTEXT){
       continue;
     } // end switch
     if ( (key >= KEY_CTRL_F1 && key <= KEY_CTRL_F6) ||
-	  (key >= KEY_CTRL_F7 && key <= KEY_CTRL_F14) 
+	  (key >= KEY_CTRL_F7 && key <= KEY_CTRL_F14)
 	 ){
 #ifdef WITH_QUAD
       const char tmenu[]= "F1 stat1d\nstat1d\nsum(\nmean(\nstddev(\nmedian(\nhistogram(\nbarplot(\nboxwhisker(\nF2 stat2d\nscatterplot(\npolygonscatterplot(\nlinear_regression(\nlinear_regression_plot(\nlogarithmic_regression_plot(\nexponential_regression_plot(\nF3 seq\nrange(\nseq(\ntableseq(\nplotseq(\nrandvector(\nrandmatrix(\nF4 edt\n=\nselect\n$\nedit_cell\nundo\ncopy_down\ncopy_right\ninsert_row\ninsert_col\nF6 graph\nreserved\nF= poly\nproot(\npcoeff(\nquo(\nrem(\ngcd(\negcd(\nresultant(\nGF(\nF: arit\nF9 mod \nirem(\nifactor(\ngcd(\nisprime(\nnextprime(\npowmod(\niegcd(\nF8 list\nmakelist(\nrange(\nseq(\nlen(\nappend(\nranv(\nsort(\napply(\nF; plot\nplot(\nplotseq(\nplotlist(\nplotparam(\nplotpolar(\nplotfield(\nhistogram(\nbarplot(\nF7 real\nexact(\napprox(\nfloor(\nceil(\nround(\nsign(\nmax(\nmin(\nF< prog\n:\n&\n#\nhexprint(\nbinprint(\nf(x):=\ndebug(\npython(\nF> cplx\nabs(\narg(\nre(\nim(\nconj(\ncsolve(\ncfactor(\ncpartfrac(\nF= misc\n!\nrand(\nbinomial(\nnormald(\nexponentiald(\n\\\n % \n\n";
@@ -1363,7 +1363,7 @@ giac::gen sheet(GIAC_CONTEXT){
       t.cmd_pos=0;
       continue;
     }
-    
+
   }
 }
 
@@ -1474,7 +1474,7 @@ void displaygraph(const giac::gen & ge){
       lcdramptr[9]=saveptr[9];
       lcdramptr[10]=saveptr[10];
       saveptr += 11;
-    }    
+    }
     if (key==KEY_CTRL_QUIT)
       break;
     if (key==KEY_CTRL_F10)
@@ -1558,15 +1558,15 @@ void displaygraph(const giac::gen & ge){
 	if (smallmenu.selection==6)
 	  gr.orthonormalize();
 	if (smallmenu.selection==7)
-	  gr.autoscale();	
+	  gr.autoscale();
 	if (smallmenu.selection==8)
-	  gr.zoom(0.7);	
+	  gr.zoom(0.7);
 	if (smallmenu.selection==9)
-	  gr.zoom(1/0.7);	
+	  gr.zoom(1/0.7);
 	if (smallmenu.selection==10)
 	  gr.zoomy(1/0.7);
 	if (smallmenu.selection==11)
-	  gr.show_axes=!gr.show_axes;	
+	  gr.show_axes=!gr.show_axes;
 	if (smallmenu.selection==12){
 	  if (gr.tracemode & 2)
 	    gr.tracemode &= ~2;
@@ -1606,7 +1606,7 @@ void displaygraph(const giac::gen & ge){
       const char *
         tab[]={
         lang==1?"Zoom in [+]":"Zoom in [+]",  // 0
-        lang==1?"Zoom out [-]":"Zoom out [-]",  
+        lang==1?"Zoom out [-]":"Zoom out [-]",
         lang==1?"Autoscale [*]":"Autoscale [*]",
         lang==1?"Orthonormalise [/]":"Orthonormalize [/]",
         0};
@@ -1627,7 +1627,7 @@ void displaygraph(const giac::gen & ge){
       const char *
         tab[]={
         lang==1?"Vitesse, pente":"Speed, slope",  // 0
-        lang==1?"Vecteur normal":"Normal",  
+        lang==1?"Vecteur normal":"Normal",
         lang==1?"Cercle osculateur":"Osculating circle",
         lang==1?"Tout/rien":"All/nothing",
         0};
@@ -1668,15 +1668,15 @@ void displaygraph(const giac::gen & ge){
           gr.tracemode=0xf;
           gr.orthonormalize();
         }
-        gr.tracemode_set();          
+        gr.tracemode_set();
       }
     }
     if (key==KEY_CTRL_F5){
       const char *
         tab[]={
         lang==1?"Axes":"Axes",   // 0
-        lang==1?"A droite":"Right", 
-        lang==1?"A gauche":"Left",  
+        lang==1?"A droite":"Right",
+        lang==1?"A gauche":"Left",
         lang==1?"En haut":"Up",
         lang==1?"En bas":"Down",
         0};
@@ -1760,8 +1760,8 @@ void displaygraph(const giac::gen & ge){
     if (key==KEY_CHAR_DIV) { gr.orthonormalize(); }
     if (key==KEY_CTRL_VARS || key==KEY_CTRL_OPTN) {gr.show_axes=!gr.show_axes;}
   }
-}  
-#endif  
+}
+#endif
 
 #ifdef WITH_EQW
   unsigned max_prettyprint_equation=512;
@@ -1779,7 +1779,7 @@ void displaygraph(const giac::gen & ge){
       if (ispnt(ge)){
         if (do_logo_graph_eqw & 2){
           xcas::displaygraph(ge);
-        }        
+        }
         // aborttimer = Timer_Install(0, check_execution_abort, 100); if (aborttimer > 0) { Timer_Start(aborttimer); }
         return ;
       }
@@ -1950,7 +1950,7 @@ void displaygraph(const giac::gen & ge){
       if (keyflag==1) menu=shiftmenu;
       if (keyflag & 0xc) menu=alphamenu;
       Printmini(0,C58,menu.c_str(),MINI_REV);
-      // status, clock, 
+      // status, clock,
       set_xcas_status();
       ck_getkey((int *)&key);
       //cout << key << '\n';
@@ -2166,14 +2166,14 @@ void displaygraph(const giac::gen & ge){
                          (key>=KEY_CTRL_F7 && key<=KEY_CTRL_F20) ||
                          (key==char(key) && (giac::isalphanum(key)|| key=='.' ))
                          )?keybuf:keytostring(key,keyflag,false);
-      if ( key==KEY_CTRL_F2 || key==KEY_CTRL_F1 
+      if ( key==KEY_CTRL_F2 || key==KEY_CTRL_F1
            || (key>=KEY_CTRL_F7 && key<=KEY_CTRL_F20)
            ){
         adds=console_menu(key,1);//alph?"simplify":(keyflag==1?"factor":"partfrac");
         if (!adds) continue;
         // workaround for infinitiy
         if (strlen(adds)>=2 && adds[0]=='o' && adds[1]=='o')
-          key=KEY_CTRL_F5;      
+          key=KEY_CTRL_F5;
       }
       if (key==KEY_CTRL_F4){
         adds=alph?"regroup":(keyflag==1?"evalf":"eval");
@@ -2595,7 +2595,7 @@ void displaygraph(const giac::gen & ge){
     value=eql;
     return true;
   }
-  
+
   bool Equation_box_sizes(const gen & g,int & l,int & h,int & x,int & y,attributs & attr,bool & selected){
     if (g.type==_EQW){
       eqwdata & w=*g._EQWptr;
@@ -2661,7 +2661,7 @@ void displaygraph(const giac::gen & ge){
 	}
 	if (gsel==&*it){
 	  // check next siblings
-	  
+
 	  gselparent= &g;
 	  gselpos=it-g._VECTptr->begin();
 	  //cout << "gselparent " << g << endl;
@@ -2671,7 +2671,7 @@ void displaygraph(const giac::gen & ge){
     }
     return false;
   }
- 
+
   // select or deselect part of the current eqution
   // This is done *in place*
   void Equation_select(gen & g,bool select){
@@ -2790,8 +2790,8 @@ void displaygraph(const giac::gen & ge){
   }
 
   gen Equation_compute_size(const gen & g,const attributs & a,int windowhsize,GIAC_CONTEXT);
-  
-  // void Bdisp_MMPrint(int x, int y, const char* string, int mode_flags, int xlimit, int P6, int P7, int color, int back_color, int writeflag, int P11); 
+
+  // void Bdisp_MMPrint(int x, int y, const char* string, int mode_flags, int xlimit, int P6, int P7, int color, int back_color, int writeflag, int P11);
   // void PrintCXY(int x, int y, const char *cptr, int mode_flags, int P5, int color, int back_color, int P8, int P9)
   // void PrintMini( int* x, int* y, const char* string, int mode_flags, unsigned int xlimit, int P6, int P7, int color, int back_color, int writeflag, int P11)
 
@@ -2807,8 +2807,8 @@ void displaygraph(const giac::gen & ge){
       draw_line(x,y-3,x+fontsize/2,y-3,c);
       draw_line(x+fontsize/2-4,y,x+fontsize/2,y-4,c);
       draw_line(x+fontsize/2-3,y,x+fontsize/2+1,y-4,c);
-      draw_line(x+fontsize/2-4,y-7,x+fontsize/2,y-3,c);   
-      draw_line(x+fontsize/2-3,y-7,x+fontsize/2+1,y-3,c);   
+      draw_line(x+fontsize/2-4,y-7,x+fontsize/2,y-3,c);
+      draw_line(x+fontsize/2-3,y-7,x+fontsize/2+1,y-3,c);
       return;
     }
     if (ss==2 && strcmp(s,"pi")==0){
@@ -2834,8 +2834,8 @@ void displaygraph(const giac::gen & ge){
     os_draw_string_small(x,y,mode?bg:c,mode?c:bg,s,false);
   }
 
-  
-  
+
+
   int text_width(int fontsize,const char * s){
     if (fontsize>=16)
       return 8*strlen(s);
@@ -2930,7 +2930,7 @@ void displaygraph(const giac::gen & ge){
     const unary_function_ptr binary_op_tab_ptr []={*at_plus,*at_prod,*at_pow,*at_and,*at_ou,*at_xor,*at_different,*at_same,*at_equal,*at_unit,*at_compose,*at_composepow,*at_deuxpoints,*at_tilocal,*at_pointprod,*at_pointdivision,*at_pointpow,*at_division,*at_normalmod,*at_minus,*at_intersect,*at_union,*at_interval,*at_inferieur_egal,*at_inferieur_strict,*at_superieur_egal,*at_superieur_strict,*at_equal2,0};
     return equalposcomp(binary_op_tab_ptr,u);
   }
-  
+
   eqwdata Equation_total_size(const gen & g){
     if (g.type==_EQW)
       return *g._EQWptr;
@@ -2992,8 +2992,8 @@ void displaygraph(const giac::gen & ge){
 
   vecteur Equation_subsizes(const gen & arg,const attributs & a,int windowhsize,GIAC_CONTEXT){
     vecteur v;
-    if ( (arg.type==_VECT) && ( (arg.subtype==_SEQ__VECT) 
-				// || (!ckmatrix(arg)) 
+    if ( (arg.type==_VECT) && ( (arg.subtype==_SEQ__VECT)
+				// || (!ckmatrix(arg))
 				) ){
       const_iterateur it=arg._VECTptr->begin(),itend=arg._VECTptr->end();
       for (;it!=itend;++it)
@@ -3170,8 +3170,8 @@ void displaygraph(const giac::gen & ge){
 	  vv=Equation_total_size(tmp_x);
 	  x=max(x,vv.dx)+a.fontsize/3;
 	  Equation_translate(tmp_x,0,-vv.dy-vv.y);
-	  //Equation_translate(tmp_l,0,-1);	  
-	  if (s==4) Equation_translate(tmp_u,-2,0);	  
+	  //Equation_translate(tmp_l,0,-1);
+	  if (s==4) Equation_translate(tmp_u,-2,0);
 	  Equation_vertical_adjust(vv.dy,-vv.dy,h,y);
 	}
 	vecteur res(makevecteur(tmp_f,tmp_x,tmp_l));
@@ -3237,7 +3237,7 @@ void displaygraph(const giac::gen & ge){
 	if (arg2.type==_VECT)
 	  arg2=gen(addvecteur(*arg2._VECTptr,vecteur(arg2._VECTptr->size(),plus_one)),_SEQ__VECT);
 	else
-	  arg2=arg2+plus_one; 
+	  arg2=arg2+plus_one;
       }
       gen varg2=Equation_compute_size(arg2,a,windowhsize,contextptr);
       Equation_translate(varg2,vv.dx+llp,0);
@@ -3247,7 +3247,7 @@ void displaygraph(const giac::gen & ge){
       res.push_back(eqwdata(vv.dx+vv.x+lrp,h,0,y,a,u,0));
       return gen(res,_SEQ__VECT);
     }
-    if (u==at_pow){ 
+    if (u==at_pow){
       // first arg not translated
       gen varg=Equation_compute_size(arg._VECTptr->front(),a,windowhsize,contextptr);
       eqwdata vv=Equation_total_size(varg);
@@ -3264,7 +3264,7 @@ void displaygraph(const giac::gen & ge){
       Equation_translate(varg,x,0);
       Equation_vertical_adjust(vv.dy,vv.y,h,y);
       vecteur res(1,varg);
-      // 2nd arg translated 
+      // 2nd arg translated
       if (needpar)
 	x+=vv.dx+lrp;
       else
@@ -3342,7 +3342,7 @@ void displaygraph(const giac::gen & ge){
       v[1]=varg;
       x += vv.dx;
       v.push_back(eqwdata(x,h,0,y,a,u,0));
-      return gen(v,_SEQ__VECT);      
+      return gen(v,_SEQ__VECT);
     }
     bool binaryop= (u.ptr()->printsommet==&printsommetasoperator) || binary_op(u);
     if ( u!=at_sto && u.ptr()->printsommet!=NULL && !binaryop ){
@@ -3355,7 +3355,7 @@ void displaygraph(const giac::gen & ge){
     else
       v=Equation_subsizes(gen(*arg._VECTptr,_SEQ__VECT),a,windowhsize,contextptr);
     iterateur it=v.begin(),itend=v.end();
-    if ( it==itend || (itend-it==1) ){ 
+    if ( it==itend || (itend-it==1) ){
       gen gtmp;
       if (it==itend)
 	gtmp=Equation_compute_size(gen(vecteur(0),_SEQ__VECT),a,windowhsize,contextptr);
@@ -3387,11 +3387,11 @@ void displaygraph(const giac::gen & ge){
 	if (need_parenthesis(vv.g))
 	  x+=llp;
 	if (u==at_plus && it!=v.begin() &&
-	    ( 
-	     (it->type==_VECT && it->_VECTptr->back().type==_EQW && it->_VECTptr->back()._EQWptr->g==at_neg) 
-	     || 
-	     ( it->type==_EQW && (is_integer(it->_EQWptr->g) || it->_EQWptr->g.type==_DOUBLE_) && is_strictly_positive(-it->_EQWptr->g,contextptr) ) 
-	      ) 
+	    (
+	     (it->type==_VECT && it->_VECTptr->back().type==_EQW && it->_VECTptr->back()._EQWptr->g==at_neg)
+	     ||
+	     ( it->type==_EQW && (is_integer(it->_EQWptr->g) || it->_EQWptr->g.type==_DOUBLE_) && is_strictly_positive(-it->_EQWptr->g,contextptr) )
+	      )
 	    )
 	  x -= ls;
 #if 0 //
@@ -3432,7 +3432,7 @@ void displaygraph(const giac::gen & ge){
 	  return gen(v,_SEQ__VECT);
 	}
 	x += ls+3;
-      } 
+      }
     }
     // normal printing
     x=ls+llp;
@@ -3452,7 +3452,7 @@ void displaygraph(const giac::gen & ge){
   }
 
   // windowhsize is used for g of type HIST__VECT (history) right justify answers
-  // Returns either a eqwdata type object (terminal) or a vector 
+  // Returns either a eqwdata type object (terminal) or a vector
   // (of subtype _EQW__VECT or _HIST__VECT)
   gen Equation_compute_size(const gen & g,const attributs & a,int windowhsize,GIAC_CONTEXT){
     /*****************
@@ -3480,7 +3480,7 @@ void displaygraph(const giac::gen & ge){
     if ( (g.type==_VECT) && !g._VECTptr->empty() ){
       vecteur v;
       const_iterateur it=g._VECTptr->begin(),itend=g._VECTptr->end();
-      int x=0,y=0,h=a.fontsize; 
+      int x=0,y=0,h=a.fontsize;
       /***************
        *   MATRICE   *
        ***************/
@@ -3490,7 +3490,7 @@ void displaygraph(const giac::gen & ge){
 	gen gm=makemodquoted(unmod(g),p);
 	return Equation_compute_size(gm,a,windowhsize,contextptr);
       }
-      vector< vector<int> > M; 
+      vector< vector<int> > M;
       if (gmat && is_mod_matrice(*g._VECTptr,M,p) && p!=0){
 	gen gm=makemodquoted(unmod(g),p);
 	return Equation_compute_size(gm,a,windowhsize,contextptr);
@@ -3581,7 +3581,7 @@ void displaygraph(const giac::gen & ge){
       v.push_back(eqwdata(x,h,0,y,a,mkvect,0));
       return gen(v,_EQW__VECT);
     } // end sequences
-    if (g.type==_MOD){ 
+    if (g.type==_MOD){
       int x=0;
       int h=a.fontsize;
       int y=0;
@@ -3670,7 +3670,7 @@ void displaygraph(const giac::gen & ge){
      * draw the vector *
      *******************/
     // v is the vector, w the master operator eqwdata
-    gen oper=w.g; 
+    gen oper=w.g;
     bool selected=w.selected ;
     int fontsize=w.eqw_attributs.fontsize;
     int background=w.eqw_attributs.background;
@@ -3892,14 +3892,14 @@ void displaygraph(const giac::gen & ge){
 	if (x0<rightx)
 	  text_print(fontsize,"lim",eqx+w.x-x,eqy+y-w.baseline,text_color,background,mode);
 	gen arg2=v[1]; // 2nd arg of limit, i.e. the variable
-	if (arg2.type==_EQW){ 
+	if (arg2.type==_EQW){
 	  eqwdata & varg2=*arg2._EQWptr;
 	  if (varg2.x+varg2.dx+2<rightx)
 	    text_print(fontsize,"\x1e",eqx+varg2.x+varg2.dx+2-x,eqy+y-varg2.y,text_color,background,mode);
 	}
 	if (v.size()>=5){
 	  arg2=v[2]; // 3rd arg of lim, the point, draw a comma after if dir.
-	  if (arg2.type==_EQW){ 
+	  if (arg2.type==_EQW){
 	    eqwdata & varg2=*arg2._EQWptr;
 	    if (varg2.x+varg2.dx<rightx)
 	      text_print(fontsize,",",eqx+varg2.x+varg2.dx-x,eqy+y-varg2.baseline,text_color,background,mode);
@@ -3926,9 +3926,9 @@ void displaygraph(const giac::gen & ge){
       it=v.begin();
       itend=v.end()-1;
       // Reminder: here tmp is the 1st arg eqwdata, w the whole eqwdata
-      if ( (itend-it==1) && ( (u==at_neg) 
+      if ( (itend-it==1) && ( (u==at_neg)
 			      || (u==at_plus) // uncommented for +infinity
-			      ) ){ 
+			      ) ){
 	if ( (u==at_neg &&need_parenthesis(tmp.g) && tmp.g!=at_prod)){
 	  if (tmp.x-lpsize<rightx)
 	    text_print(fontsize,"(",eqx+tmp.x-x-lpsize,eqy+y-tmp.baseline,text_color,background,mode);
@@ -3976,10 +3976,10 @@ void displaygraph(const giac::gen & ge){
 	}
 	else {
 	  gen tmpgen;
-	  if (u==at_plus && ( 
-			     (it->type==_VECT && it->_VECTptr->back().type==_EQW && it->_VECTptr->back()._EQWptr->g==at_neg) 
-			     || 
-			     ( it->type==_EQW && (is_integer(it->_EQWptr->g) || it->_EQWptr->g.type==_DOUBLE_) && is_strictly_positive(-it->_EQWptr->g,contextptr) ) 
+	  if (u==at_plus && (
+			     (it->type==_VECT && it->_VECTptr->back().type==_EQW && it->_VECTptr->back()._EQWptr->g==at_neg)
+			     ||
+			     ( it->type==_EQW && (is_integer(it->_EQWptr->g) || it->_EQWptr->g.type==_DOUBLE_) && is_strictly_positive(-it->_EQWptr->g,contextptr) )
 			      )
 	      )
 	    ;
@@ -4108,7 +4108,7 @@ void displaygraph(const giac::gen & ge){
     update();
     autoscale();
   }
-  
+
   void Graph2d::zoomx(double d,bool round){
     double x_center=(window_xmin+window_xmax)/2;
     double dx=(window_xmax-window_xmin);
@@ -4117,7 +4117,7 @@ void displaygraph(const giac::gen & ge){
     dx *= d/2;
     x_tick = find_tick(dx);
     window_xmin = x_center - dx;
-    if (round) 
+    if (round)
       window_xmin=int( window_xmin/x_tick -1)*x_tick;
     window_xmax = x_center + dx;
     if (round)
@@ -4141,7 +4141,7 @@ void displaygraph(const giac::gen & ge){
     update();
   }
 
-  void Graph2d::zoom(double d){ 
+  void Graph2d::zoom(double d){
     zoomx(d);
     zoomy(d);
   }
@@ -4178,7 +4178,7 @@ void displaygraph(const giac::gen & ge){
     update();
   }
 
-  void Graph2d::orthonormalize(){ 
+  void Graph2d::orthonormalize(){
     // Center of the directions, orthonormalize
     double w=LCD_WIDTH_PX;
     double h=LCD_HEIGHT_PX-STATUS_AREA_PX;
@@ -4201,8 +4201,8 @@ void displaygraph(const giac::gen & ge){
   }
 
   void Graph2d::update(){
-    x_scale=LCD_WIDTH_PX/(window_xmax-window_xmin);    
-    y_scale=(LCD_HEIGHT_PX-STATUS_AREA_PX)/(window_ymax-window_ymin);    
+    x_scale=LCD_WIDTH_PX/(window_xmax-window_xmin);
+    y_scale=(LCD_HEIGHT_PX-STATUS_AREA_PX)/(window_ymax-window_ymin);
   }
 
   bool Graph2d::findij(const gen & e0,double x_scale,double y_scale,double & i0,double & j0,GIAC_CONTEXT) const {
@@ -4286,7 +4286,7 @@ void displaygraph(const giac::gen & ge){
     }
     return ptr;
   }
-  
+
   gen * z0ptr(){
     static gen * ptr=0;
     if (!ptr){
@@ -4295,7 +4295,7 @@ void displaygraph(const giac::gen & ge){
     }
     return ptr;
   }
-  
+
   void Graph2d::table(const gen & t,const gen & x,const gen & y,double tmin,double tstep){
     statuslinemsg("up/down/+/-/left/right");
     double t0=tmin,ts,tc=t0;
@@ -4332,7 +4332,7 @@ void displaygraph(const giac::gen & ge){
           os_draw_string(107,dy+i*18,COLOR_BLACK,COLOR_WHITE,printn(cur,N).c_str());
           cur=subst(y,t,tcur,false,contextptr);
           L.push_back(cur);
-          os_draw_string(214,dy+i*18,COLOR_BLACK,COLOR_WHITE,printn(cur,N).c_str());	      
+          os_draw_string(214,dy+i*18,COLOR_BLACK,COLOR_WHITE,printn(cur,N).c_str());
         }
         V.push_back(L);
       }
@@ -4594,7 +4594,7 @@ void displaygraph(const giac::gen & ge){
 	    if (Hx==x){
 	      //double curt=(tmin+tracemode_i*tstep)._DOUBLE_val,eps=1e-6;
 	      gen cursol=newton(Hy-y,t,curt,NEWTON_DEFAULT_ITERATION,eps,1e-12,true,tmin._DOUBLE_val,tmax._DOUBLE_val,tmin._DOUBLE_val,tmax._DOUBLE_val,1,contextptr);
-	      if (cursol.type==_DOUBLE_ && 
+	      if (cursol.type==_DOUBLE_ &&
 		  (is_undef(sol) || is_greater(sol-curt,cursol-curt,contextptr)) )
 		sol=cursol;
 	    }
@@ -4608,7 +4608,7 @@ void displaygraph(const giac::gen & ge){
 #endif
       //dbg_printf("tracemode push M\n");
       gen M(put_attributs(_point(subst(parameq,t,tracemode_mark,false,contextptr),contextptr),vecteur(1,giac::_POINT_WIDTH_4 | COLOR_BLUE),contextptr));
-      tracemode_disp.push_back(M);      
+      tracemode_disp.push_back(M);
       //dbg_printf("tracemode M pushed\n");
       gen f;
       if (operation==9)
@@ -4620,7 +4620,7 @@ void displaygraph(const giac::gen & ge){
 	double a=tracemode_mark,b=curt;
 	if (a>b)
 	  swapdouble(a,b);
-	gen res=symbolic( 
+	gen res=symbolic(
 #if 0
                          (operation==9 && x==t?at_plotarea:at_integrate),
 #else
@@ -4634,7 +4634,7 @@ void displaygraph(const giac::gen & ge){
 	  confirm("Numerical Integration Error",ss.c_str());
 	else {
 	  confirm(ss.c_str(),res.print(contextptr).c_str());
-	  sto(res,gen((operation==9?"Area":"Arclength"),contextptr),contextptr);	  
+	  sto(res,gen((operation==9?"Area":"Arclength"),contextptr),contextptr);
 	}
       }
       if (operation>=1 && operation<=8 && sol.type==_DOUBLE_ && !is_zero(tstep)){
@@ -4724,7 +4724,7 @@ void displaygraph(const giac::gen & ge){
               gen G2x,G2y; reim(G2t,G2x,G2y,contextptr);
               // gen G2x=subst(x2,t,curt,false,contextptr),G2y=subst(y2,t,curt,false,contextptr);
               //dbg_printf("tracemode G2x=%s G2y=%s\n",G2x.print().c_str(),G2y.print().c_str());
-              //gen det(re(G1t*conj(G2t,contextptr),contextptr)); 
+              //gen det(re(G1t*conj(G2t,contextptr),contextptr));
               gen det(G1x*G2y-G2x*G1y);
               gen Tn=abs(G1t,contextptr);
               gen R=evalf_double(Tn*Tn*Tn/det,1,contextptr);
@@ -4795,7 +4795,7 @@ void displaygraph(const giac::gen & ge){
       return;
     if (choix==1)
       tracemode=0;
-    else 
+    else
       tracemode_set(choix-1);
   }
 
@@ -5003,9 +5003,9 @@ void displaygraph(const giac::gen & ge){
     bool fill_polygon   =(ensemble_attributs & 0x40000000) >> 30;
     int couleur         =(ensemble_attributs & 0x0007ffff);
     epaisseur_point += 2;
-    if (s==at_pnt){ 
+    if (s==at_pnt){
       // f[0]=complex pnt or vector of complex pnts or symbolic
-      // f[1] -> style 
+      // f[1] -> style
       // f[2] optional=label
       gen point=f[0];
       if (point.type==_VECT && point.subtype==_POINT__VECT)
@@ -5026,7 +5026,7 @@ void displaygraph(const giac::gen & ge){
       }
       if (is_undef(point))
 	return;
-      // fl_line_style(type_line,width+1,0); 
+      // fl_line_style(type_line,width+1,0);
       if (point.type==_SYMB) {
 	if (point._SYMBptr->sommet==at_cercle){
 	  vecteur v=*point._SYMBptr->feuille._VECTptr;
@@ -5067,12 +5067,12 @@ void displaygraph(const giac::gen & ge){
 		}
 	      }
 	    }
-	    // Label a few degrees from the start angle, 
+	    // Label a few degrees from the start angle,
 	    // FIXME should use labelpos
 	    double anglel=angled+a1d+0.3;
 	    if (v.size()>=4 && v[3]==2)
 	      anglel=angled+(0.45*a1d+0.55*a2d);
-	    i0=i0+i1*std::cos(anglel); 
+	    i0=i0+i1*std::cos(anglel);
 	    j0=j0-j1*std::sin(anglel);
 	    if (!hidden_name)
 	      draw_legende(f,round(i0),round(j0),labelpos,&Mon_image,clip_x,clip_y,clip_w,clip_h,0,0,couleur);
@@ -5188,7 +5188,7 @@ void displaygraph(const giac::gen & ge){
           if (!logx && !logy && point.subtype!=_VECTOR__VECT){
             I1=i1+.5+deltax,J1=j1+.5+deltay;
             fl_line(I0,J0,I1,J1,couleur);
-            I0=I1; J0=J1; 
+            I0=I1; J0=J1;
           }
           else {
             checklog_fl_line(i0,j0,i1,j1,deltax,deltay,logx,logy,Mon_image.window_xmin,x_scale,Mon_image.window_ymax,y_scale,couleur);
@@ -5325,7 +5325,7 @@ void displaygraph(const giac::gen & ge){
     findij(zero,x_scale,y_scale,I0,J0,contextptr); // origin
     int i_0=round(I0),j_0=round(J0);
     vecteur affx,affy; int affxs,affys;
-    if (show_axes){ 
+    if (show_axes){
       int taille,delta;
       char ch[256];
       // X
@@ -5357,7 +5357,7 @@ void displaygraph(const giac::gen & ge){
     }
     if (show_axes &&  (window_ymax>=0) && (window_ymin<=0)){ // X-axis
       char ch[256];
-      check_fl_line(deltax,deltay+j_0,deltax+horizontal_pixels,deltay+j_0,clip_x,clip_y,clip_w,clip_h,0,0,COLOR_GREEN); 
+      check_fl_line(deltax,deltay+j_0,deltax+horizontal_pixels,deltay+j_0,clip_x,clip_y,clip_w,clip_h,0,0,COLOR_GREEN);
       check_fl_line(deltax+i_0,deltay+j_0,deltax+i_0+int(x_scale),deltay+j_0,clip_x,clip_y,clip_w,clip_h,0,0,COLOR_CYAN);
       for (int i=0;i<affxs;++i){
 	double d=evalf_double(affx[i],1,contextptr)._DOUBLE_val;
@@ -5400,36 +5400,36 @@ void displaygraph(const giac::gen & ge){
       }
     }
 #endif
-    
+
     // draw
     fltk_draw(*this,g,x_scale,y_scale,clip_x,clip_y,clip_w,clip_h);
     clip_ymin=save_clip_ymin;
     //draw_decorations(); // done in displaygraph in order to have fast trace mode
   }
-  
-  void Graph2d::left(double d){ 
+
+  void Graph2d::left(double d){
     window_xmin -= d;
     window_xmax -= d;
   }
 
-  void Graph2d::right(double d){ 
+  void Graph2d::right(double d){
     window_xmin += d;
     window_xmax += d;
   }
 
-  void Graph2d::up(double d){ 
+  void Graph2d::up(double d){
     window_ymin += d;
     window_ymax += d;
   }
 
-  void Graph2d::down(double d){ 
+  void Graph2d::down(double d){
     window_ymin -= d;
     window_ymax -= d;
   }
 
 #endif // WITH_PLOT
 
-  
+
 #ifndef NO_NAMESPACE_XCAS
 } // namespace xcas
 #endif // ndef NO_NAMESPACE_XCAS

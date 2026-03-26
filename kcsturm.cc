@@ -82,7 +82,7 @@ namespace giac {
 	  *logptr(contextptr) << gettext("Singular parametric Sturm sequence ") << a << "/" << b << endl;
       }
       else
-	b0=abs(b.front(),contextptr); 
+	b0=abs(b.front(),contextptr);
       coeffP.push_back(pow(b0,ddeg+1));
       DivRem(coeffP.back()*a,b,0,quo,r);
       listquo.push_back(quo);
@@ -141,9 +141,9 @@ namespace giac {
       return ;
     if (x.type==_FRAC && x._FRACptr->den.type==_CPLX)
       x=fraction(x._FRACptr->num*conj(x._FRACptr->den,context0),x._FRACptr->den.squarenorm(context0));
-    if (x.type==_FRAC && x._FRACptr->den.type==_ZINT && 
-	(x._FRACptr->num.type==_ZINT || 
-	 (x._FRACptr->num.type==_CPLX && x._FRACptr->num._CPLXptr->type==_ZINT && (x._FRACptr->num._CPLXptr+1)->type==_ZINT)) 
+    if (x.type==_FRAC && x._FRACptr->den.type==_ZINT &&
+	(x._FRACptr->num.type==_ZINT ||
+	 (x._FRACptr->num.type==_CPLX && x._FRACptr->num._CPLXptr->type==_ZINT && (x._FRACptr->num._CPLXptr+1)->type==_ZINT))
 	){
       gen num=x._FRACptr->num,d=x._FRACptr->den;
       x=round2util(num,d,n);

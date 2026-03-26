@@ -127,16 +127,16 @@ inline unsigned mpz_get_ui(const mpz_t & a){
   return strtol(s,0,10);
 #endif
 } // WARNING
-inline int mpz_gcd_ui(mpz_t * c,const mpz_t & a,unsigned B){ 
-  mpz_t b; mp_init_set_int(&b,B); 
+inline int mpz_gcd_ui(mpz_t * c,const mpz_t & a,unsigned B){
+  mpz_t b; mp_init_set_int(&b,B);
   mp_mod((mp_int *)&a,&b,&b);
-  int res=mpz_get_ui(b); 
+  int res=mpz_get_ui(b);
   mp_clear(&b);
   return gcdint(B,res);
 }
 inline int mpz_set_str(mpz_t &  z,const char * s,int base){return mp_read_radix(&z,s,base);}
 inline int mpz_get_str(char * s,int base,const mpz_t &  z){return mp_toradix((mp_int *)&z,s,base);}
-inline double mpz_get_d(const mpz_t & z){ 
+inline double mpz_get_d(const mpz_t & z){
   if (mp_count_bits((mp_int *)&z)>1023) {
 #ifdef TICE
     return 1e38/1e-38;
@@ -144,15 +144,15 @@ inline double mpz_get_d(const mpz_t & z){
     return std::numeric_limits<double>::infinity();
 #endif
   }
-  char s[512]; 
-  mp_toradix((mp_int *)&z,s,10); 
+  char s[512];
+  mp_toradix((mp_int *)&z,s,10);
 #ifdef NSPIRE
   return Strtod(s,0);
 #else
   return strtod(s,0);
 #endif
 }
-inline void mpz_set_d(mpz_t & z,double d){ 
+inline void mpz_set_d(mpz_t & z,double d){
 #if 0
   unsigned long long u=*(unsigned long long*)(&d);
   unsigned long long m=u & 0x000fffffffffffffULL;
@@ -230,14 +230,14 @@ inline int mpz_hamdist(const mpz_t & a,const mpz_t & b){
 
 #define LONGFLOAT_DOUBLE
 typedef double mpf_t;
-#define mpf_clear(x) 
-#define mpf_init(x) 
+#define mpf_clear(x)
+#define mpf_init(x)
 #define mpf_init_set(x,y) (x=y)
 #define mpf_init_set_d(x,y) (x=y)
 #define mpf_init_set_si(x,y) (x=y)
-#define mpf_set_z(x,y) 
+#define mpf_set_z(x,y)
 #define mpf_set(x,y) (x=y)
-inline int mpf_set_str(double & x,const char * s,int base){ if (base!=10) return 1; x=strtod(s,0); return 0; } 
+inline int mpf_set_str(double & x,const char * s,int base){ if (base!=10) return 1; x=strtod(s,0); return 0; }
 #define mpf_get_d(x) (x)
 #define mpf_add(x,y,z) (x=y+z)
 #define mpf_sub(x,y,z) (x=y-z)

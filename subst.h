@@ -28,7 +28,7 @@ namespace giac {
   gen cossinexp2rootof(const gen & e,GIAC_CONTEXT);
   gen checkanglemode(GIAC_CONTEXT);
 
-  polynome gen2poly(const gen & g,int s); 
+  polynome gen2poly(const gen & g,int s);
   //grad
   gen angletorad(const gen & g,GIAC_CONTEXT);
   gen radtoangle(const gen & g,GIAC_CONTEXT);
