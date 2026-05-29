@@ -5427,6 +5427,11 @@ void displaygraph(const giac::gen & ge){
     //draw_decorations(); // done in displaygraph in order to have fast trace mode
   }
 
+  void Graph2d::left(double d){ 
+    window_xmin -= d;
+    window_xmax -= d;
+  }
+
   void Graph2d::right(double d){ 
     window_xmin += d;
     window_xmax += d;
