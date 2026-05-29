@@ -5313,7 +5313,7 @@ void displaygraph(const giac::gen & ge){
     return res;
   }
 
-  void Graph2d::draw(){
+    void Graph2d::draw(){
     if (window_xmin>=window_xmax) autoscale();
     if (window_ymin>=window_ymax) autoscale();
     int save_clip_ymin=clip_ymin;
@@ -5336,7 +5336,9 @@ void displaygraph(const giac::gen & ge){
 	if (fabs(d)<1e-6) strcpy(ch,"0"); else sprintfdouble(ch,"",d);
 	delta=int((d-window_xmin)*x_scale);//int(horizontal_pixels*(d-window_xmin)/(window_xmax-window_xmin));
 	taille=strlen(ch)*4;
-	fl_line(delta,vertical_pixels+STATUS_AREA_PX-2,delta,vertical_pixels+STATUS_AREA_PX-1,COLOR_GREEN);
+        os_set_pixel(delta,vertical_pixels+STATUS_AREA_PX-1,COLOR_GREEN);
+        os_set_pixel(delta,vertical_pixels+STATUS_AREA_PX-2,COLOR_GREEN);
+	//fl_line(delta,vertical_pixels+STATUS_AREA_PX-2,delta,vertical_pixels+STATUS_AREA_PX-1,COLOR_GREEN);
 	if (delta>=taille/2 && delta<=horizontal_pixels){
 	  text_print(6,ch,delta-taille/2,vertical_pixels+STATUS_AREA_PX-2,COLOR_GREEN);
 	}
@@ -5350,35 +5352,53 @@ void displaygraph(const giac::gen & ge){
 	if (fabs(d)<1e-6) strcpy(ch,"0"); else sprintfdouble(ch,"",d);
 	delta=int((window_ymax-d)*y_scale);//int(vertical_pixels*(window_ymax-d)/(window_ymax-window_ymin));
 	if (delta>=taille && delta<=vertical_pixels-taille){
-	  fl_line(horizontal_pixels-2,STATUS_AREA_PX+delta,horizontal_pixels-1,STATUS_AREA_PX+delta,COLOR_RED);
+          os_set_pixel(horizontal_pixels-1,STATUS_AREA_PX+delta,COLOR_RED);
+          os_set_pixel(horizontal_pixels-2,STATUS_AREA_PX+delta,COLOR_RED);
+	  // fl_line(horizontal_pixels-2,STATUS_AREA_PX+delta,horizontal_pixels-1,STATUS_AREA_PX+delta,COLOR_RED);
 	  text_print(6,ch,horizontal_pixels-strlen(ch)*5-2,STATUS_AREA_PX+delta+taille,COLOR_RED);
 	}
       }
     }
     if (show_axes &&  (window_ymax>=0) && (window_ymin<=0)){ // X-axis
       char ch[256];
-      check_fl_line(deltax,deltay+j_0,deltax+horizontal_pixels,deltay+j_0,clip_x,clip_y,clip_w,clip_h,0,0,COLOR_GREEN); 
-      check_fl_line(deltax+i_0,deltay+j_0,deltax+i_0+int(x_scale),deltay+j_0,clip_x,clip_y,clip_w,clip_h,0,0,COLOR_CYAN);
+      int color=convertcolor(COLOR_GREEN);
+      for (int I=0;I<=horizontal_pixels;++I)
+       vGL_set_pixel(deltax+I,deltay+j_0,color);
+      color=convertcolor(COLOR_CYAN);
+      for (int I=i_0;I<=i_0+x_scale;++I)
+        vGL_set_pixel(deltax+I,deltay+j_0,color);
+      //check_fl_line(deltax,deltay+j_0,deltax+horizontal_pixels,deltay+j_0,clip_x,clip_y,clip_w,clip_h,0,0,COLOR_GREEN); 
+      //check_fl_line(deltax+i_0,deltay+j_0,deltax+i_0+int(x_scale),deltay+j_0,clip_x,clip_y,clip_w,clip_h,0,0,COLOR_CYAN);
       for (int i=0;i<affxs;++i){
 	double d=evalf_double(affx[i],1,contextptr)._DOUBLE_val;
 	sprint_double(ch,d);
 	int delta=int((d-window_xmin)*x_scale);//int(horizontal_pixels*(d-window_xmin)/(window_xmax-window_xmin));
 	int taille=strlen(ch)*9;
-	fl_line(delta,deltay+j_0,delta,deltay+j_0-2,COLOR_BLACK);
+        for (int J=0;J<=2;++J)
+          os_set_pixel(delta,deltay+j_0-J,COLOR_BLACK);
+	// fl_line(delta,deltay+j_0,delta,deltay+j_0-2,COLOR_BLACK);
       }
       // check_fl_draw(labelsize,"x",deltax+horizontal_pixels-40,deltay+j_0-4,clip_x,clip_y,clip_w,clip_h,0,0,COLOR_GREEN);
     }
     if ( show_axes && (window_xmax>=0) && (window_xmin<=0) ) {// Y-axis
       char ch[256];
-      check_fl_line(deltax+i_0,deltay,deltax+i_0,deltay+vertical_pixels,clip_x,clip_y,clip_w,clip_h,0,0,COLOR_RED);
-      check_fl_line(deltax+i_0,deltay+j_0,deltax+i_0,deltay+j_0-int(y_scale),clip_x,clip_y,clip_w,clip_h,0,0,COLOR_CYAN);
+      int color=convertcolor(COLOR_RED);
+      for (int J=0;J<=vertical_pixels;++J)
+        vGL_set_pixel(deltax+i_0,deltay+J,color);
+      color=convertcolor(COLOR_CYAN);
+      for (int J=j_0-int(y_scale);J<=j_0;++J)
+        vGL_set_pixel(deltax+i_0,deltay+J,color);
+      // check_fl_line(deltax+i_0,deltay,deltax+i_0,deltay+vertical_pixels,clip_x,clip_y,clip_w,clip_h,0,0,COLOR_RED);
+      // check_fl_line(deltax+i_0,deltay+j_0,deltax+i_0,deltay+j_0-int(y_scale),clip_x,clip_y,clip_w,clip_h,0,0,COLOR_CYAN);
       int taille=3;
       for (int j=0;j<affys;++j){
 	double d=evalf_double(affy[j],1,contextptr)._DOUBLE_val;
 	sprint_double(ch,d);
 	int delta=int((window_ymax-d)*y_scale);//int(vertical_pixels*(window_ymax-d)/(window_ymax-window_ymin));
 	if (delta>=taille && delta<=vertical_pixels-taille){
-	  fl_line(deltax+i_0,STATUS_AREA_PX+delta,deltax+i_0+2,STATUS_AREA_PX+delta,COLOR_BLACK);
+          for (int I=0;I<=2;++I)
+            os_set_pixel(deltax+i_0+I,STATUS_AREA_PX+delta,COLOR_BLACK);
+	  // fl_line(deltax+i_0,STATUS_AREA_PX+delta,deltax+i_0+2,STATUS_AREA_PX+delta,COLOR_BLACK);
 	}
       }
       //check_fl_draw(labelsize,"y",deltax+i_0+2,deltay+labelsize,clip_x,clip_y,clip_w,clip_h,0,0,COLOR_RED);
@@ -5405,11 +5425,6 @@ void displaygraph(const giac::gen & ge){
     fltk_draw(*this,g,x_scale,y_scale,clip_x,clip_y,clip_w,clip_h);
     clip_ymin=save_clip_ymin;
     //draw_decorations(); // done in displaygraph in order to have fast trace mode
-  }
-  
-  void Graph2d::left(double d){ 
-    window_xmin -= d;
-    window_xmax -= d;
   }
 
   void Graph2d::right(double d){ 
