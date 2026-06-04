@@ -1595,11 +1595,16 @@ void displaygraph(const giac::gen & ge){
 	if (smallmenu.selection==15)
 	  break;
       }
+      else {
+	gr.update();
+	continue;
+      }
     }
     if (key==KEY_CTRL_EXIT || key==KEY_CTRL_AC || key==KEY_CTRL_MENU)
       break;
     if (key==KEY_CTRL_F1){
       gr.tracemode_set(-1); // object info
+      gr.update();
       continue;
     }
     if (key==KEY_CTRL_F3){
@@ -1612,8 +1617,10 @@ void displaygraph(const giac::gen & ge){
         0};
       const int s=sizeof(tab)/sizeof(char *);
       int choix=select_item(tab,lang==1?"Affichage":"Display",true);
-      if (choix<0 || choix>s)
+      if (choix<0 || choix>s){
+        gr.update();
         continue;
+      }
       if (choix==0)
         gr.zoom(0.7);
       else if (choix==1)
@@ -1633,8 +1640,10 @@ void displaygraph(const giac::gen & ge){
         0};
       const int s=sizeof(tab)/sizeof(char *);
       int choix=select_item(tab,lang==1?"Trace":"Trace",true);
-      if (choix<0 || choix>s)
+      if (choix<0 || choix>s){
+        gr.update();
         continue;
+      }
       if (choix==0){
         if (gr.tracemode & 2)
           gr.tracemode &= ~2;
@@ -1682,8 +1691,10 @@ void displaygraph(const giac::gen & ge){
         0};
       const int s=sizeof(tab)/sizeof(char *);
       int choix=select_item(tab,lang==1?"Trace":"Trace",true);
-      if (choix<0 || choix>s)
+      if (choix<0 || choix>s){
+        gr.update();
         continue;
+      }
       if (choix==0){
         gr.show_axes=!gr.show_axes;
         continue;
