@@ -1026,7 +1026,7 @@ namespace giac {
 	lock_syms_mutex();  
 	sym_string_tab::const_iterator i = syms().find(s);
 	if (i == syms().end()) {
-	  *it = *(new identificateur(s));
+	  *it = identificateur(s); // was *(new identificateur(s)), never deleted
 	  syms()[s] = *it;
 	} else {
 	  // std::cerr << "lexer" << s << "\n";
