@@ -113,7 +113,7 @@ namespace giac {
     }
 #ifdef TICE // no check, takes too much time
     gen res=_integrate(makesequence(f*exp(-t*x,contextptr),x),contextptr);
-    res=subst(res,x,0,false,contextptr);
+    res=-subst(res,x,0,false,contextptr); // F(+inf)-F(0) with F(+inf)=0: laplace(1) was -1/s
 #else
     if (!assume_t_in_ab(t,plus_inf,plus_inf,true,true,contextptr))
       return gensizeerr(contextptr);
