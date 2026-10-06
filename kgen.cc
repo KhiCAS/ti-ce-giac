@@ -360,7 +360,9 @@ namespace giac {
   }
 #else
   void delete_ref_vecteur(ref_vecteur * ptr){
-    ptr->v.clear();
+    // destroy the vector as delete would: uSTL's clear() keeps the element buffer (capacity),
+    // and deletefast only releases the ref_vecteur slot (the buffer leaked on every deletion)
+    ptr->~ref_vecteur();
     deletefast(ptr);
   }
 #endif

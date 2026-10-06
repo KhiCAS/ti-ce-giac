@@ -197,21 +197,21 @@ namespace giac {
     gen asine= asinh(e,contextptr);
     if (!(isolate_mode & 2))
       return asine;
-    identificateur * x=new identificateur(string("n_")+print_intvar_counter(contextptr));
-    return makevecteur(asine+(*x)*one_tour(contextptr)*cst_i,(one_half_tour(contextptr)+(*x)*one_tour(contextptr))*cst_i-asine);
+    identificateur x(string("n_")+print_intvar_counter(contextptr)); // was new, never deleted
+    return makevecteur(asine+x*one_tour(contextptr)*cst_i,(one_half_tour(contextptr)+x*one_tour(contextptr))*cst_i-asine);
   }
   static gen isolate_cosh(const gen & e,int isolate_mode,GIAC_CONTEXT){
     gen acose=acosh(e,contextptr);
     if (!(isolate_mode & 2))
       return makevecteur(acose,-acose);
-    identificateur * x=new identificateur(string("n_")+print_intvar_counter(contextptr));
-    return makevecteur(acose+(*x)*one_tour(contextptr)*cst_i,-acose+(*x)*one_tour(contextptr)*cst_i);
+    identificateur x(string("n_")+print_intvar_counter(contextptr)); // was new, never deleted
+    return makevecteur(acose+x*one_tour(contextptr)*cst_i,-acose+x*one_tour(contextptr)*cst_i);
   }
   static gen isolate_tanh(const gen & e,int isolate_mode,GIAC_CONTEXT){
     if (!(isolate_mode & 2))
       return atanh(e,contextptr);
-    identificateur * x=new identificateur(string("n_")+print_intvar_counter(contextptr));
-    return atanh(e,contextptr)+(*x)*one_half_tour(contextptr)*cst_i;
+    identificateur x(string("n_")+print_intvar_counter(contextptr)); // was new, never deleted
+    return atanh(e,contextptr)+x*one_half_tour(contextptr)*cst_i;
   }
 
   static gen (* const isolate_fcns[] ) (const gen &,int,GIAC_CONTEXT) = { isolate_exp,isolate_ln,isolate_sin,isolate_cos,isolate_tan,isolate_asin,isolate_acos,isolate_atan,isolate_sinh,isolate_cosh,isolate_tanh,isolate_asinh,isolate_acosh,isolate_atanh};

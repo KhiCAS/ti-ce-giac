@@ -2693,10 +2693,10 @@ namespace giac {
 
   gen exact_div(const gen & a,const gen & b){
     if (a.type==_POLY && b.type==_POLY){
-      polynome *quoptr=new polynome, rem;
-      if (!divrem1(*a._POLYptr,*b._POLYptr,*quoptr,rem,2)) 
+      polynome quo, rem; // was new polynome, never deleted (gen res copies it)
+      if (!divrem1(*a._POLYptr,*b._POLYptr,quo,rem,2))
 	CERR << "bad quo("+a.print()+","+b.print()+")" << "\n";
-      gen res= *quoptr;
+      gen res= quo;
       // if (!is_zero(a-b*res))
       //	CERR << "Bad division" << "\n";
       return res;
