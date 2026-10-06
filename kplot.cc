@@ -946,7 +946,8 @@ namespace giac {
       ++s;
     }
     if (s==1){
-      v.push_back(v.front());
+      const double f=v.front(); // uSTL's push_back reallocates before copying its argument
+      v.push_back(f);
       ++s;
     }
     if (s>1){    

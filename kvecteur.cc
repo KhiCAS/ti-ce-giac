@@ -1027,8 +1027,10 @@ namespace giac {
 	  w.push_back(zero);
 	if (s<3)
 	  w.push_back(zero);
-	if (s<2)
-	  w.push_back(w.front());
+	if (s<2){
+	  const gen first(w.front()); // (push_back may move w: copy first)
+	  w.push_back(first);
+	}
 	/* if (w[2].type!=_INT_)
 	   w[2]=0; */
 	w[0]=spread_convert(w[0],i,j,contextptr);

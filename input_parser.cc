@@ -3373,7 +3373,7 @@ yyreduce:
 
   case 19:
 #line 206 "input_parser.yy" /* yacc.c:1646  */
-    { if ((yyvsp[0]).type==_IDNT) { const char * ch=(yyvsp[0]).print(context0).c_str(); if (ch[0]=='_' && unit_conversion_map().find(ch+1) != unit_conversion_map().end()) (yyval)=symbolic(at_convert,gen(makevecteur((yyvsp[-2]),symbolic(at_unit,makevecteur(1,(yyvsp[0])))) ,_SEQ__VECT)); else (yyval)=symb_sto((yyvsp[-2]),(yyvsp[0])); } else (yyval)=symb_sto((yyvsp[-2]),(yyvsp[0])); }
+    { if ((yyvsp[0]).type==_IDNT) { const std::string chs=(yyvsp[0]).print(context0); const char * ch=chs.c_str(); if (ch[0]=='_' && unit_conversion_map().find(ch+1) != unit_conversion_map().end()) (yyval)=symbolic(at_convert,gen(makevecteur((yyvsp[-2]),symbolic(at_unit,makevecteur(1,(yyvsp[0])))) ,_SEQ__VECT)); else (yyval)=symb_sto((yyvsp[-2]),(yyvsp[0])); } else (yyval)=symb_sto((yyvsp[-2]),(yyvsp[0])); }
 #line 3378 "y.tab.c" /* yacc.c:1646  */
     break;
 
