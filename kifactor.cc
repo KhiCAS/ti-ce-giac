@@ -67,7 +67,19 @@ namespace giac {
       mpz_neg(*(mpz_t *)&a,a);
       return b-res;
     }
-    mp_digit C; 
+    if (b>0xffff){
+      // mp_mod_d takes a 16-bit mp_digit (MP_16BIT): larger moduli (e.g. the 8388593 used by
+      // the modular resultant) were silently reduced mod b&0xffff
+      mp_int B,R;
+      mp_init_set_int(&B,b);
+      mp_init(&R);
+      mp_mod((mp_int *)&a,&B,&R);
+      int res=mp_get_int(&R);
+      mp_clear(&R);
+      mp_clear(&B);
+      return res;
+    }
+    mp_digit C;
     mp_mod_d((mp_int *)&a,b,&C);
     return C;
   }

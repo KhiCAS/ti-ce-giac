@@ -385,9 +385,10 @@ namespace giac {
       return ;
     }
     float m=ldexp(d,1); i=m;
-    if (i==m && -1e6<m && m<1e6){
-      i/=2;
-      sprintf(ch,"%i.5",i);
+    if (i==m && (i&1) && -1e6<m && m<1e6){ // (i even: d near an integer, on a host with 64-bit doubles)
+      // d=i/2 with i odd; print the sign first, i/2 truncates toward 0 (-0.5 would print as 0.5)
+      if (i<0){ *ch++='-'; i=-i; }
+      sprintf(ch,"%i.5",i/2);
       return;
     }
     ch[0]=0;
@@ -446,7 +447,15 @@ namespace giac {
       sprintf(ch,"0.00%i",i);
     else {
       int i1=i/100000,i2=i%100000;
-      sprintf(ch,"%i.%ie%i",i1,i2,exp10+5);
+      // "%i.%i" dropped leading zeros of the fraction (1050000. printed 1.5000e6):
+      // pad with the same q+i2 trick as above, then drop non significant trailing zeros
+      char ch2[8];
+      sprintf(ch2,"%i",100000+i2);
+      ch2[0]='.';
+      int l=strlen(ch2);
+      while (l>2 && ch2[l-1]=='0')
+        ch2[--l]=0;
+      sprintf(ch,"%i%se%i",i1,ch2,exp10+5);
       erase=false;
     }
     if (erase){
@@ -1365,7 +1374,7 @@ namespace giac {
     }
     int l=mpz_sizeinbase(mptr->z,2);
     // if (l<17){
-    if (l<32){
+    if (l<=INT_MAXSHIFT){
       g.type=_INT_;
       g.subtype=0;
       g.val = mpz_get_si(mptr->z);
@@ -1397,7 +1406,7 @@ namespace giac {
 
   gen::gen(const my_mpz& z){
     int l=mpz_sizeinbase(z.ptr,2);
-    if (l<32){
+    if (l<=INT_MAXSHIFT){
       type = _INT_;
       val = mpz_get_si(z.ptr);
     }
@@ -5024,7 +5033,7 @@ namespace giac {
       if (a.type==_ZINT && a.ref_count()==1){
 	mpz_t * ptr=a._ZINTptr;
 	mpz_sub(*ptr,*ptr,*b._ZINTptr);
-	if (mpz_sizeinbase(*ptr,2)<32){
+	if (mpz_sizeinbase(*ptr,2)<=INT_MAXSHIFT){
 	  return a=mpz_get_si(*ptr);
 	}
 	return a;
@@ -5041,7 +5050,7 @@ namespace giac {
 	mpz_sub_ui(*ptr,*ptr,b.val);
       else
 	mpz_add_ui(*ptr,*ptr,-b.val);
-      if (mpz_sizeinbase(*ptr,2)<32){
+      if (mpz_sizeinbase(*ptr,2)<=INT_MAXSHIFT){
 	return a=mpz_get_si(*ptr);
       }
       return a;
@@ -10126,11 +10135,11 @@ namespace giac {
       if (!d.type)
 	d.uncoerce();
       my_mpz_gcdext(*d._ZINTptr,*u._ZINTptr,*v._ZINTptr,*a._ZINTptr,*b._ZINTptr);
-      if (mpz_sizeinbase(*u._ZINTptr,2)<32)
+      if (mpz_sizeinbase(*u._ZINTptr,2)<=INT_MAXSHIFT)
 	u=mpz_get_si(*u._ZINTptr);
-      if (mpz_sizeinbase(*v._ZINTptr,2)<32)
+      if (mpz_sizeinbase(*v._ZINTptr,2)<=INT_MAXSHIFT)
 	v=mpz_get_si(*v._ZINTptr);
-      if (mpz_sizeinbase(*d._ZINTptr,2)<32)
+      if (mpz_sizeinbase(*d._ZINTptr,2)<=INT_MAXSHIFT)
 	d=mpz_get_si(*d._ZINTptr);
       break;
     default: 
