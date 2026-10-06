@@ -6761,8 +6761,10 @@ inline void check_freeze(){
   void draw_filled_polygon(vector< vector<int> > &L,int xmin,int xmax,int ymin,int ymax,int color){
     int n=L.size();
     // close polygon if it is open
-    if (L[n-1]!=L[0])
-      L.push_back(L[0]);
+    if (L[n-1]!=L[0]){
+      const vector<int> first(L[0]); // (push_back may move L: copy first)
+      L.push_back(first);
+    }
     else
       n--;
     // ordered list of ymin,x,index (ordered by ascending ymin)
@@ -6852,8 +6854,10 @@ inline void check_freeze(){
   }
 #ifndef TICE
   void draw_polygon(vector< vector<int> > & v1,int color){
-    if (v1.back()!=v1.front())
-      v1.push_back(v1.front());
+    if (v1.back()!=v1.front()){
+      const vector<int> first(v1.front()); // (push_back may move v1: copy first)
+      v1.push_back(first);
+    }
     int n=v1.size()-1;
     for (int i=0;i<n;++i){
       int x1=v1[i][0],y1=v1[i][1],x2=v1[i+1][0],y2=v1[i+1][1];

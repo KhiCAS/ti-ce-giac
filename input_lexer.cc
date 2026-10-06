@@ -4382,6 +4382,8 @@ int confirm(const char * msg1,const char * msg2,bool acexit=false);
       dbg_printf("lex %s\n",lexer_string.c_str());
 #endif
       YY_BUFFER_STATE state=giac_yy_scan_string(lexer_string,scanner);
+      // lexer_string is freed on return: giac_yyerror reads flex's own copy (lives until delete_lexer_string)
+      currently_scanned(contextptr)=state->yy_ch_buf;
 #ifndef WITH_QUAD      
       dbg_printf("lex done\n");
 #endif
