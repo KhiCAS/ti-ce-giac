@@ -132,132 +132,62 @@ namespace giac {
 
 #ifdef ALLOCSMALL
 
-  // 32 bytes structure: 4096/32=128 slots of memory
-  // ALLOCA  constants must be multiples of 2*32
-  static unsigned int freeslot11[ALLOC11/NBYTES_INT]={
-    0xffffff, 0xffffff, 0xffffff, 0xffffff,
-    0xffffff, 0xffffff, 0xffffff, 0xffffff,
-    0xffffff, 0xffffff, 0xffffff, 0xffffff,
+  // The used slots of each pool, one bit per slot (0: free), 256 slots so that a slot number is a
+  // byte; no free slot in the bytes below hint. On the TI-84 Plus CE, whose eZ80 has no divide
+  // instruction and shifts, ands and multiplies 24-bit ints by helper calls, words of 24 bits made
+  // each deletefast divide twice (pos/24, pos%24) besides the division by the slot size, and shift
+  // by a variable count: some 2500 cycles. Bytes need 8-bit operations, and the slot number of an
+  // odd size is an exact division: the low byte of the offset times the inverse of the size modulo
+  // 2^8 (11*0xA3, 15*0xEF, 9*0x39 are 1 modulo 256), one 8-bit multiplication.
+  struct small_pool {
+    unsigned char used[32];
+    unsigned char hint;
   };
-  static unsigned int freeslot15[ALLOC15/NBYTES_INT]={
-    0xffffff, 0xffffff, 0xffffff, 0xffffff,
-    0xffffff, 0xffffff, 0xffffff, 0xffffff,
-    0xffffff, 0xffffff, 0xffffff, 0xffffff,
-  };
-  static unsigned int freeslot16[ALLOC16/NBYTES_INT]={
-    0xffffff, 0xffffff, 0xffffff, 0xffffff,
-    0xffffff, 0xffffff, 0xffffff, 0xffffff,
-    0xffffff, 0xffffff, 0xffffff, 0xffffff,
-  };
-  static unsigned int freeslot36[ALLOC36/NBYTES_INT]={
-    0xffffff, 0xffffff, 0xffffff, 0xffffff,
-    0xffffff, 0xffffff, 0xffffff, 0xffffff,
-    0xffffff, 0xffffff, 0xffffff, 0xffffff,
-  };
+  static_assert(ALLOC11==256 && ALLOC15==256 && ALLOC16==256 && ALLOC36==256,"256 slots: a slot number is a byte");
+  static small_pool pool11,pool15,pool16,pool36;
+  static const unsigned char pool_bit[8]={1,2,4,8,16,32,64,128};
 
   char11 * tab11=0;
   char15 * tab15=0;
   char16 * tab16=0;  
   char36 * tab36=0;  
   
-  unsigned freeslotpos(unsigned n){
-    unsigned r=1;
-    if ( (n<<8)==0 ){
-      // bit15 to 0 are 0, position must be >=16
-      // otherwise position is <16
-      r+= 16;
-      n>>=16;
+  // a free slot of the pool, taken (its number), or -1
+  static int pool_take(small_pool & p){
+    for (unsigned char i=p.hint;i<sizeof(p.used);++i){
+      const unsigned char u=p.used[i];
+      if (u!=0xff){
+        unsigned char f=~u,k=0;
+        while (!(f&1)){
+          f>>=1;
+          ++k;
+        }
+        p.used[i]=u|pool_bit[k];
+        p.hint=i;
+        return (unsigned char)(i<<3)|k;
+      }
     }
-    if ( (n<<16)==0 ) {
-      // bit7 to 0 are 0, position must be >=8
-      // otherwise position is <8
-      r+= 8; 
-      n>>=8;
-    }
-    if ( (n<<20)==0 ) {
-      r+= 4;
-      n>>=4;
-    }
-    if ( (n<<22)==0 ) {
-      r+= 2;
-      n>>=2;
-    }
-    r -= n&1;
-    //dbg_printf("freeslotpos n=%x r=%i\n",n,r);
-    return r;
+    p.hint=sizeof(p.used);
+    return -1;
   }
-  
+
+  static void pool_give(small_pool & p,unsigned char pos){
+    const unsigned char i=pos>>3;
+    p.used[i] &= ~pool_bit[pos&7];
+    if (i<p.hint)
+      p.hint=i;
+  }
+
   static void * allocfast(size_t size){
-    //dbg_printf("allocfast %i\n",size);
-    int i,pos;
-    if (tab11 && size==11){ 
-      for (i=0;i<ALLOC11/NBYTES_INT;){
-	if (!(freeslot11[i] || freeslot11[i+1])){
-	  i+=2;
-	  continue;
-	}
-	if (freeslot11[i]){
-        end11:
-          pos=freeslotpos(freeslot11[i]);
-	  freeslot11[i] &= ~(1<<pos);
-          //dbg_printf("allocfast11 %x %x\n",tab11,tab11+i*NBYTES_INT+pos);
-	  return (void *) (tab11+i*NBYTES_INT+pos);
-	}
-	++i;
-        goto end11;
-      }
-    }
-    if (tab15 && size==15){ 
-      for (i=0;i<ALLOC15/NBYTES_INT;){
-	if (!(freeslot15[i] || freeslot15[i+1])){
-	  i+=2;
-	  continue;
-	}
-	if (freeslot15[i]){
-        end15:
-          pos=freeslotpos(freeslot15[i]);
-	  freeslot15[i] &= ~(1<<pos);
-          //dbg_printf("allocfast15 %x %x\n",tab15,tab15+i*NBYTES_INT+pos);
-	  return (void *) (tab15+i*NBYTES_INT+pos);
-	}
-	i++;
-        goto end15;
-      }
-    }
-    if (tab16 && size==16){ 
-      for (i=0;i<ALLOC16/NBYTES_INT;){
-	if (!(freeslot16[i] || freeslot16[i+1])){
-	  i+=2;
-	  continue;
-	}
-	if (freeslot16[i]){
-        end16:
-          pos=freeslotpos(freeslot16[i]);
-	  freeslot16[i] &= ~(1<<pos);
-          //dbg_printf("allocfast16 %x %x\n",tab16,tab16+i*NBYTES_INT+pos);
-	  return (void *) (tab16+i*NBYTES_INT+pos);
-	}
-	++i;
-        goto end16;
-      }
-    }
-    if (tab36 && size==36){ 
-      //dbg_printf("allocfast36 %x %x\n",tab36,tab36+i*NBYTES_INT+pos);
-      for (i=0;i<ALLOC36/NBYTES_INT;){
-	if (!(freeslot36[i] || freeslot36[i+1])){
-	  i+=2;
-	  continue;
-	}
-	if (freeslot36[i]){
-        end36:
-          pos=freeslotpos(freeslot36[i]);
-	  freeslot36[i] &= ~(1<<pos);
-	  return (void *) (tab36+i*NBYTES_INT+pos);
-	}
-	++i;
-        goto end36;
-      }
-    }
+    int pos;
+    if (tab11 && size==11 && (pos=pool_take(pool11))>=0)
+      return tab11+pos;
+    if (tab15 && size==15 && (pos=pool_take(pool15))>=0)
+      return tab15+pos;
+    if (tab16 && size==16 && (pos=pool_take(pool16))>=0)
+      return tab16+pos;
+    if (tab36 && size==36 && (pos=pool_take(pool36))>=0)
+      return tab36+pos;
     void * p =  malloc(size);
     if (!p)
       ctrl_c=interrupted=true;
@@ -265,59 +195,39 @@ namespace giac {
   }  
   
   static void deletefast(void * obj){
-    if ( ((size_t)obj >= (size_t) &tab11[0]) &&
-	 ((size_t)obj < (size_t) &tab11[ALLOC11]) ){
-      int pos= ((size_t)obj -((size_t) &tab11[0]))/sizeof(char11);
-      // dbg_printf("deletefast11 %x pos=%i\n",obj,pos);
-      freeslot11[pos/NBYTES_INT] |= (1 << (pos%NBYTES_INT)); 
+    // obj-tab, unsigned: below tab it is too large
+    size_t o=(size_t)obj-(size_t)tab11;
+    if (o<ALLOC11*sizeof(char11)){
+      pool_give(pool11,(unsigned char)((unsigned char)o*0xA3));
       return;
     }
-    if ( ((size_t)obj>=(size_t) &tab15[0] ) &&
-	 ((size_t)obj<(size_t) &tab15[ALLOC15] ) ){
-      int pos= ((size_t)obj -((size_t) &tab15[0]))/sizeof(char15);
-      //dbg_printf("deletefast15 %x pos=%i\n",obj,pos);
-      freeslot15[pos/NBYTES_INT] |= (1 << (pos%NBYTES_INT)); 
+    o=(size_t)obj-(size_t)tab15;
+    if (o<ALLOC15*sizeof(char15)){
+      pool_give(pool15,(unsigned char)((unsigned char)o*0xEF));
       return;
     }
-    if ( ((size_t)obj>=(size_t) &tab16[0] ) &&
-	 ((size_t)obj<(size_t) &tab16[ALLOC16] ) ){
-      int pos= ((size_t)obj -((size_t) &tab16[0]))/sizeof(char16);
-      //dbg_printf("deletefast16 %x pos=%i\n",obj,pos);
-      freeslot16[pos/NBYTES_INT] |= (1 << (pos%NBYTES_INT)); 
+    o=(size_t)obj-(size_t)tab16;
+    if (o<ALLOC16*sizeof(char16)){
+      pool_give(pool16,(unsigned char)(o>>4));
       return;
     }
-    if ( ((size_t)obj>=(size_t) &tab36[0] ) &&
-	 ((size_t)obj<(size_t) &tab36[ALLOC36] ) ){
-      int pos= ((size_t)obj -((size_t) &tab36[0]))/sizeof(char36);
-      //dbg_printf("deletefast36 %x pos=%i\n",obj,pos);
-      freeslot36[pos/NBYTES_INT] |= (1 << (pos%NBYTES_INT)); 
+    o=(size_t)obj-(size_t)tab36;
+    if (o<ALLOC36*sizeof(char36)){
+      pool_give(pool36,(unsigned char)((unsigned char)(o>>2)*0x39));
       return;
     }
     free(obj);
   }
-  
-  unsigned hamdist(unsigned val){
-    size_t res=0;
-    if (!val) return res;
-    for (int i=0;i<sizeof(unsigned);++i){
-      res += ((val >>i) & 1); 
-    }
-    return res;
-  }
 
-  size_t freeslotmem(){
+  size_t freeslotmem(){ // bytes in the free slots
     size_t res=0;
-    for (int i=0;i<ALLOC11/NBYTES_INT;++i){
-      res += 11*hamdist(freeslot11[i]);
-    }
-    for (int i=0;i<ALLOC15/NBYTES_INT;++i){
-      res += 15*hamdist(freeslot15[i]);
-    }
-    for (int i=0;i<ALLOC16/NBYTES_INT;++i){
-      res += 16*hamdist(freeslot16[i]);
-    }
-    for (int i=0;i<ALLOC36/NBYTES_INT;++i){
-      res += 36*hamdist(freeslot36[i]);
+    for (unsigned i=0;i<sizeof(pool11.used);++i){
+      for (unsigned k=0;k<8;++k){
+        if (!(pool11.used[i]&pool_bit[k])) res += 11;
+        if (!(pool15.used[i]&pool_bit[k])) res += 15;
+        if (!(pool16.used[i]&pool_bit[k])) res += 16;
+        if (!(pool36.used[i]&pool_bit[k])) res += 36;
+      }
     }
     return res;
   }

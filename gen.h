@@ -104,10 +104,10 @@ namespace giac {
   size_t freeslotmem();
 #define NBYTES_INT (SIZEOF_INT*8)
   
-  const int ALLOC11=12*NBYTES_INT; // symbolic 24*12=288*11 
-  const int ALLOC15=12*NBYTES_INT; // vecteur 24*12=288*15 
-  const int ALLOC16=12*NBYTES_INT; // complex 24*12=288*16 
-  const int ALLOC36=12*NBYTES_INT; // eqwdata 24*12=288*36 total 288*78=22.5Ko
+  const int ALLOC11=256; // 12*NBYTES_INT; // symbolic 24*12=288*11 
+  const int ALLOC15=256; // 12*NBYTES_INT; // vecteur 24*12=288*15 
+  const int ALLOC16=256; // 12*NBYTES_INT; // complex 24*12=288*16 
+  const int ALLOC36=256; // 12*NBYTES_INT; // eqwdata 24*12=288*36 total 288*78=22.5Ko
 
 #ifdef USE_GMP_REPLACEMENTS
 #undef HAVE_GMPXX_H
