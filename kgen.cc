@@ -31,6 +31,7 @@ using namespace std;
 #ifdef TICE
 //extern "C" long my_strtol(const char * nptr, char ** endptr, int base);
 #include <ti/real.h>
+#include <stdint.h>
 #endif
 #define __USE_ISOC9X 1
 #include <stdexcept>
@@ -291,13 +292,32 @@ namespace giac {
 // format is currently ignored, keep only 6 digits (round) 
   void sprintfdouble(char * ch,const char * format,double d){
     // sprintf(ch, "%f", d); return;
-    int i=d;
-    if (i==d && -1e6<d && d<1e6){
+    // Reject special values before integer casts; OS float helpers also need
+    // negative zero and subnormals normalized.
+    int exp10_adjust=0;
+    switch (fpclassify(d)){
+    case FP_NAN: strcpy(ch,"nan"); return;
+    case FP_INFINITE: strcpy(ch,d<0?"-inf":"inf"); return;
+    case FP_ZERO: strcpy(ch,"0.0"); return;
+    case FP_SUBNORMAL: {
+      uint32_t bits;
+      memcpy(&bits,&d,sizeof(bits));
+      // A binary32 subnormal is mantissa*2^-149. Scale it by 1e9 using
+      // normal operands, then restore the decimal exponent below.
+      d=(bits&0x7fffffU)*1.401298464324817e-36f;
+      if (bits&0x80000000U)
+        d=-d;
+      exp10_adjust=-9;
+      break;
+    }
+    }
+    int i;
+    if (-1e6<d && d<1e6 && (i=d)==d){
       sprintf(ch,"%i.0",i);
       return ;
     }
-    float m=ldexp(d,1); i=m;
-    if (i==m && (i&1) && -1e6<m && m<1e6){ // (i even: d near an integer, on a host with 64-bit doubles)
+    float m=ldexp(d,1);
+    if (-1e6<m && m<1e6 && (i=m)==m && (i&1)){ // (i even: d near an integer, on a host with 64-bit doubles)
       // d=i/2 with i odd; print the sign first, i/2 truncates toward 0 (-0.5 would print as 0.5)
       if (i<0){ *ch++='-'; i=-i; }
       sprintf(ch,"%i.5",i/2);
@@ -335,6 +355,7 @@ namespace giac {
       i=100000;
       exp10++;
     }
+    exp10+=exp10_adjust;
     if (!pos){
       ch[0]='-';
       ++ch;
