@@ -4216,6 +4216,17 @@ void displaygraph(const giac::gen & ge){
     y_scale=(LCD_HEIGHT_PX-STATUS_AREA_PX)/(window_ymax-window_ymin);    
   }
 
+  // Cached ticks are already numeric; converting them must not poll Clear.
+  static bool drawing_double(const gen & value,double & result){
+    if (value.type==_INT_)
+      result=value.val;
+    else if (value.type==_DOUBLE_)
+      result=value._DOUBLE_val;
+    else
+      return false;
+    return __builtin_isfinite(result);
+  }
+
   bool Graph2d::findij(const gen & e0,double x_scale,double y_scale,double & i0,double & j0,GIAC_CONTEXT) const {
     if ( (display_mode&0xc00)==0 && e0.type==_CPLX && e0.subtype==3){
       i0=(e0._CPLXptr->_DOUBLE_val-window_xmin)*x_scale;
@@ -4759,9 +4770,10 @@ void displaygraph(const giac::gen & ge){
     double x_scale=LCD_WIDTH_PX/(window_xmax-window_xmin);
     double y_scale=(LCD_HEIGHT_PX-STATUS_AREA_PX)/(window_ymax-window_ymin);
     double i,j;
-    findij(G,x_scale,y_scale,i,j,contextptr);
-    current_i=int(i+.5);
-    current_j=int(j+.5);
+    if (findij(G,x_scale,y_scale,i,j,contextptr)){
+      current_i=int(i+.5);
+      current_j=int(j+.5);
+    }
     python_compat(p,contextptr);
   }
 
@@ -5045,7 +5057,10 @@ void displaygraph(const giac::gen & ge){
 	  gen e1=diametre._VECTptr->front().evalf_double(1,contextptr),e2=diametre._VECTptr->back().evalf_double(1,contextptr);
 	  gen centre=rdiv(e1+e2,2.0,contextptr);
 	  gen e12=e2-e1;
-	  double ex=evalf_double(re(e12,contextptr),1,contextptr)._DOUBLE_val,ey=evalf_double(im(e12,contextptr),1,contextptr)._DOUBLE_val;
+	  double ex,ey;
+          if (!drawing_double(evalf_double(re(e12,contextptr),1,contextptr),ex) ||
+              !drawing_double(evalf_double(im(e12,contextptr),1,contextptr),ey))
+            return;
 	  if (!Mon_image.findij(centre,x_scale,y_scale,i0,j0,contextptr))
 	    return;
 	  gen diam=std::sqrt(ex*ex+ey*ey);
@@ -5333,8 +5348,8 @@ void displaygraph(const giac::gen & ge){
     drawRectangle(0,STATUS_AREA_PX,LCD_WIDTH_PX,LCD_HEIGHT_PX-STATUS_AREA_PX,COLOR_WHITE);//Bdisp_AllClr_VRAM();
     // Draw axis
     double I0,J0;
-    findij(zero,x_scale,y_scale,I0,J0,contextptr); // origin
-    int i_0=round(I0),j_0=round(J0);
+    bool origin_valid=findij(gen(0.0),x_scale,y_scale,I0,J0,contextptr);
+    int i_0=origin_valid?round(I0):0,j_0=origin_valid?round(J0):0;
     vecteur affx,affy; int affxs,affys;
     if (show_axes){ 
       int taille,delta;
@@ -5343,7 +5358,8 @@ void displaygraph(const giac::gen & ge){
       affx=ticks(window_xmin,window_xmax,true);
       affxs=affx.size();
       for (int i=0;i<affxs;++i){
-	double d=evalf_double(affx[i],1,contextptr)._DOUBLE_val;
+	double d;
+        if (!drawing_double(affx[i],d)) continue;
 	if (fabs(d)<1e-6) strcpy(ch,"0"); else sprintfdouble(ch,"",d);
 	delta=int((d-window_xmin)*x_scale);//int(horizontal_pixels*(d-window_xmin)/(window_xmax-window_xmin));
 	taille=strlen(ch)*4;
@@ -5359,7 +5375,8 @@ void displaygraph(const giac::gen & ge){
       affys=affy.size();
       taille=3;
       for (int j=0;j<affys;++j){
-	double d=evalf_double(affy[j],1,contextptr)._DOUBLE_val;
+	double d;
+        if (!drawing_double(affy[j],d)) continue;
 	if (fabs(d)<1e-6) strcpy(ch,"0"); else sprintfdouble(ch,"",d);
 	delta=int((window_ymax-d)*y_scale);//int(vertical_pixels*(window_ymax-d)/(window_ymax-window_ymin));
 	if (delta>=taille && delta<=vertical_pixels-taille){
@@ -5370,7 +5387,7 @@ void displaygraph(const giac::gen & ge){
 	}
       }
     }
-    if (show_axes &&  (window_ymax>=0) && (window_ymin<=0)){ // X-axis
+    if (origin_valid && show_axes && (window_ymax>=0) && (window_ymin<=0)){ // X-axis
       char ch[256];
       int color=convertcolor(COLOR_GREEN);
       for (int I=0;I<=horizontal_pixels;++I)
@@ -5381,7 +5398,8 @@ void displaygraph(const giac::gen & ge){
       //check_fl_line(deltax,deltay+j_0,deltax+horizontal_pixels,deltay+j_0,clip_x,clip_y,clip_w,clip_h,0,0,COLOR_GREEN); 
       //check_fl_line(deltax+i_0,deltay+j_0,deltax+i_0+int(x_scale),deltay+j_0,clip_x,clip_y,clip_w,clip_h,0,0,COLOR_CYAN);
       for (int i=0;i<affxs;++i){
-	double d=evalf_double(affx[i],1,contextptr)._DOUBLE_val;
+	double d;
+        if (!drawing_double(affx[i],d)) continue;
 	sprint_double(ch,d);
 	int delta=int((d-window_xmin)*x_scale);//int(horizontal_pixels*(d-window_xmin)/(window_xmax-window_xmin));
 	int taille=strlen(ch)*9;
@@ -5391,7 +5409,7 @@ void displaygraph(const giac::gen & ge){
       }
       // check_fl_draw(labelsize,"x",deltax+horizontal_pixels-40,deltay+j_0-4,clip_x,clip_y,clip_w,clip_h,0,0,COLOR_GREEN);
     }
-    if ( show_axes && (window_xmax>=0) && (window_xmin<=0) ) {// Y-axis
+    if (origin_valid && show_axes && (window_xmax>=0) && (window_xmin<=0)){ // Y-axis
       char ch[256];
       int color=convertcolor(COLOR_RED);
       for (int J=0;J<=vertical_pixels;++J)
@@ -5403,7 +5421,8 @@ void displaygraph(const giac::gen & ge){
       // check_fl_line(deltax+i_0,deltay+j_0,deltax+i_0,deltay+j_0-int(y_scale),clip_x,clip_y,clip_w,clip_h,0,0,COLOR_CYAN);
       int taille=3;
       for (int j=0;j<affys;++j){
-	double d=evalf_double(affy[j],1,contextptr)._DOUBLE_val;
+	double d;
+        if (!drawing_double(affy[j],d)) continue;
 	sprint_double(ch,d);
 	int delta=int((window_ymax-d)*y_scale);//int(vertical_pixels*(window_ymax-d)/(window_ymax-window_ymin));
 	if (delta>=taille && delta<=vertical_pixels-taille){
