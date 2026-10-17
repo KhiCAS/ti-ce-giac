@@ -636,6 +636,12 @@ namespace giac {
 #else
     vector<modpoly>::const_iterator it[n+1],itend=v_in.end(),itbegin=v_in.begin(), current;
 #endif
+    for (int j=0;j<n;j++){
+      if (v_in[j].size()<2){ // (interrupted: a factor left empty)
+        delete [] it;
+        return;
+      }
+    }
     vector<int> degrees(n); // records degrees of v_in polynomials
     for (int j=0;j<n;j++)
       degrees[j]=int(v_in[j].size())-1;

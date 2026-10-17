@@ -3217,7 +3217,10 @@ namespace giac {
       if (is_fully_numeric(a))
 	res=a;
       else {
-	res=*evalf_VECT(a,0,1,contextptr)._VECTptr;
+	gen ev=evalf_VECT(a,0,1,contextptr);
+	if (ev.type!=_VECT || !ckmatrix(*ev._VECTptr)) // (interrupted: an error value)
+	  return 0;
+	res=*ev._VECTptr;
 	num_mat=is_fully_numeric(res);
       }
       if (algorithm==RREF_GUESS)
@@ -3229,7 +3232,10 @@ namespace giac {
     if (convert_internal){
       // convert a to internal form
       alg_lvar_halftan_tsimplify(res,lv,contextptr);
-      res = *(e2r(res,lv,contextptr)._VECTptr);
+      gen er=e2r(res,lv,contextptr);
+      if (er.type!=_VECT || !ckmatrix(*er._VECTptr)) // (interrupted: an error value)
+	return 0;
+      res = *er._VECTptr;
       if (lv.size()==1 && lv.front().type==_VECT && lv.front()._VECTptr->empty()){
 	// cleanup res
 	int i=0;
@@ -3539,6 +3545,8 @@ namespace giac {
 #endif // XLIGHT
     }
 
+    if (!ckmatrix(res)) // (interrupted: a row is an error value)
+      return 0;
     std_matrix<gen> M;
     matrice2std_matrix_gen(res,M);
     // vecteur vtemp;
@@ -3552,9 +3560,11 @@ namespace giac {
     if (fullreductionafter){ 
       det=M[lmax-1][c-linit+lmax-1];
       if (status==3 || is_exactly_zero(det)){
-      //if (status==3 || is_zero(det,contextptr) ){ 
+	//if (status==3 || is_zero(det,contextptr) ){
 	// not Cramer like, re-reduce, 
 	pivots.clear();
+	if (!ckmatrix(res))
+	  return 0;
 	matrice2std_matrix_gen(res,M); det=detnum=detnumsave;// this should be commented but some outputs are more complicated
 	rref_reduce(M,pivots,permutation,det,detnum,algorithm,l,lmax,c,cmax,dont_swap_below,rref_or_det_or_lu,fullreduction,eps,step_rref,lv,convert_internal,contextptr);
       }

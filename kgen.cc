@@ -2748,7 +2748,9 @@ namespace giac {
   gen gen::evalf_double(int level,const context * contextptr) const{
     if (type==_DOUBLE_)
       return *this;
-    if (type==_INT_ && subtype==_INT_BOOLEAN)
+    if (type==_INT_
+	//&& subtype==_INT_BOOLEAN
+	)
       return double(val);
     gen g;
     if (has_evalf(*this,g,level,contextptr)){

@@ -2283,7 +2283,12 @@ namespace giac {
       if (t==1){
 	vecteur w;
 	identificateur x(" x");
-	in_solve(symb_horner(*(r2sym(v,lt,ltend,contextptr)._VECTptr),x),x,w,1,contextptr); 
+	gen rv=r2sym(v,lt,ltend,contextptr);
+	if (rv.type!=_VECT)
+	  return rv;
+	in_solve(symb_horner(*rv._VECTptr,x),x,w,1,contextptr);
+	if (w.empty()) // (interrupted)
+	  return undef;
 #ifndef NO_STDEXCEPT
 	try {
 #endif

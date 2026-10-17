@@ -5319,7 +5319,7 @@ void displaygraph(const giac::gen & ge){
       swapdouble(xmin,xmax);
     double dx=xmax-xmin;
     vecteur res;
-    if (dx==0)
+    if (dx<=0)
       return res;
     double d=std::pow(10.0,std::floor(std::log10(dx)));
     if (dx<2*d)
@@ -5363,10 +5363,10 @@ void displaygraph(const giac::gen & ge){
 	if (fabs(d)<1e-6) strcpy(ch,"0"); else sprintfdouble(ch,"",d);
 	delta=int((d-window_xmin)*x_scale);//int(horizontal_pixels*(d-window_xmin)/(window_xmax-window_xmin));
 	taille=strlen(ch)*4;
-        os_set_pixel(delta,vertical_pixels+STATUS_AREA_PX-1,COLOR_GREEN);
-        os_set_pixel(delta,vertical_pixels+STATUS_AREA_PX-2,COLOR_GREEN);
 	//fl_line(delta,vertical_pixels+STATUS_AREA_PX-2,delta,vertical_pixels+STATUS_AREA_PX-1,COLOR_GREEN);
 	if (delta>=taille/2 && delta<=horizontal_pixels){
+	  os_set_pixel(delta,vertical_pixels+STATUS_AREA_PX-1,COLOR_GREEN);
+	  os_set_pixel(delta,vertical_pixels+STATUS_AREA_PX-2,COLOR_GREEN);
 	  text_print(6,ch,delta-taille/2,vertical_pixels+STATUS_AREA_PX-2,COLOR_GREEN);
 	}
       }

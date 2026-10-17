@@ -1396,13 +1396,21 @@ namespace giac {
     }
     // take re and im since coeffs are reals
     // FIXME: should have a better algo for rational coeffs
-    mat=mergevecteur(*re(mat,contextptr)._VECTptr,*im(mat,contextptr)._VECTptr);
+    gen remat=re(mat,contextptr),immat=im(mat,contextptr);
+    if (remat.type!=_VECT || immat.type!=_VECT){ // (interrupted: an error value)
+      wrt.push_back(g);
+      res.push_back(plus_one);
+      return res;
+    }
+    mat=mergevecteur(*remat._VECTptr,*immat._VECTptr);
     // find solutions in kernel of mat
     matrice noyau=mker(mat,contextptr);
     // try each row of noyau that has a non-zero last coeff
     // since the first row coeff is -1 all coeff must be rationals
     int ns=int(noyau.size());
     for (int i=0;i<ns;++i){
+      if (noyau[i].type!=_VECT || noyau[i]._VECTptr->empty()) // (interrupted)
+	continue;
       vecteur & w=*noyau[i]._VECTptr;
       if (is_zero(w.back()))
 	continue;
@@ -2012,7 +2020,10 @@ namespace giac {
     vecteur vars(1,cst_pi);
     lvar(newl,vars);
     vecteur ln_vars(lop(newl,at_ln));
-    vecteur independant(*e2r(ln_vars,vars,contextptr)._VECTptr);
+    gen ei=e2r(ln_vars,vars,contextptr);
+    if (ei.type!=_VECT) // (interrupted)
+      return e;
+    vecteur independant(*ei._VECTptr);
     int n_ln=int(independant.size());
     independant.push_back(e2r(cst_ipi(),vars,contextptr));
     matrice m;
@@ -2403,7 +2414,10 @@ namespace giac {
     vecteur bases,bases2;
     if (vabs2.size()>1){
 #ifdef NO_STDEXCEPT
-      vecteur vabs2tmp=*tsimplify_common(vabs2,contextptr)._VECTptr;
+      gen vt=tsimplify_common(vabs2,contextptr);
+      if (vt.type!=_VECT) // (interrupted: an error value, not a list)
+        return e_orig;
+      vecteur vabs2tmp=*vt._VECTptr;
       if (is_undef(vabs2tmp)){
 	*logptr(contextptr) << vabs2tmp << "\n";
 	return e_orig;

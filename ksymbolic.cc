@@ -255,13 +255,13 @@ namespace giac {
       s[l-1]='-';
       isneg=false;
     }
-    bool bt=f.type==_SYMB && (f._SYMBptr->sommet==at_plus || f._SYMBptr->sommet==at_inv || f._SYMBptr->sommet==at_prod || need_parenthesis(f._SYMBptr->sommet));
+    bool bt=f.type==_SYMB && (f._SYMBptr->sommet==at_plus || f._SYMBptr->sommet==at_inv || f._SYMBptr->sommet==at_prod || f._SYMBptr->sommet==at_division || need_parenthesis(f._SYMBptr->sommet));
     if ( !bt && (f.type!=_CPLX) && (f.type!=_MOD)){
       s += (isneg?(calc38?"−1/":"-1/"):"1/");
       return add_print(s,f,contextptr);
     }
     else {
-      s += (isneg?(calc38?"−1/(":"-1"):"1/(");
+      s += (isneg?(calc38?"−1/(":"-1/("):"1/(");
       add_print(s,f,contextptr);
       s += ")";
       return s;
@@ -315,7 +315,7 @@ namespace giac {
 	  if (i){
 	    if ( (f.type==_CPLX) || (f.type==_MOD) ||
 		 ((f.type==_SYMB) && 
-		  ( (f._SYMBptr->sommet==at_plus) || (f._SYMBptr->sommet==at_prod) || need_parenthesis(f._SYMBptr->sommet) || f._SYMBptr->sommet==at_inv || (f._SYMBptr->sommet==at_pow && f._SYMBptr->feuille[0].is_inv())))
+		  ( (f._SYMBptr->sommet==at_plus) || (f._SYMBptr->sommet==at_prod) || need_parenthesis(f._SYMBptr->sommet) || f._SYMBptr->sommet==at_inv || f._SYMBptr->sommet==at_division || (f._SYMBptr->sommet==at_pow && f._SYMBptr->feuille[0].is_inv())))
 		 ){
 	      s += "/(";
 	      add_print(s,f,contextptr);
