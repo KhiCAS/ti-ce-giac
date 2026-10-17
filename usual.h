@@ -567,6 +567,7 @@ namespace giac {
   gen _Dirac(const gen & args,GIAC_CONTEXT);
 
   gen cst_ipi();
+  gen gen_oom();
 #if defined(GIAC_GENERIC_CONSTANTS) // || (defined(VISUALC) && !defined(RTOS_THREADX)) || defined(x86_64)
   extern const gen zero;
   extern const gen plus_one;

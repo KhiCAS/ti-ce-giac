@@ -223,7 +223,7 @@ namespace giac {
 #endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
-      return monomial<gen>(gensizeerr(gettext("Stopped by user interruption.")),th.dim);
+      return monomial<gen>(gen_oom(),th.dim);
     }
     // Tensor addition
     vector< monomial<gen> >::const_iterator a=th.coord.begin();
@@ -303,7 +303,7 @@ namespace giac {
 #endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
-      return monomial<gen>(gensizeerr(gettext("Stopped by user interruption.")),th.dim);
+      return monomial<gen>(gen_oom(),th.dim);
     }
     // Tensor addition
     vector< monomial<gen> >::const_iterator a=th.coord.begin();
@@ -338,7 +338,7 @@ namespace giac {
 #endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
-      return monomial<gen>(gensizeerr(gettext("Stopped by user interruption.")),th.dim);
+      return monomial<gen>(gen_oom(),th.dim);
     }
     // Tensor constant multiplication
     if (fact.type!=_MOD && fact==gen(1))
@@ -591,7 +591,7 @@ namespace giac {
 #endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
-      res=monomial<gen>(gensizeerr(gettext("Stopped by user interruption.")),th.dim); 
+      res=monomial<gen>(gen_oom(),th.dim);
       return;
     }
     /*
@@ -740,7 +740,7 @@ namespace giac {
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
       res.coord.clear();
-      res.coord.push_back(monomial<gen>(gensizeerr(gettext("Stopped by user interruption.")),res.dim));
+      res.coord.push_back(monomial<gen>(gen_oom(),res.dim));
       return false;
     }
     if (0 && th.dim==1 && u>10){
@@ -2468,7 +2468,7 @@ namespace giac {
 #endif
       if (ctrl_c || interrupted){
 	ctrl_c=false; interrupted=true;
-	d.coord.push_back(monomial<gen>(gensizeerr(gettext("Stopped by user interruption.")),d.dim));
+	d.coord.push_back(monomial<gen>(gen_oom(),d.dim));
 	return d;
       }
     }
@@ -3649,7 +3649,7 @@ namespace giac {
 #endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
-      d=monomial<gen>(gensizeerr(gettext("Stopped by user interruption.")),p.dim); 
+      d=monomial<gen>(gen_oom(),p.dim);
       return ;
     }
     if (p.coord.empty()){

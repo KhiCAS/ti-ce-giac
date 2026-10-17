@@ -3857,7 +3857,7 @@ namespace giac {
 #endif
 	  if (ctrl_c || interrupted) { 
 	    interrupted = true; ctrl_c=false;
-	    return gensizeerr(gettext("Stopped by user interruption.")); 
+	    return gen_oom();//gensizeerr(gettext("Stopped by user interruption."));
 	  }
 	  d=subst(invdf,x,a,false,contextptr);
 	  // of << k << " " << d << " " << invdf << " " << x << " " << a << " ";
@@ -3939,7 +3939,7 @@ namespace giac {
 #endif
 	  if (ctrl_c || interrupted) { 
 	    interrupted = true; ctrl_c=false;
-	    return gensizeerr(gettext("Stopped by user interruption.")); 
+	    return gen_oom();//gensizeerr(gettext("Stopped by user interruption."));
 	  }
 	  if (inv_after)
 	    d=linsolve(evalf(subst(invdf,x,a,false,contextptr),1,contextptr),-subst(f,x,a,false,contextptr),contextptr);

@@ -750,7 +750,7 @@ namespace giac {
     control_c();
 #endif
     if (ctrl_c || interrupted)
-      return gensizeerr("Interrupted");
+      return gen_oom();//gensizeerr("Interrupted");
     gen ba=n/a;
     if (a!=n)
       a=ifactor2(a,v,do_pollard,contextptr);

@@ -9332,6 +9332,14 @@ double my_tan(double arg){
   }
 
   // vector<unary_function_ptr > solve_fcns_v(solve_fcns,solve_fcns+sizeof(solve_fcns)/sizeof(unary_function_ptr));
+  gen gen_oom(){
+    static gen gen_oom_s;
+    if (gen_oom_s.type==0){
+      gen_oom_s=string2gen("User interrupt or Out of memory",false);
+      gen_oom_s.subtype=-1;
+    }
+    return gen_oom_s;
+  }
 
   // #ifndef GNUWINCE
   // #ifndef WIN32

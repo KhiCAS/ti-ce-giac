@@ -3043,7 +3043,7 @@ namespace giac {
     if (ctrl_c || interrupted) { 
       gen res;
       interrupted = true; ctrl_c=false;
-      gensizeerr(gettext("Stopped by user interruption."),res);
+      res=gen_oom();//gensizeerr(gettext("Stopped by user interruption."),res);
       return res;
     }
     if (e.type==_VECT)

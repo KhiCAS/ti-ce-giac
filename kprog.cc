@@ -1411,7 +1411,7 @@ namespace giac {
     control_c();
 #endif
     if (ctrl_c || interrupted || args._VECTptr->size()!=3){
-      gensizeerr(res,contextptr);
+      res=gen_oom();//gensizeerr(res,contextptr);
       return res;
     }
     calc_save=calc_mode(contextptr)==38;
@@ -2360,7 +2360,7 @@ namespace giac {
 	      if (ctrl_c || interrupted || (res.type==_STRNG && res.subtype==-1)){
 		interrupted = true; ctrl_c=false;
 		*logptr(contextptr) << gettext("Stopped in loop") << "\n";
-		gensizeerr(gettext("Stopped by user interruption."),res);
+		res=gen_oom();//gensizeerr(gettext("Stopped by user interruption."),res);
 		break;
 	      }
 	      res=*it;

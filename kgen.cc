@@ -2317,7 +2317,7 @@ namespace giac {
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
       *logptr(contextptr) << "Stopped in in_eval" << endl;
-      gensizeerr(gettext("Stopped by user interruption."),evaled);
+      evaled=gen_oom();
       return true;
     }    
     if (!level)
@@ -2494,7 +2494,7 @@ namespace giac {
 #endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
-      return gensizeerr(gettext("Stopped by user interruption.")); 
+      return gen_oom();//gensizeerr(gettext("Stopped by user interruption."));
     }
     if (level==0)
       return *this;
@@ -4364,7 +4364,7 @@ namespace giac {
 #endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
-      return a=gensizeerr(gettext("Stopped by user interruption.")); 
+      return a=gen_oom();//gensizeerr(gettext("Stopped by user interruption."));
     }
     return a=operator_plus(a,b,contextptr);
   }
@@ -4384,7 +4384,7 @@ namespace giac {
 #endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
-      return gensizeerr(gettext("Stopped by user interruption.")); 
+      return gen_oom();//gensizeerr(gettext("Stopped by user interruption."));
     }
     register ref_mpz_t * e;
     switch ( t ) {
@@ -4561,7 +4561,7 @@ namespace giac {
 #endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
-      return gensizeerr(gettext("Stopped by user interruption.")); 
+      return gen_oom();//gensizeerr(gettext("Stopped by user interruption."));
     }
     bool adeuxpoints=a.is_symb_of_sommet(at_deuxpoints);
     if ( (a.is_interval() || adeuxpoints)&& a._SYMBptr->feuille.type==_VECT && a._SYMBptr->feuille._VECTptr->size()==2)
@@ -4996,7 +4996,7 @@ namespace giac {
 #endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
-      return a=gensizeerr(gettext("Stopped by user interruption.")); 
+      return a=gen_oom();//gensizeerr(gettext("Stopped by user interruption."));
     }      
     return a=operator_minus(a,b,contextptr);
   }
@@ -5008,7 +5008,7 @@ namespace giac {
 #endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
-      return gensizeerr(gettext("Stopped by user interruption.")); 
+      return gen_oom();//gensizeerr(gettext("Stopped by user interruption."));
     }      
     register ref_mpz_t * e;
     switch ( t) {
@@ -5123,7 +5123,7 @@ namespace giac {
 #endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
-      return gensizeerr(gettext("Stopped by user interruption.")); 
+      return gen_oom();//gensizeerr(gettext("Stopped by user interruption."));
     }
 #ifdef WITH_UNITS
     if (a.is_symb_of_sommet(at_unit) || b.is_symb_of_sommet(at_unit))
@@ -5634,7 +5634,7 @@ namespace giac {
 #endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
-      return gensizeerr(gettext("Stopped by user interruption.")); 
+      return gen_oom();//gensizeerr(gettext("Stopped by user interruption."));
     }
     register ref_mpz_t * e;
     switch (t) {
@@ -6044,7 +6044,7 @@ namespace giac {
 #endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
-      return gensizeerr(gettext("Stopped by user interruption.")); 
+      return gen_oom();//gensizeerr(gettext("Stopped by user interruption."));
     }
     if (exponent.type==_INT_){
       if (exponent.val==1) return base;
@@ -6403,7 +6403,7 @@ namespace giac {
 #endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
-      return gensizeerr(gettext("Stopped by user interruption.")); 
+      return gen_oom();//gensizeerr(gettext("Stopped by user interruption."));
     }
     if (is_undef(a))
       return a;
@@ -6731,7 +6731,7 @@ namespace giac {
 #endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
-      return gensizeerr(gettext("Stopped by user interruption.")); 
+      return gen_oom();//gensizeerr(gettext("Stopped by user interruption."));
     }
     if ( (a.type==_DOUBLE_  )? a==0 : is_exactly_zero(a))
       return unsigned_inf;
@@ -6861,7 +6861,7 @@ namespace giac {
 #endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
-      return gensizeerr(gettext("Stopped by user interruption.")); 
+      return gen_oom();//gensizeerr(gettext("Stopped by user interruption."));
     }
     ref_mpz_t * e;
     gen res;
@@ -7125,7 +7125,7 @@ namespace giac {
 #endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
-      return gensizeerr(gettext("Stopped by user interruption.")); 
+      return gen_oom();//gensizeerr(gettext("Stopped by user interruption."));
     }
     if (b.type==_MOD)
       return a*inv(b,contextptr);
@@ -7224,7 +7224,7 @@ namespace giac {
 #endif
       if (ctrl_c || interrupted) { 
 	interrupted = true; ctrl_c=false;
-	return gensizeerr(gettext("Stopped by user interruption.")); 
+	return gen_oom();//gensizeerr(gettext("Stopped by user interruption."));
       }
       if (is_undef(a))
 	return a;
@@ -10720,7 +10720,7 @@ namespace giac {
       control_c();
 #endif
       if (ctrl_c || interrupted)
-	return gensizeerr(gettext("Interrupted"));
+	return gen_oom();//gensizeerr(gettext("Interrupted"));
       if (is_probab_prime_p(res))
 	return(res);
     }
@@ -10741,7 +10741,7 @@ namespace giac {
       control_c();
 #endif
       if (ctrl_c || interrupted)
-	return gensizeerr(gettext("Interrupted"));
+	return gen_oom();//gensizeerr(gettext("Interrupted"));
       if (is_probab_prime_p(res))
 	return(res);
     }

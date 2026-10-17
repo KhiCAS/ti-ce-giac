@@ -485,7 +485,7 @@ namespace giac {
 #endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
-      return modpoly(1,gensizeerr(gettext("Stopped by user interruption."))); 
+      return modpoly(1,gen_oom());
     }
     // Tensor addition
     if (th.empty())
@@ -503,7 +503,7 @@ namespace giac {
 #endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
-      return modpoly(1,gensizeerr(gettext("Stopped by user interruption."))); 
+      return modpoly(1,gen_oom());
     }
     // Tensor addition
     if (th.empty())
@@ -647,7 +647,7 @@ namespace giac {
 #endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
-      return modpoly(1,gensizeerr(gettext("Stopped by user interruption."))); 
+      return modpoly(1,gen_oom());
     }
     // Tensor sub
     if (th.empty())
@@ -665,7 +665,7 @@ namespace giac {
 #endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
-      return modpoly(1,gensizeerr(gettext("Stopped by user interruption."))); 
+      return modpoly(1,gen_oom());
     }
     // Tensor sub
     if (th.empty())
@@ -761,7 +761,7 @@ namespace giac {
 #endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
-      return modpoly(1,gensizeerr(gettext("Stopped by user interruption."))); 
+      return modpoly(1,gen_oom());
     }
     // Tensor constant multiplication
     if (is_one(fact))
@@ -777,7 +777,7 @@ namespace giac {
 #endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
-      return modpoly(1,gensizeerr(gettext("Stopped by user interruption."))); 
+      return modpoly(1,gen_oom());
     }
     if (is_one(fact))
       return th;
@@ -799,7 +799,7 @@ namespace giac {
 #endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
-      return modpoly(1,gensizeerr(gettext("Stopped by user interruption."))); 
+      return modpoly(1,gen_oom());
     }
     // Tensor constant multiplication
     if (is_one(fact))
@@ -815,7 +815,7 @@ namespace giac {
 #endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
-      return modpoly(1,gensizeerr(gettext("Stopped by user interruption."))); 
+      return modpoly(1,gen_oom());
     }
     if (is_one(fact))
       return th;
@@ -1612,7 +1612,7 @@ namespace giac {
 #endif
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
-      new_coord=modpoly(1,gensizeerr(gettext("Stopped by user interruption."))); 
+      new_coord=modpoly(1,gen_oom());
       return;
     }
     if (env && env->moduloon && is_zero(env->coeff)){

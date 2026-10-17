@@ -855,7 +855,7 @@ namespace giac {
       control_c();
 #endif
       if (ctrl_c || interrupted)
-	return gensizeerr(gettext("Stopped by user interruption."));
+	return gen_oom();//gensizeerr(gettext("Stopped by user interruption."));
       vecteur v(s+1);
       v[i]=x;
       if (i<s)
