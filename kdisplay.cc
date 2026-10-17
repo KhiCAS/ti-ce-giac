@@ -94,6 +94,8 @@ const int MAX_DISP_RADIUS=2048;
 using namespace std;
 using namespace giac;
 
+bool mi_eqw_matrix(giac::gen & ge,bool sel=false); // mathinput_eval.cc: the 2D editor (in place of eqw)
+
 #ifndef NO_NAMESPACE_XCAS
 namespace xcas {
 #endif // ndef NO_NAMESPACE_XCAS
@@ -1799,8 +1801,8 @@ void displaygraph(const giac::gen & ge){
         return;
       if (taille(ge,xcas::max_prettyprint_equation)>=xcas::max_prettyprint_equation || ge.is_symb_of_sommet(at_program))
         return ; // sizeof(eqwdata)=44
-      gen tmp=eqw(ge,false);
-      if (!is_undef(tmp) && tmp!=ge){
+      gen tmp=ge; // the result in the 2D editor (mathinput_eval.cc); edited and accepted: it replaces ge
+      if (mi_eqw_matrix(tmp,true) && !is_undef(tmp) && tmp!=ge){
         //dConsolePutChar(147);
         Console_Output(ge.print(contextptr).c_str());
         Console_NewLine(LINE_TYPE_INPUT, 1);
