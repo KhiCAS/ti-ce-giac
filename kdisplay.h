@@ -15,6 +15,7 @@ namespace xcas {
 
 #ifdef WITH_UNITS
   bool ispnt(const giac::gen & g);
+  void displaygraph(const giac::gen & ge,char ** thumb=0);
   void check_do_graph(giac::gen & ge,const giac::gen & gs,int do_logo_graph_eqw,const giac::context *) ;
 
   bool eqws(char * s,bool eval);

@@ -1380,7 +1380,9 @@ giac::gen sheet(GIAC_CONTEXT){
     return ispnt(g._VECTptr->back());
   }
 
-void displaygraph(const giac::gen & ge){
+// thumb: when leaving, the graph on the screen kept as a thumbnail for the history in *thumb
+// (mi_thumb_capture, malloc'ed; 0 if no memory)
+void displaygraph(const giac::gen & ge,char ** thumb){
   // graph display
   //if (aborttimer > 0) { Timer_Stop(aborttimer); Timer_Deinstall(aborttimer);}
   xcas::Graph2d gr(ge);
@@ -1773,6 +1775,8 @@ void displaygraph(const giac::gen & ge){
     if (key==KEY_CHAR_DIV) { gr.orthonormalize(); }
     if (key==KEY_CTRL_VARS || key==KEY_CTRL_OPTN) {gr.show_axes=!gr.show_axes;}
   }
+  if (thumb) // the graph as it is on the screen (no new drawing: no delay)
+    *thumb=mi_thumb_capture();
 }  
 #endif  
 
@@ -1791,7 +1795,7 @@ void displaygraph(const giac::gen & ge){
 #ifdef WITH_PLOT
       if (ispnt(ge)){
         if (do_logo_graph_eqw & 2){
-          xcas::displaygraph(ge);
+          xcas::displaygraph(ge,0);
         }        
         // aborttimer = Timer_Install(0, check_execution_abort, 100); if (aborttimer > 0) { Timer_Start(aborttimer); }
         return ;
@@ -1843,7 +1847,7 @@ void displaygraph(const giac::gen & ge){
 #endif
 #ifdef WITH_PLOT
       if (ispnt(ge)){
-        xcas::displaygraph(ge);
+        xcas::displaygraph(ge,0);
         // aborttimer = Timer_Install(0, check_execution_abort, 100); if (aborttimer > 0) { Timer_Start(aborttimer); }
         return false;
       }
