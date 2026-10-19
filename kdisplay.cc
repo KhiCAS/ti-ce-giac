@@ -1805,6 +1805,8 @@ void displaygraph(const giac::gen & ge,char ** thumb){
         return;
       if (taille(ge,xcas::max_prettyprint_equation)>=xcas::max_prettyprint_equation || ge.is_symb_of_sommet(at_program))
         return ; // sizeof(eqwdata)=44
+      if (mi_hist_shows(ge.print(contextptr).c_str(),15,LINE_DISP_MAX-2))
+        return; // drawn in 2D in the history: not shown in the 2D editor
       gen tmp=ge; // the result in the 2D editor (mathinput_eval.cc); edited and accepted: it replaces ge
       if (mi_eqw_matrix(tmp,true) && !is_undef(tmp) && tmp!=ge){
         //dConsolePutChar(147);
