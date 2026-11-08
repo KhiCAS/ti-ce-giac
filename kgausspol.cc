@@ -4710,6 +4710,98 @@ namespace giac {
     }
   }
   
+#if !defined NO_APPROX_FACTOR && !defined NO_APPROX_CFACTOR
+#ifndef APPROX_FACTOR_MAXDEG
+#define APPROX_FACTOR_MAXDEG 16 // as modfactor.cc
+#endif
+  void approx_cfactor(polynome & q,vectpoly & v); // modfactor.cc
+#endif
+  // pcur (square-free, degree >= 2, multiplicity mult in the polynomial) factored over Q[i]
+  static bool cfactor1(polynome pcur,int mult,gen & an,factorization & f,bool with_sqrt,gen & extra_div,bool approx=true){
+#if !defined NO_APPROX_FACTOR && !defined NO_APPROX_CFACTOR
+    const int pdeg=pcur.lexsorted_degree();
+    if (approx && pdeg>=2 && pdeg<=APPROX_FACTOR_MAXDEG){
+      // factors of degree 1, 2, 3 from the approximate roots (modfactor.cc): the norms in algfactor
+      // are then those of these factors (degree 2, 3: irreducible or not) and of the cofactor
+      vectpoly w;
+      approx_cfactor(pcur,w);
+      if (!w.empty()){
+        w.push_back(pcur);
+        for (size_t k=0;k<w.size();++k){
+          const int d=w[k].lexsorted_degree();
+          if (d==1){
+            an=rdiv(an,pow(w[k].coord.front().value,gen(mult),context0),context0);
+            f.push_back(facteur<polynome>(w[k],mult));
+          }
+          else if (d>1 && !cfactor1(w[k],mult,an,f,with_sqrt,extra_div,false))
+            return false;
+        }
+        return true;
+      }
+    }
+#endif
+    const polynome p0(pcur);
+    factorization fz;
+      // make a polynomial with 1 more variable (i)
+      polynome p_y(im(pcur).untrunc1(1)+re(pcur).untrunc1());
+      polynome p_mini(p_y.dim);
+      p_mini.coord.push_back(monomial<gen>(1,1,p_y.dim));
+      p_mini=p_mini.multiplydegrees(2);
+      p_mini.coord.push_back(monomial<gen>(1,0,p_y.dim));
+      int k;
+      polynome Gtry;
+      if (!algfactor(p_y,p_mini,k,fz,false,extra_div,Gtry))
+	return false;
+      //dbg_printf("cfactor after algfactor\n");
+      factorization::const_iterator f_it=fz.begin(),f_itend=fz.end();
+      for (;f_it!=f_itend;++f_it){
+        //dbg_printf("cfactor gcd k=%i\n",k);
+	if (k){ // shift f_it->fact
+	  vecteur v;
+	  polynome2poly1(f_it->fact,1,v);
+	  gen decal=polynome(gen(0,k),f_it->fact.dim-1);
+	  v=taylor(v,decal);
+	  poly12polynome(v,1,pcur,f_it->fact.dim);
+	  pcur=gcd(pcur,p0);
+	}
+	else
+	  pcur=gcd(f_it->fact,p0);
+        //dbg_printf("cfactor after gcd\n");
+	an=rdiv(an,pow(pcur.coord.front().value,gen(mult),context0),context0);
+	vectpoly tmpv;
+	addtov(pcur,tmpv,with_sqrt,true);
+	f.push_back(facteur<polynome>(tmpv[0],mult));
+	if (tmpv.size()==2)
+	  f.push_back(facteur<polynome>(tmpv[1],mult));
+      }
+        return true;
+  }
+
+  // p (dim 1, real coefficients, irreducible over Q) has a real root: odd degree, or a sign change
+  // between -inf, -2, -1, 0, 1, 2, +inf. Then it stays irreducible over Q[i] (a real root a: i is
+  // not in Q(a)), no algfactor
+  static bool cfactor_real_root(const polynome & p){
+    const int d=p.lexsorted_degree();
+    if (d%2)
+      return true;
+    vecteur v;
+    polynome2poly1(p,1,v);
+    const int s=fastsign(v.front(),context0); // the sign at -inf and +inf (even degree)
+    for (int x=-2;x<=2;++x){
+      if (fastsign(horner(v,x),context0)==-s)
+        return true;
+    }
+    return false;
+  }
+  // pcur irreducible over Q[i] (multiplicity mult): in f, an divided by its leading coefficient
+  static void cfactor_irr(const polynome & pcur,int mult,gen & an,factorization & f,bool with_sqrt){
+    an=rdiv(an,pow(pcur.coord.front().value,gen(mult),context0),context0);
+    vectpoly tmpv;
+    addtov(pcur,tmpv,with_sqrt,true);
+    for (size_t k=0;k<tmpv.size();++k)
+      f.push_back(facteur<polynome>(tmpv[k],mult));
+  }
+
   bool cfactor(const polynome & p, gen & an,factorization & f,bool with_sqrt,gen &extra_div){
     an=p.coord.front().value;
     if (has_num_coeff(p) && p.dim==1){
@@ -4736,43 +4828,64 @@ namespace giac {
 	f.push_back(facteur<polynome>(pcur,mult));
 	continue;
       }
-      // make a polynomial with 1 more variable (i)
-      polynome p_y(im(pcur).untrunc1(1)+re(pcur).untrunc1());
-      polynome p_mini(p_y.dim);
-      p_mini.coord.push_back(monomial<gen>(1,1,p_y.dim));
-      p_mini=p_mini.multiplydegrees(2);
-      p_mini.coord.push_back(monomial<gen>(1,0,p_y.dim));
-      int k;
-      polynome Gtry;
-      if (!algfactor(p_y,p_mini,k,fz,false,extra_div,Gtry))
-	return false;
-      //dbg_printf("cfactor after algfactor\n");
-      factorization::const_iterator f_it=fz.begin(),f_itend=fz.end();
-      for (;f_it!=f_itend;++f_it){
-        //dbg_printf("cfactor gcd k=%i\n",k);
-	if (k){ // shift f_it->fact
-	  vecteur v;
-	  polynome2poly1(f_it->fact,1,v);
-	  gen decal=polynome(gen(0,k),f_it->fact.dim-1);
-	  v=taylor(v,decal);
-	  poly12polynome(v,1,pcur,f_it->fact.dim);
-	  pcur=gcd(pcur,p);
-	}
-	else
-	  pcur=gcd(f_it->fact,p);
-        //dbg_printf("cfactor after gcd\n");
-	an=rdiv(an,pow(pcur.coord.front().value,gen(mult),context0),context0);
-	vectpoly tmpv;
-	addtov(pcur,tmpv,with_sqrt,true);
-	f.push_back(facteur<polynome>(tmpv[0],mult));
-	if (tmpv.size()==2)
-	  f.push_back(facteur<polynome>(tmpv[1],mult));
+      // real coefficients: factored over Q first, each irreducible factor then over Q[i] (smaller
+      // norms in algfactor, the factors of degree 1 kept as is)
+      vectpoly wq;
+      if (is_zero(im(pcur)) && sqfffactor(pcur,wq,false,true,false) && wq.size()>1){
+        for (size_t j=0;j<wq.size();++j){
+          if (wq[j].lexsorted_degree()==1){
+            an=rdiv(an,pow(wq[j].coord.front().value,gen(mult),context0),context0);
+            f.push_back(facteur<polynome>(wq[j],mult));
+          }
+          else if (wq[j].lexsorted_degree()>1){
+            if (cfactor_real_root(wq[j]))
+              cfactor_irr(wq[j],mult,an,f,with_sqrt);
+            else if (!cfactor1(wq[j],mult,an,f,with_sqrt,extra_div))
+              return false;
+          }
+        }
+        continue;
       }
+      if (wq.size()==1 && is_zero(im(pcur)) && cfactor_real_root(pcur)){ // irreducible over Q
+        cfactor_irr(pcur,mult,an,f,with_sqrt);
+        continue;
+      }
+      if (!cfactor1(pcur,mult,an,f,with_sqrt,extra_div))
+        return false;
     }
     return true;   
   }
 
   // factorize a square-free univariate polynomial
+#ifndef NO_APPROX_FACTOR
+#ifndef APPROX_FACTOR_MAXDEG
+#define APPROX_FACTOR_MAXDEG 16 // as modfactor.cc
+#endif
+  void approx_factor(polynome & q,vectpoly & v); // modfactor.cc
+#endif
+  // x^(4k)+c has a factor with sqrt(2) that the factorization over Q does not find: c=m^4
+  // ((x^2k+m*sqrt(2)*x^k+m^2)*(x^2k-m*sqrt(2)*x^k+m^2)) or c=-2*m^2 ((x^2k-m*sqrt(2))*(x^2k+m*sqrt(2))),
+  // m a positive integer, c an int; x^4+4, x^4-9...: factored over Q (much faster)
+  static bool is_perfect_square(long long n,long long & m){
+    if (n<=0)
+      return false;
+    m=(long long)(std::sqrt(double(n))+0.5); // double: a float on the TI, the neighbours checked
+    for (long long k=(m>1?m-1:1);k<=m+1;++k){
+      if (k*k==n){
+        m=k;
+        return true;
+      }
+    }
+    return false;
+  }
+  static bool sqrt2_binomial(const gen & c,long long & m){
+    if (c.type!=_INT_ || c.val==0)
+      return false;
+    long long n=c.val;
+    if (n>0)
+      return is_perfect_square(n,m) && is_perfect_square(m,m); // m^4
+    return n%2==0 && is_perfect_square(-n/2,m); // -2*m^2
+  }
   bool sqfffactor(const polynome &p, vectpoly & v,bool with_sqrt,bool test_composite,bool complexmode){
     if (debug_infolevel>5)
       CERR << "Begin sqfffactor" << p << endl;
@@ -4821,8 +4934,15 @@ namespace giac {
 	  return true;
 	}
       }
-      if (d%4==0 && with_sqrt){
+      long long m;
+      if (d%4==0 && with_sqrt && sqrt2_binomial(p.coord.back().value,m)){ // x^(4k)+m^4 or x^(4k)-2*m^2: over Q(sqrt(2))
 	gen e=algebraic_EXTension(makevecteur(1,0),makevecteur(1,0,-2));
+        if (d==4){ // the factors directly (irreducible over Q(sqrt(2))): x^2+-m*sqrt(2), x^2+-m*sqrt(2)*x+m^2
+          const gen M(m),M2=p.coord.back().value.val>0?gen(m*m):gen(0),b=p.coord.back().value.val>0?M*e:gen(0),c=p.coord.back().value.val>0?gen(0):M*e;
+          v.push_back(poly12polynome(makevecteur(1,b,M2+c),1));
+          v.push_back(poly12polynome(makevecteur(1,-b,M2-c),1));
+          return true;
+        }
 	gen an=1,extra_div=1;
 	factorization f;
 	polynome p_content(p.dim);
@@ -4854,11 +4974,29 @@ namespace giac {
     if (debug_infolevel>5)
       CERR << "sqfffactor gcddeg " << d << endl;
     if (d<=1){
+      polynome pr(p);
+#ifndef NO_APPROX_FACTOR
+      int pdeg=pr.lexsorted_degree();
+      if (pdeg>=2 && pdeg<=APPROX_FACTOR_MAXDEG){
+        // factors of degree 1 and 2 from the approximate roots (modfactor.cc), faster than the
+        // modular algorithm; the cofactor: below
+        vectpoly w;
+        approx_factor(pr,w);
+        for (size_t k=0;k<w.size();++k)
+          addtov(w[k],v,with_sqrt,complexmode);
+        const int rdeg=pr.lexsorted_degree();
+        if (rdeg<=1){ // else: linearfind (exact), then the modular factorization (light version: none)
+          if (rdeg>=1)
+            addtov(pr,v,with_sqrt,complexmode);
+          return true;
+        }
+      }
+#endif
       // find linear factors now!
       environment * env=new environment;
       polynome temp(1);
       int ithprime=1;
-      int bound=linearfind(p,env,temp,v,ithprime);
+      int bound=linearfind(pr,env,temp,v,ithprime);
       if (bound==0){
 #ifndef NO_STDEXCEPT
 	setsizeerr();

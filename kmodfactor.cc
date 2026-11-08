@@ -25,6 +25,9 @@ using namespace std;
 #include <cmath>
 #include "pari.h"
 #include "gen.h"
+#ifndef APPROX_FACTOR_MAXDEG
+#define APPROX_FACTOR_MAXDEG 16 // above: the modular factorization only
+#endif
 
 // uncomment to remove NTL factorization
 // #undef HAVE_LIBNTL
@@ -567,7 +570,10 @@ namespace giac {
     // modulo_orig^tryfactors=bound/2^d/2
     int tryfactors=(bound.bindigits()-d/2)/modulo_orig.bindigits();
     for (int count=1;is_greater(bound,moduloi,context0);count++){ // moduloi<=bound
-      if ((count==tryfactors/4) || (count==tryfactors)){
+      // the true factors found while lifting are not extracted: the factorization of the cofactor
+      // (combine) missed factors after it (factor, cfactor; seen on the TI, where liftl is always
+      // used, giac uses liftq for large bounds); a speedup of 5-10% only
+      if (0 && ((count==tryfactors/4) || (count==tryfactors))){
 	if (!extracttruefactors(q,env,v_in,v_orig,v_out,n,modulo_orig,moduloi,bound,u))
 	  return false;
       }
@@ -625,7 +631,7 @@ namespace giac {
     gen lcoeff(smod(q.front(),env->modulo));
     bool notunit=(!is_one(lcoeff));
     if (n==1){
-      polynome temp(unmodularize(lcoeff*v_in.front()));
+      polynome temp(unmodularize(smod(lcoeff*v_in.front(),env->modulo))); // smod: as giac (the symmetric remainder, else huge coefficients)
       if (notunit)
 	ppz(temp);
       v_out.push_back(temp);
@@ -989,6 +995,231 @@ namespace giac {
     return 4;
   }
 
+#ifndef NO_APPROX_FACTOR
+  // Factors of degree 1 and 2 of q (dim 1, integer coefficients, primitive, squarefree) found from
+  // its approximate roots: lc*(x-r) or lc*(x-r1)*(x-r2) rounded, kept if it divides q exactly
+  // (a wrong approximation can only miss a factor). The factors found are appended to v, q is
+  // replaced by its cofactor, then factored by the modular algorithm (NO_MODFACTOR, light version:
+  // returned as is; complete if its degree is <= 3, it has no linear factor; a reducible
+  // polynomial of degree 4, 5 has a factor of degree 1 or 2, most of the time found).
+#ifdef APPROX_FLOAT_TEST // host: the roots computed in float as on the TI
+  typedef float approx_t;
+#else
+  typedef double approx_t; // a float on the TI
+#endif
+  static inline approx_t approx_abs(approx_t x){ return x<0?-x:x; } // (ustl has no fabs)
+  // the roots of a[0]*x^n+...+a[n], complex coefficients a=ar+i*ai (ai empty: real) (Durand-Kerner,
+  // x=rho*y: the roots y of modulus <= 2, no overflow)
+  static bool __attribute__((noinline)) approx_roots(const vector<approx_t> & ar0,const vector<approx_t> & ai0,vector<approx_t> & zr,vector<approx_t> & zi){
+    const int n=int(ar0.size())-1;
+    const bool cplx=!ai0.empty();
+    zr.resize(n); zi.resize(n);
+    vector<approx_t> ar(n+1),ai(n+1,0); // monic
+    const approx_t l0r=ar0[0],l0i=cplx?ai0[0]:0,l2=l0r*l0r+l0i*l0i;
+    approx_t rho=0;
+    for (int k=0;k<=n;++k){
+      if (cplx){
+        ar[k]=(ar0[k]*l0r+ai0[k]*l0i)/l2;
+        ai[k]=(ai0[k]*l0r-ar0[k]*l0i)/l2;
+      }
+      else
+        ar[k]=ar0[k]/l0r;
+      if (k){
+        const approx_t t=std::pow(approx_abs(ar[k])+approx_abs(ai[k]),approx_t(1)/k);
+        if (t>rho) rho=t;
+      }
+    }
+    if (!(rho>0) || !(rho<1e30)) return false;
+    approx_t rk=1;
+    for (int k=0;k<=n;++k){
+      ar[k]/=rk; ai[k]/=rk;
+      rk*=rho;
+    }
+    for (int k=0;k<n;++k){ // initial points on a circle, not symmetric
+      const approx_t t=approx_t(6.283185307179586)*k/n+approx_t(0.4);
+      zr[k]=std::cos(t); zi[k]=std::sin(t);
+    }
+    const approx_t eps=sizeof(approx_t)==4?1e-6:1e-14;
+    int it=0;
+    for (;it<500;++it){
+      approx_t maxd=0;
+      for (int k=0;k<n;++k){
+        approx_t pr=1,pi=0; // p(z_k), Horner
+        for (int l=1;l<=n;++l){
+          const approx_t t=pr*zr[k]-pi*zi[k]+ar[l];
+          pi=pr*zi[k]+pi*zr[k]+ai[l];
+          pr=t;
+        }
+        approx_t dr=1,di=0; // prod (z_k-z_j)
+        for (int j=0;j<n;++j){
+          if (j==k) continue;
+          const approx_t ur=zr[k]-zr[j],ui=zi[k]-zi[j],t=dr*ur-di*ui;
+          di=dr*ui+di*ur;
+          dr=t;
+        }
+        const approx_t d2=dr*dr+di*di;
+        if (!(d2>0)) return false;
+        const approx_t cr=(pr*dr+pi*di)/d2,ci=(pi*dr-pr*di)/d2;
+        zr[k]-=cr; zi[k]-=ci;
+        const approx_t m=approx_abs(cr)+approx_abs(ci);
+        if (!(m<1e30)) return false; // also NaN
+        if (m>maxd) maxd=m;
+      }
+      if (maxd<eps)
+        break;
+    }
+    if (it==500) return false;
+    for (int k=0;k<n;++k){
+      zr[k]*=rho; zi[k]*=rho;
+    }
+    return true;
+  }
+  // c rounded to an integer (false if too far or too large)
+  static bool approx_round(approx_t c,gen & g,approx_t tol=approx_t(0.25)){
+    if (!(approx_abs(c)<1e15)) return false;
+    const approx_t r=std::floor(c+approx_t(0.5));
+    if (!(approx_abs(c-r)<tol)) return false;
+    g=gen((longlong)r);
+    return true;
+  }
+  // c (a factor's coefficients, high degree first) divides q: appended to v, q its cofactor
+  static bool __attribute__((noinline)) approx_try(polynome & q,const vecteur & cand,vectpoly & v){
+    polynome c(poly12polynome(cand,1)),quo(1);
+    ppz(c); // primitive part
+    if (is_strictly_positive(-c.coord.front().value,context0))
+      c=-c;
+    if (c.lexsorted_degree()<1 || !exactquotient(q,c,quo,false))
+      return false;
+    q=quo;
+    if (cand.size()==3){ // two real roots: c may be reducible (two rational roots not found alone)
+      const gen A=c.coord.front().value,B=c.coord.size()>1 && c.coord[1].index.front()==1?c.coord[1].value:gen(0),C=c.coord.back().index.front()==0?c.coord.back().value:gen(0);
+      const gen D=B*B-4*A*C,S=sqrt(D,context0);
+      if (is_positive(D,context0) && (S.type==_INT_ || S.type==_ZINT)){
+        polynome c1(poly12polynome(makevecteur(2*A,B-S),1)),c2(poly12polynome(makevecteur(2*A,B+S),1));
+        ppz(c1); ppz(c2);
+        v.push_back(c1); v.push_back(c2);
+        return true;
+      }
+    }
+    if (cand.size()==4){ // c may have a rational root not found alone (float precision)
+      environment env;
+      polynome rem(1);
+      int ithprime=1;
+      vectpoly w;
+      if (linearfind(c,&env,rem,w,ithprime) && !w.empty()){
+        for (size_t k=0;k<w.size();++k)
+          v.push_back(w[k]);
+        if (rem.lexsorted_degree()>=1)
+          v.push_back(rem);
+        return true;
+      }
+    }
+    v.push_back(c);
+    return true;
+  }
+#ifndef NO_APPROX_CFACTOR
+  // q times a unit: leading coefficient with re>0, im>=0
+  static void approx_cnormal(polynome & q){
+    for (int u=0;u<3;++u){
+      const gen l=q.coord.front().value;
+      if (is_strictly_positive(re(l,context0),context0) && is_positive(im(l,context0),context0))
+        break;
+      q*=gen(0,1);
+    }
+  }
+#endif
+  // the factors of degree 1, 2, 3 of q (dim 1, square-free, integer coefficients, or Gaussian
+  // integers if gauss) from its approximate roots z: lc(q)*(x-z_i)*... has (Gaussian) integer
+  // coefficients, the sum lc*(z_i+...) must be (almost) a (Gaussian) integer, tested first with a
+  // small tolerance; kept if it divides q exactly. The factors found are appended to v, q is
+  // replaced by its cofactor (gauss: the factors of degree 2, 3 may be reducible, to be factored
+  // by the caller)
+  static void approx_factor(polynome & q,vectpoly & v,bool gauss){
+    const int n=q.lexsorted_degree();
+    if (n<2)
+      return;
+    vecteur vq;
+    polynome2poly1(q,1,vq);
+    vector<approx_t> ar(n+1),ai(gauss?n+1:0),zr,zi;
+    for (int k=0;k<=n;++k){
+      const gen g=evalf_double(vq[k],1,context0);
+      const gen & gr=g.type==_CPLX?*g._CPLXptr:g,& gi=g.type==_CPLX?*(g._CPLXptr+1):gen(0.0);
+      if (gr.type!=_DOUBLE_ || gi.type!=_DOUBLE_) return;
+      ar[k]=approx_t(gr._DOUBLE_val);
+      if (gauss) ai[k]=approx_t(gi._DOUBLE_val);
+    }
+    if (!approx_roots(ar,ai,zr,zi)) return;
+    const approx_t lr=ar[0],li=gauss?ai[0]:0;
+    int used=0; // the roots of the factors found (bits)
+#ifdef NO_APPROX_FACTOR3
+    const int dmax=2;
+#else
+    const int dmax=3;
+#endif
+#ifdef __clang__
+#pragma clang loop unroll(disable)
+#endif
+    for (int d=1;d<=dmax;++d){
+      // the subsets of d roots: the d-bit integers c < 2^n (Gosper)
+      for (int c=(1<<d)-1;c<(1<<n) && q.lexsorted_degree()>d;){
+        if (!(c & used)){
+          approx_t Er[4]={1,0,0,0},Ei[4]={0,0,0,0}; // e_0..e_d, root by root: e_k+=z*e_(k-1)
+          int l=0;
+          for (int j=0;j<n;++j){
+            if (!(c & (1<<j))) continue;
+            ++l;
+            for (int k=l;k>=1;--k){
+              const approx_t tr=Er[k]+zr[j]*Er[k-1]-zi[j]*Ei[k-1];
+              Ei[k]+=zr[j]*Ei[k-1]+zi[j]*Er[k-1];
+              Er[k]=tr;
+            }
+          }
+          vecteur cand(1,vq[0]);
+          int k=1;
+          for (;k<=d;++k){ // lc*e_k: (Gaussian) integers, e_1 within 0.1
+            gen gr,gi;
+            const approx_t tol=k==1?approx_t(0.1):approx_t(0.25);
+            if (!approx_round(lr*Er[k]-li*Ei[k],gr,tol) || !approx_round(lr*Ei[k]+li*Er[k],gi,tol) || (!gauss && !is_zero(gi)))
+              break;
+            cand.push_back(k%2?-gen(gr,gi):gen(gr,gi));
+          }
+          if (k>d){
+#ifndef NO_APPROX_CFACTOR
+            if (gauss){
+              polynome f(poly12polynome(cand,1)),quo(1);
+              ppz(f); // primitive part (Gaussian content)
+              if (f.lexsorted_degree()==d && exactquotient(q,f,quo,true)){
+                q=quo;
+                approx_cnormal(f);
+                v.push_back(f);
+                used|=c;
+              }
+            }
+            else
+#endif
+            if (approx_try(q,cand,v))
+              used|=c;
+          }
+        }
+        const int u=c & -c,w=c+u;
+        c=w+(((w^c)/u)>>2);
+      }
+    }
+#ifndef NO_APPROX_CFACTOR
+    if (gauss && !v.empty())
+      approx_cnormal(q);
+#endif
+  }
+  void approx_factor(polynome & q,vectpoly & v){ // also used by sqfffactor (gausspol.cc)
+    approx_factor(q,v,false);
+  }
+#ifndef NO_APPROX_CFACTOR
+  void approx_cfactor(polynome & q,vectpoly & v){ // used by cfactor (gausspol.cc)
+    approx_factor(q,v,true);
+  }
+#endif // NO_APPROX_CFACTOR
+#endif // NO_APPROX_FACTOR
+
   bool do_factorunivsqff(const polynome & q,environment * env,vectpoly & v,int & i,int debug,int modfactor_primes){
     // we do not require q to have 1 as leading coefficient anymore
     if (0 && !q.coord.empty() && q.coord.front().value!=1){
@@ -1012,6 +1243,28 @@ namespace giac {
       v.push_back(q);
       return true;
     }
+#ifndef NO_APPROX_FACTOR
+    static bool approx_done=false; // the cofactor's modular factorization: not again
+    if (!approx_done && qdeg>=2 && qdeg<=APPROX_FACTOR_MAXDEG){
+      polynome r(q);
+      approx_factor(r,v);
+      int rdeg=r.lexsorted_degree();
+      if (rdeg<=1){
+        if (rdeg==1)
+          v.push_back(r);
+        return true;
+      }
+      approx_done=true;
+      const bool res=do_factorunivsqff(r,env,v,i,debug,modfactor_primes);
+      approx_done=false;
+      return res;
+    }
+#endif
+#ifdef NO_MODFACTOR // light version: no modular factorization, q is returned as is
+    v.push_back(q);
+    return true;
+  }
+#else
     // find a "best" prime such that Q is sqff and has not too much factors
     gen m;
     gen lcoeff=q.coord.front().value.re(context0);
@@ -1144,6 +1397,7 @@ namespace giac {
       COUT << CLOCK() << "End combine" << "\n";
     return true;
   }
+#endif // NO_MODFACTOR
 
 #ifdef HAVE_LIBNTL
   typedef gen inttype; 
